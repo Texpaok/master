@@ -29,6 +29,90 @@ class plgSystemTracker extends JPlugin
 		require_once JPATH_ADMINISTRATOR . '/components/com_joommark/helpers/database.php';
 	}
 	
+	function onAfterDispatch()
+	{
+			//$buffer = JFactory::getDocument()->getBuffer('component');
+			//$kk = JFactory::getDocument()->addScriptDeclaration(';/* START: Modals scripts */ /* END: Modals scripts */','text/javascript');
+			
+			//$content = 'alert(\'Hola\')';
+			
+			//$content = '$(".group2").colorbox({rel:\'group2\', transition:"fade"});';
+			//$content = 'jQuery(window).on(\'load\',  function() {';
+			//$content = '$(window).load(function(){';
+			
+			/*$content = '$(document).ready(function(){';			
+			$content .= '$("#Joommark_modal").modal(\'show\');';
+			$content .= '});';*/
+			
+			$content = 'window.addEvent("domready", function() {';
+			$content .= '$("#Joommark_modal").modal(\'show\');';
+			$content .= '});';
+			//$content = 'alert("hola")';
+			
+			/*$content = 'addEvent(document.getElementById(\'Joommark_modal\'), \'mousemove\', function(event) {';
+			$content .= '$(\'#Joommark_modal\').modal(\'show\');';
+			$content .= '});';*/
+			$doc =& JFactory::getDocument();
+			$doc->addScriptDeclaration($content);
+			//$doc->addScript('/media/com_joommark/javascript/bootstrap-modal.js');
+
+						
+			$kk = $doc->getBuffer();
+			//dump($kk,"kk");
+			
+			/*$doc->addScript('modals/jquery.colorbox.js');
+			$doc->addScript('modals/script.min.js');*/
+			
+			//$this->replace($buffer, 'component');
+				
+			//dump("llega","llega");
+	}
+	
+	public function onAfterRender()
+	{
+		// only in html and feeds
+		if (JFactory::getDocument()->getType() !== 'html' && JFactory::getDocument()->getType() !== 'feed')
+		{
+			return;
+		}
+
+		$html = JResponse::getBody();
+		if ($html == '')
+		{
+			return;
+		}
+		
+		
+		$to_replace = '<div class="modal hide fade" id="Joommark_modal">' . PHP_EOL;
+		$to_replace .= '<div class="modal-header">' . PHP_EOL;
+		$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
+		$to_replace .= '  <h3>Modal header</h3>' . PHP_EOL;
+		$to_replace .= '</div>' . PHP_EOL;
+		$to_replace .= '<div class="modal-body">' . PHP_EOL;
+		$to_replace .= '<p>One fine body…</p>' . PHP_EOL;
+		$to_replace .= '</div>' . PHP_EOL;
+		$to_replace .= '<div class="modal-footer">' . PHP_EOL;
+		$to_replace .= '<a href="#" class="btn">Close</a>' . PHP_EOL;
+		$to_replace .= '<a href="#" class="btn btn-primary">Save changes</a>' . PHP_EOL;
+		$to_replace .= '</div>' . PHP_EOL;
+		$to_replace .= '</div>' . PHP_EOL;
+		$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-inverse btn-mini" data-toggle="modal">kk</a>' . PHP_EOL;
+		
+		/*$to_replace .= '<script type="text/javascript">';
+		$to_replace .= 'jQuery(window).on(\'load\',  function() {';
+		$to_replace .= '$(\'#Joommark_modal\').modal(\'show\');';
+		$to_replace .= '});';
+		$to_replace .= '</script>';*/
+		
+		$to_replace .= '</body>' ;
+
+		$html = str_replace("</body>",$to_replace,$html);
+
+		JResponse::setBody($html);
+		
+		
+		
+	}
 	
 	
 	function onAfterInitialise(){
@@ -67,6 +151,11 @@ class plgSystemTracker extends JPlugin
 		// Get the user name
 		$user = JFactory::getUser()->name;
 		
+		$kk = JFactory::getUser();
+		
+		//dump($kk,"kk");
+		
+		
 		// Update 'joommark_stats' table
 		$query = "INSERT INTO #__joommark_stats (ip, nowpage, lastupdate_time,  current_name)" .
 				"VALUES ( '" . $this->ip . "','" . $this->referer . "',NOW(),'" . $user . "') ON DUPLICATE KEY UPDATE nowpage = '" . $this->referer . "', lastupdate_time = NOW(), current_name = '" . $user . "' ";
@@ -99,8 +188,6 @@ class plgSystemTracker extends JPlugin
 	function onAfterRoute()
 	{
 			
-	}
-	
-	
+	}	
 		
 }
