@@ -385,7 +385,7 @@ class plgSystemTracker extends JPlugin
 		}
 
 
-		$to_replace = '<div class="modal hide fade" id="Joommark_modal">' . PHP_EOL;
+		$to_replace = '<div class="modal in fade" id="Joommark_modal">' . PHP_EOL;
 		$to_replace .= '<div class="modal-header">' . PHP_EOL;
 		$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
 		$to_replace .= '  <h3>Modal header</h3>' . PHP_EOL;
@@ -397,8 +397,7 @@ class plgSystemTracker extends JPlugin
 		$to_replace .= '<a href="#" class="btn">Close</a>' . PHP_EOL;
 		$to_replace .= '<a href="#" class="btn btn-primary">Save changes</a>' . PHP_EOL;
 		$to_replace .= '</div>' . PHP_EOL;
-		$to_replace .= '</div>' . PHP_EOL;
-		$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-inverse btn-mini" data-toggle="modal">kk</a>' . PHP_EOL;
+		$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-inverse btn-mini" data-toggle="modal">kk</a></div>' . PHP_EOL;
 
 		/* $to_replace .= '<script type="text/javascript">';
 		  $to_replace .= 'jQuery(window).on(\'load\',  function() {';
