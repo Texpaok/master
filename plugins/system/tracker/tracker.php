@@ -394,10 +394,10 @@ class plgSystemTracker extends JPlugin
 		$to_replace .= '<p>One fine body…</p>' . PHP_EOL;
 		$to_replace .= '</div>' . PHP_EOL;
 		$to_replace .= '<div class="modal-footer">' . PHP_EOL;
-		$to_replace .= '<a href="#" class="btn">Close</a>' . PHP_EOL;
+		$to_replace .= '<a href="#Joommark_modal" role="button" class="btn" data-toggle="modal">Close</a>' . PHP_EOL;
 		$to_replace .= '<a href="#" class="btn btn-primary">Save changes</a>' . PHP_EOL;
 		$to_replace .= '</div>' . PHP_EOL;
-		$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-inverse btn-mini" data-toggle="modal">kk</a></div>' . PHP_EOL;
+		$to_replace .= '</div>' . PHP_EOL;
 
 		/* $to_replace .= '<script type="text/javascript">';
 		  $to_replace .= 'jQuery(window).on(\'load\',  function() {';
