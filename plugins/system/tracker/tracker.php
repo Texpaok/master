@@ -47,6 +47,8 @@ class plgSystemTracker extends JPlugin
 	 * @var Object
 	 */
 	protected $session;
+	
+	protected $media_path = "/media/com_joommark";
 
 	function plgSystemTracker(&$subject, $config)
 	{
@@ -111,19 +113,6 @@ class plgSystemTracker extends JPlugin
 		$this->updateServerstats();
 		$this->updateStats();
 		//$this->updateServerstats_Time();
-	}
-
-	/**
-	 * onBeforeDispatch handler
-	 *
-	 * Main plugin hook
-	 *
-	 * @access public
-	 * @return void
-	 */
-	function onAfterRoute()
-	{
-		$this->app->input->post->set('nowpage', JUri::getInstance()->current());
 	}
 
 	/**
@@ -333,41 +322,27 @@ class plgSystemTracker extends JPlugin
 		}
 		return true;
 	}
-
-	function onAfterDispatch()
+	
+	/**
+	 * onBeforeDispatch handler
+	 *
+	 * Main plugin hook
+	 *
+	 * @access public
+	 * @return void
+	 */
+	function onAfterRoute()
 	{
-		//$buffer = JFactory::getDocument()->getBuffer('component');
-		//$kk = JFactory::getDocument()->addScriptDeclaration(';/* START: Modals scripts */ /* END: Modals scripts */','text/javascript');
-		//$content = 'alert(\'Hola\')';
-		//$content = '$(".group2").colorbox({rel:\'group2\', transition:"fade"});';
-		//$content = 'jQuery(window).on(\'load\',  function() {';
-		//$content = '$(window).load(function(){';
-
-		/* $content = '$(document).ready(function(){';			
-		  $content .= '$("#Joommark_modal").modal(\'show\');';
-		  $content .= '});'; */
-
-		$content = 'window.addEvent("domready", function() {';
-		$content .= '$("#Joommark_modal").modal(\'show\');';
-		$content .= '});';
-		//$content = 'alert("hola")';
-
-		/* $content = 'addEvent(document.getElementById(\'Joommark_modal\'), \'mousemove\', function(event) {';
-		  $content .= '$(\'#Joommark_modal\').modal(\'show\');';
-		  $content .= '});'; */
-		$doc = & JFactory::getDocument();
-		$doc->addScriptDeclaration($content);
-		//$doc->addScript('/media/com_joommark/javascript/bootstrap-modal.js');
-
-
-		$kk = $doc->getBuffer();
-		//dump($kk,"kk");
-
-		/* $doc->addScript('modals/jquery.colorbox.js');
-		  $doc->addScript('modals/script.min.js'); */
-
-		//$this->replace($buffer, 'component');
-		//dump("llega","llega");
+		
+		$this->app->input->post->set('nowpage', JUri::getInstance()->current());
+		
+		// Shows pop-up only to front-end visits
+		if (JFactory::getApplication()->getName() == 'site') {
+			$doc =& JFactory::getDocument();
+			$doc->addScript($this->media_path . '/javascript/jquery.js');
+			$doc->addScript($this->media_path . '/javascript/onpageload.js');
+			$doc->addStyleSheet('/templates/protostar/css/template.css');
+		}
 	}
 
 	public function onAfterRender()
@@ -384,32 +359,28 @@ class plgSystemTracker extends JPlugin
 			return;
 		}
 
+		// Shows pop-up only to front-end visits
+        if (JFactory::getApplication()->getName() == 'site') {
+			$to_replace = '<div class="modal in fade" id="Joommark_modal">' . PHP_EOL;
+			$to_replace .= '<div class="modal-header">' . PHP_EOL;
+			$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
+			$to_replace .= '  <h3>Modal header</h3>' . PHP_EOL;
+			$to_replace .= '</div>' . PHP_EOL;
+			$to_replace .= '<div class="modal-body">' . PHP_EOL;
+			$to_replace .= '<p>One fine body…</p>' . PHP_EOL;
+			$to_replace .= '</div>' . PHP_EOL;
+			$to_replace .= '<div class="modal-footer">' . PHP_EOL;
+			$to_replace .= '<a href="#Joommark_modal" role="button" class="btn" data-toggle="modal">Close</a>' . PHP_EOL;
+			$to_replace .= '<a href="#" class="btn btn-primary">Save changes</a>' . PHP_EOL;
+			$to_replace .= '</div>' . PHP_EOL;
+			$to_replace .= '</div>' . PHP_EOL;
 
-		$to_replace = '<div class="modal in fade" id="Joommark_modal">' . PHP_EOL;
-		$to_replace .= '<div class="modal-header">' . PHP_EOL;
-		$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
-		$to_replace .= '  <h3>Modal header</h3>' . PHP_EOL;
-		$to_replace .= '</div>' . PHP_EOL;
-		$to_replace .= '<div class="modal-body">' . PHP_EOL;
-		$to_replace .= '<p>One fine body…</p>' . PHP_EOL;
-		$to_replace .= '</div>' . PHP_EOL;
-		$to_replace .= '<div class="modal-footer">' . PHP_EOL;
-		$to_replace .= '<a href="#Joommark_modal" role="button" class="btn" data-toggle="modal">Close</a>' . PHP_EOL;
-		$to_replace .= '<a href="#" class="btn btn-primary">Save changes</a>' . PHP_EOL;
-		$to_replace .= '</div>' . PHP_EOL;
-		$to_replace .= '</div>' . PHP_EOL;
+			$to_replace .= '</body>';
 
-		/* $to_replace .= '<script type="text/javascript">';
-		  $to_replace .= 'jQuery(window).on(\'load\',  function() {';
-		  $to_replace .= '$(\'#Joommark_modal\').modal(\'show\');';
-		  $to_replace .= '});';
-		  $to_replace .= '</script>'; */
+			$html = str_replace("</body>", $to_replace, $html);
 
-		$to_replace .= '</body>';
-
-		$html = str_replace("</body>", $to_replace, $html);
-
-		JResponse::setBody($html);
+			JResponse::setBody($html);
+		}
 	}
 
 }
