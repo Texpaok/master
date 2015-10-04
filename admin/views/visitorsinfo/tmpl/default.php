@@ -56,7 +56,7 @@ JHTML::stylesheet($bootstrap_css);
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_VISITDATE', 'visitdate', $listDirn, $listOrder); ?>
 			</th>
 			<th class="logs" align="center">
-				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_VISITEDPAGES', 'visitedpages', $listDirn, $listOrder); ?>
+				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_VISITEDPAGES', 'visitedpage', $listDirn, $listOrder); ?>
 			</th>
 			<th class="logs" align="center">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_GEOLOCATION', 'geolocation', $listDirn, $listOrder); ?>
@@ -87,7 +87,7 @@ foreach ($this->items as &$row) {
 			<?php echo $row->visitdate; ?>	
 	</td>
 	<td align="center">
-			<?php echo $row->visitedpages; ?>
+			<?php echo $row->visitedpage; ?>
 	</td>
 	<td align="center">
 			<?php echo $row->geolocation; ?>	
@@ -99,7 +99,7 @@ foreach ($this->items as &$row) {
 			<?php echo $row->os; ?>	
 	</td>
 	<td align="center">			
-			<?php echo JHtml::_('grid.id', $k, $row->id); ?>
+			<?php echo JHtml::_('grid.id', $k, $row->visit_timestamp); ?>
 	</td>	
 </tr>
 <?php

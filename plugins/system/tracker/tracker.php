@@ -47,7 +47,6 @@ class plgSystemTracker extends JPlugin
 	 * @var Object
 	 */
 	protected $session;
-	
 	protected $media_path = "/media/com_joommark";
 
 	function plgSystemTracker(&$subject, $config)
@@ -78,7 +77,7 @@ class plgSystemTracker extends JPlugin
 		}
 
 
-		//Collecting the data
+		// Collecting the data
 		// Extract info from BrowserDetection
 		$browser_data = new BrowserDetection();
 		if (!empty($browser_data))
@@ -308,13 +307,54 @@ class plgSystemTracker extends JPlugin
 
 		try
 		{
-			// We have to count the time - could we make it like this?
-			$ServerstatsObjectOnlyTime = new stdClass ();
-			$ServerstatsObjectOnlyTime->session_id = $this->session->getId();
-			$ServerstatsObjectOnlyTime->visitdate = date("Y-m-d");
-			$ServerstatsObjectOnlyTime->visitedpage = urldecode($this->app->input->post->getString('nowpage', null));
-			$ServerstatsObjectOnlyTime->seconds = 0; //todo here we have to find a way for saving the time
-			return $this->db->updateObject('#__joommarkt_serverstats', $ServerstatsObjectOnlyTime, 'session_id,visitdate,visitedpage');
+
+			// Create a new query object.
+			$query = $this->db->getQuery(true);
+
+			// Select all records from the user profile table where key begins with "custom.".
+			// Order it by the ordering field.
+			$query->select($this->db->quoteName(array('seconds')));
+			$query->from($this->db->quoteName('#__joommarkt_serverstats'));
+			$query->where($this->db->quoteName('session_id') . ' LIKE "' . $this->session->getId().'"');
+			$query->where($this->db->quoteName('visitdate') . ' = "' . date("Y-m-d").'"');
+			$query->where($this->db->quoteName('visitedpage') . ' LIKE "' . urldecode($this->app->input->post->getString('nowpage', null))).'"';
+
+			// Reset the query using our newly populated query object.
+			$this->db->setQuery($query);
+			
+			// Load the results 
+			$results = $this->db->loadObjectList();
+			//$row = $this->db->loadAssoc();
+
+
+			// Create a new query object.
+			$query = $this->db->getQuery(true);
+
+			// Fields to update.
+			$fields = array(
+				$this->db->quoteName('seconds') . ' = ' . $row['seconds'] + 1
+			);
+
+			// Conditions for which records should be updated.
+			$conditions = array(
+				$this->db->quoteName('session_id') . ' = "' . $this->session->getId().'"',
+				$this->db->quoteName('visitdate') . ' = "' . date("Y-m-d").'"',
+				$this->db->quoteName('visitedpage') . ' = "' . urldecode($this->app->input->post->getString('nowpage', null)).'"'
+			);
+
+			$query->update($this->db->quoteName('#__joommarkt_serverstats'))->set($fields)->where($conditions);
+
+			$this->db->setQuery($query);
+
+			$result = $this->db->execute();
+			echo $result;
+
+			/* $ServerstatsObjectOnlyTime = new stdClass ();
+			  $ServerstatsObjectOnlyTime->session_id = $this->session->getId();
+			  $ServerstatsObjectOnlyTime->visitdate = date("Y-m-d");
+			  $ServerstatsObjectOnlyTime->visitedpage = urldecode($this->app->input->post->getString('nowpage', null));
+			  $ServerstatsObjectOnlyTime->seconds = 0; //todo here we have to find a way for saving the time
+			  return $this->db->updateObject('#__joommarkt_serverstats', $ServerstatsObjectOnlyTime, 'session_id,visitdate,visitedpage'); */
 		} catch (Exception $e)
 		{
 			//dump($e->getMessage(),"exception");
@@ -322,7 +362,7 @@ class plgSystemTracker extends JPlugin
 		}
 		return true;
 	}
-	
+
 	/**
 	 * onBeforeDispatch handler
 	 *
@@ -333,12 +373,13 @@ class plgSystemTracker extends JPlugin
 	 */
 	function onAfterRoute()
 	{
-		
+
 		$this->app->input->post->set('nowpage', JUri::getInstance()->current());
-		
+
 		// Shows pop-up only to front-end visits
-		if (JFactory::getApplication()->getName() == 'site') {
-			$doc =& JFactory::getDocument();
+		if (JFactory::getApplication()->getName() == 'site')
+		{
+			$doc = & JFactory::getDocument();
 			$doc->addScript($this->media_path . '/javascript/jquery.js');
 			$doc->addScript($this->media_path . '/javascript/onpageload.js');
 			$doc->addStyleSheet('/templates/protostar/css/template.css');
@@ -360,7 +401,8 @@ class plgSystemTracker extends JPlugin
 		}
 
 		// Shows pop-up only to front-end visits
-        if (JFactory::getApplication()->getName() == 'site') {
+		if (JFactory::getApplication()->getName() == 'site')
+		{
 			$to_replace = '<div class="modal in fade" id="Joommark_modal">' . PHP_EOL;
 			$to_replace .= '<div class="modal-header">' . PHP_EOL;
 			$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
