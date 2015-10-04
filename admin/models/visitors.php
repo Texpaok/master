@@ -6,7 +6,7 @@
 * @license GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-// Chequeamos si el archivo est� inclu�do en Joomla!
+// Chequeamos si el archivo est includo en Joomla!
 defined('_JEXEC') or die();
 jimport( 'joomla.application.component.model' );
 
