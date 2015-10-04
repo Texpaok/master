@@ -48,7 +48,7 @@ JHTML::stylesheet($bootstrap_css);
 	<thead>
 		<tr>
 			<th class="logs" align="center">				
-				<?php echo JHtml::_('grid.sort', 'Ip', 'ip', $listDirn, $listOrder); ?>
+				<?php echo JHtml::_('grid.sort', 'Session', 'session_id_person', $listDirn, $listOrder); ?>
 			</th>
 			<th class="logs" align="center">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_LAST_PAGE_VISITED', 'nowpage', $listDirn, $listOrder); ?>				
@@ -70,9 +70,9 @@ foreach ($this->items as &$row) {
 ?>
 <tr>
 	<td align="center">
-			<?php echo $row->ip; ?>
+			<?php echo $row->session_id_person; ?>
 			<span title="<?php echo JText::_('COM_JOOMMARK_VISITOR_INFO'); ?>">
-                <a href="<?php echo JRoute::_( 'index.php?option=com_joommark&controller=visitorsinfo&view=visitorsinfo&filter=' . $row->ip . '&'. JSession::getFormToken() .'=1' );?>" ">
+                <a href="<?php echo JRoute::_( 'index.php?option=com_joommark&controller=visitorsinfo&view=visitorsinfo&filter=' . $row->session_id_person . '&'. JSession::getFormToken() .'=1' );?>" ">
 					<i class="icon-eye-open"></i>
                 </a>
             </span>
@@ -96,7 +96,7 @@ foreach ($this->items as &$row) {
 			</span>			
 	</td>
 	<td align="center">			
-			<?php echo JHtml::_('grid.id', $k, $row->ip, '', 'ip_array'); ?>
+			<?php echo JHtml::_('grid.id', $k, $row->session_id_person, '', 'session_id_person_array'); ?>
 	</td>	
 </tr>
 <?php
