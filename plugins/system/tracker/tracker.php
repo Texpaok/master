@@ -47,7 +47,7 @@ class plgSystemTracker extends JPlugin
 	 * @var Object
 	 */
 	protected $session;
-	protected $media_path = "/media/com_joommark";
+	protected $media_path = "/joommarkt/media/com_joommark";
 
 	function plgSystemTracker(&$subject, $config)
 	{
@@ -111,7 +111,7 @@ class plgSystemTracker extends JPlugin
 		$this->updateReferer();
 		$this->updateServerstats();
 		$this->updateStats();
-		//$this->updateServerstats_Time();
+		$this->updateServerstats_Time();
 	}
 
 	/**
@@ -174,6 +174,15 @@ class plgSystemTracker extends JPlugin
 	 */
 	protected function updateServerstats()
 	{
+
+		//Url is not set, because onafterroute is not yet ready  
+		if ($this->app->input->post->getString('nowpage', null) === null)
+		{
+			return;
+		} else
+		{
+			//do we have to do something special here?
+		}
 
 		// Create and populate an object.
 		$ServerstatsObject = new stdClass();
@@ -311,50 +320,48 @@ class plgSystemTracker extends JPlugin
 			// Create a new query object.
 			$query = $this->db->getQuery(true);
 
-			// Select all records from the user profile table where key begins with "custom.".
-			// Order it by the ordering field.
-			$query->select($this->db->quoteName(array('seconds')));
-			$query->from($this->db->quoteName('#__joommarkt_serverstats'));
-			$query->where($this->db->quoteName('session_id') . ' LIKE "' . $this->session->getId().'"');
-			$query->where($this->db->quoteName('visitdate') . ' = "' . date("Y-m-d").'"');
-			$query->where($this->db->quoteName('visitedpage') . ' LIKE "' . urldecode($this->app->input->post->getString('nowpage', null))).'"';
-
+			// Select the seconds from the #__joommarkt_serverstats, if there is a open session today with this session number and page".
+			$query->select($this->db->quoteName("seconds"))
+							->from($this->db->quoteName('#__joommarkt_serverstats'))
+							->where($this->db->quoteName("session_id") . " = " . $this->db->quote($this->session->getId()))
+							->where($this->db->quoteName('visitdate') . " = " . $this->db->quote(date("Y-m-d") . '"'))
+							->where($this->db->quoteName('visitedpage') . " = " . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null)))) . '"';
 			// Reset the query using our newly populated query object.
 			$this->db->setQuery($query);
-			
+
 			// Load the results 
 			$results = $this->db->loadObjectList();
-			//$row = $this->db->loadAssoc();
+
+			if (isset($results[0]->seconds))
+			{
+				$seconds = $results[0]->seconds;
+			} else
+			{
+				//todo Here it should be not possible to have less or more than one element, we have to build exeptions for this.	
+				return;
+			}
+
+
 
 
 			// Create a new query object.
 			$query = $this->db->getQuery(true);
 
-			// Fields to update.
+			// Fields to update in the case the page was opened today with this session number  
 			$fields = array(
-				$this->db->quoteName('seconds') . ' = ' . $row['seconds'] + 1
+				$this->db->quoteName('seconds') . ' = ' . $this->db->quote($seconds + 1)
 			);
 
 			// Conditions for which records should be updated.
 			$conditions = array(
-				$this->db->quoteName('session_id') . ' = "' . $this->session->getId().'"',
-				$this->db->quoteName('visitdate') . ' = "' . date("Y-m-d").'"',
-				$this->db->quoteName('visitedpage') . ' = "' . urldecode($this->app->input->post->getString('nowpage', null)).'"'
+				$this->db->quoteName('session_id') . ' = ' . $this->db->quote($this->session->getId()),
+				$this->db->quoteName('visitdate') . ' = ' . $this->db->quote(date("Y-m-d")),
+				$this->db->quoteName('visitedpage') . ' = ' . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null)))
 			);
 
 			$query->update($this->db->quoteName('#__joommarkt_serverstats'))->set($fields)->where($conditions);
-
 			$this->db->setQuery($query);
-
 			$result = $this->db->execute();
-			echo $result;
-
-			/* $ServerstatsObjectOnlyTime = new stdClass ();
-			  $ServerstatsObjectOnlyTime->session_id = $this->session->getId();
-			  $ServerstatsObjectOnlyTime->visitdate = date("Y-m-d");
-			  $ServerstatsObjectOnlyTime->visitedpage = urldecode($this->app->input->post->getString('nowpage', null));
-			  $ServerstatsObjectOnlyTime->seconds = 0; //todo here we have to find a way for saving the time
-			  return $this->db->updateObject('#__joommarkt_serverstats', $ServerstatsObjectOnlyTime, 'session_id,visitdate,visitedpage'); */
 		} catch (Exception $e)
 		{
 			//dump($e->getMessage(),"exception");
@@ -380,9 +387,15 @@ class plgSystemTracker extends JPlugin
 		if (JFactory::getApplication()->getName() == 'site')
 		{
 			$doc = & JFactory::getDocument();
-			$doc->addScript($this->media_path . '/javascript/jquery.js');
-			$doc->addScript($this->media_path . '/javascript/onpageload.js');
+			//Astrid asked: do we need this two js-files here? The media-path was not correct so we could not use them before ...
+			//$doc->addScript($this->media_path . '/javascript/jquery.js');
+			//$doc->addScript($this->media_path . '/javascript/onpageload.js');
+			$doc->addScript($this->media_path . '/javascript/JoommarktSetTimeout.js');
+			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarktStyles.css');
 			$doc->addStyleSheet('/templates/protostar/css/template.css');
+			
+			$base = JURI::root();
+			$doc->addScriptDeclaration("var joommarktBaseURI='$base';");
 		}
 	}
 
