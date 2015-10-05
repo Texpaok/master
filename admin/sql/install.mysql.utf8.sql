@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `#__joommarkt_serverstats` (
   `user_id_person` INT NULL DEFAULT 0,
   `customer_name`     varchar(255), 
   `visitdate`         date,
-  `visit_timestamp`   int, 
+  `visit_timestamp`   datetime, 
   `visitedpage`       varchar(255), 
   `geolocation`       varchar(255), 
   `ip`                varchar(255), 
