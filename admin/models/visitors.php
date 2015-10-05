@@ -70,12 +70,7 @@ public function getListQuery()
 
 /* Function to delete joommark_stats entries */
 function delete(){
-	/*$uids = JRequest::getVar('cid', 0, '', 'array');
-	
-	JArrayHelper::toInteger($uids, array());
-	
-	dump($uids,"uids");*/
-	
+		
 	// Create the JInput object to retrieve form variables
 	$jinput = JFactory::getApplication()->input;
 	
