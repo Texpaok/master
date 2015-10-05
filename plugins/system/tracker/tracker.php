@@ -47,7 +47,7 @@ class plgSystemTracker extends JPlugin
 	 * @var Object
 	 */
 	protected $session;
-	protected $media_path = "/joommarkt/media/com_joommark";
+	protected $media_path = "media/com_joommark";
 
 	function plgSystemTracker(&$subject, $config)
 	{
@@ -190,7 +190,7 @@ class plgSystemTracker extends JPlugin
 		$ServerstatsObject->user_id_person = $this->userId;
 		$ServerstatsObject->customer_name = $this->userName;
 		$ServerstatsObject->visitdate = date("Y-m-d");
-		$ServerstatsObject->visit_timestamp = 0;
+		$ServerstatsObject->visit_timestamp = date("Y-m-d H:i:s");
 		$ServerstatsObject->visitedpage = urldecode($this->app->input->post->getString('nowpage', null));
 		$ServerstatsObject->geolocation = 'todo';
 		$ServerstatsObject->ip = $this->ip;
@@ -370,6 +370,21 @@ class plgSystemTracker extends JPlugin
 		return true;
 	}
 
+	function onAfterRoute()
+	{
+		
+		// Shows pop-up only to front-end visits
+		if (JFactory::getApplication()->getName() == 'site')
+		{
+			$doc = & JFactory::getDocument();
+			//Astrid asked: do we need this two js-files here? The media-path was not correct so we could not use them before ...
+			$doc->addScript($this->media_path . '/javascript/jquery.js');
+			$doc->addScript($this->media_path . '/javascript/onpageload.js');
+			$doc->addScript($this->media_path . '/javascript/JoommarktSetTimeout.js');
+			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarktStyles.css');
+			$doc->addStyleSheet('/templates/protostar/css/template.css');			
+		}
+	}
 	/**
 	 * onBeforeDispatch handler
 	 *
@@ -378,22 +393,17 @@ class plgSystemTracker extends JPlugin
 	 * @access public
 	 * @return void
 	 */
-	function onAfterRoute()
+	function onAfterDispatch()
 	{
 
+		// Not sure if we can move this code to OnAfterRoute function...
+		
 		$this->app->input->post->set('nowpage', JUri::getInstance()->current());
 
 		// Shows pop-up only to front-end visits
 		if (JFactory::getApplication()->getName() == 'site')
 		{
 			$doc = & JFactory::getDocument();
-			//Astrid asked: do we need this two js-files here? The media-path was not correct so we could not use them before ...
-			//$doc->addScript($this->media_path . '/javascript/jquery.js');
-			//$doc->addScript($this->media_path . '/javascript/onpageload.js');
-			$doc->addScript($this->media_path . '/javascript/JoommarktSetTimeout.js');
-			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarktStyles.css');
-			$doc->addStyleSheet('/templates/protostar/css/template.css');
-			
 			$base = JURI::root();
 			$doc->addScriptDeclaration("var joommarktBaseURI='$base';");
 		}
@@ -416,7 +426,7 @@ class plgSystemTracker extends JPlugin
 		// Shows pop-up only to front-end visits
 		if (JFactory::getApplication()->getName() == 'site')
 		{
-			$to_replace = '<div class="modal in fade" id="Joommark_modal">' . PHP_EOL;
+			$to_replace = '<div class="modal fade" id="Joommark_modal">' . PHP_EOL;
 			$to_replace .= '<div class="modal-header">' . PHP_EOL;
 			$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
 			$to_replace .= '  <h3>Modal header</h3>' . PHP_EOL;
@@ -428,8 +438,8 @@ class plgSystemTracker extends JPlugin
 			$to_replace .= '<a href="#Joommark_modal" role="button" class="btn" data-toggle="modal">Close</a>' . PHP_EOL;
 			$to_replace .= '<a href="#" class="btn btn-primary">Save changes</a>' . PHP_EOL;
 			$to_replace .= '</div>' . PHP_EOL;
-			$to_replace .= '</div>' . PHP_EOL;
-
+			$to_replace .= '</div>' . PHP_EOL;			
+			
 			$to_replace .= '</body>';
 
 			$html = str_replace("</body>", $to_replace, $html);

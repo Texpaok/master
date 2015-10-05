@@ -16,12 +16,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 
-// Add style declaration
-$media_url = "media/com_securitycheckpro/stylesheets/cpanelui.css";
-JHTML::stylesheet($media_url);
-
-$bootstrap_css = "media/com_securitycheckpro/stylesheets/bootstrap.min.css";
-JHTML::stylesheet($bootstrap_css);
 ?>
 
 
@@ -99,7 +93,7 @@ foreach ($this->items as &$row) {
 			<?php echo $row->os; ?>	
 	</td>
 	<td align="center">			
-			<?php echo JHtml::_('grid.id', $k, $row->visit_timestamp); ?>
+			<?php echo JHtml::_('grid.id', $k, $row->visit_timestamp, '', 'visit_timestamp_array'); ?>
 	</td>	
 </tr>
 <?php
