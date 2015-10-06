@@ -67,7 +67,21 @@ JHTML::stylesheet($opa_icons);
 					<div class="joommark-icon-visitors_info">&nbsp;</div>
 					<span><?php echo JText::_('COM_JOOMMARK_VISITORS_INFO'); ?></span>
 					</a>
-				</div>	
+				</div>
+				
+				<div class="icon">
+					<a href="<?php echo JRoute::_( 'index.php?option=com_joommark&controller=messages&view=messages&'. JSession::getFormToken() .'=1' );?>">
+						<div class="joommark-icon-messages">&nbsp;</div>
+						<span><?php echo JText::_('COM_JOOMMARK_MESSAGES'); ?></span>
+					</a>
+				</div>
+				
+				<div class="icon">
+					<a href="index.php?option=com_config&view=component&component=com_joommark&path=&return=<?php echo base64_encode(JURI::getInstance()->toString()) ?>">
+					<div class="joommark-icon-configure">&nbsp;</div>
+					<span><?php echo JText::_('COM_JOOMMARK_CONFIGURE'); ?></span>
+				</a>
+			</div>
 			</fieldset>
 					
 		</div>

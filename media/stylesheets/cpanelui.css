@@ -11,6 +11,8 @@
  */
 .joommark-icon-visitors { display: block; width: 32px; height: 32px; text-indent: -99999px; overflow: hidden;  background: transparent url(../images/visitors.png) top left no-repeat; margin: 4px auto 6px; }
 .joommark-icon-visitors_info{ display: block; width: 32px; height: 32px; text-indent: -99999px; overflow: hidden;  background: transparent url(../images/visitors_info.png) top left no-repeat; margin: 4px auto 6px; }
+.joommark-icon-configure{ display: block; width: 32px; height: 32px; text-indent: -99999px; overflow: hidden;  background: transparent url(../images/configure.png) top left no-repeat; margin: 4px auto 6px; }
+.joommark-icon-messages{ display: block; width: 32px; height: 32px; text-indent: -99999px; overflow: hidden;  background: transparent url(../images/messages.png) top left no-repeat; margin: 4px auto 6px; }
 
 
 /*

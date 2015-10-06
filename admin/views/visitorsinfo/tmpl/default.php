@@ -68,6 +68,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 	</thead>
 <?php
 $k = 0;
+if (!empty($this->items)) { 
 foreach ($this->items as &$row) {	
 ?>
 <tr>
@@ -78,7 +79,7 @@ foreach ($this->items as &$row) {
 			<?php echo $row->customer_name; ?>	
 	</td>
 	<td align="center">
-			<?php echo $row->visitdate; ?>	
+			<?php echo $row->visit_timestamp; ?>
 	</td>
 	<td align="center">
 			<?php echo $row->visitedpage; ?>
@@ -98,6 +99,7 @@ foreach ($this->items as &$row) {
 </tr>
 <?php
 $k = $k+1;
+}
 }
 ?>
 

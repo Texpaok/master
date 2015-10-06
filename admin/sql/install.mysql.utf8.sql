@@ -30,6 +30,17 @@ CREATE TABLE IF NOT EXISTS `#__joommarkt_referral` (
   `ip` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
+-- Messages to be chown to the user
+CREATE TABLE IF NOT EXISTS `#__joommarkt_messages` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `published` int(1) DEFAULT '0',
+  `title` varchar(255) NOT NULL,
+  `cookie` mediumint(9) NOT NULL,
+  `accesslevel` smallint(6) DEFAULT NULL,
+  `params` varchar(255) NOT NULL,  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARACTER SET `utf8`;
+
 -- perhaps search words are interesting for a target
 CREATE TABLE IF NOT EXISTS `#__joommarkt_searches` (
   `searchword` varchar(255) NOT NULL,
