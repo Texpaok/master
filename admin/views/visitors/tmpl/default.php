@@ -17,12 +17,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 
-// Add style declaration
-$media_url = "media/com_securitycheckpro/stylesheets/cpanelui.css";
-JHTML::stylesheet($media_url);
-
-$bootstrap_css = "media/com_securitycheckpro/stylesheets/bootstrap.min.css";
-JHTML::stylesheet($bootstrap_css);
 ?>
 
 
@@ -66,6 +60,7 @@ JHTML::stylesheet($bootstrap_css);
 	</thead>
 <?php
 $k = 0;
+if (!empty($this->items)) { 
 foreach ($this->items as &$row) {	
 ?>
 <tr>
@@ -81,7 +76,7 @@ foreach ($this->items as &$row) {
 			<?php echo $row->nowpage; ?>	
 	</td>
 	<td align="center">
-			<?php echo $row->lastupdate_time; ?>
+			<?php echo gmdate("Y-m-d\T H:i:s\Z",$row->lastupdate_time); ?>
 	</td>
 	<td align="center">
 			<?php 
@@ -101,6 +96,7 @@ foreach ($this->items as &$row) {
 </tr>
 <?php
 $k = $k+1;
+}
 }
 ?>
 

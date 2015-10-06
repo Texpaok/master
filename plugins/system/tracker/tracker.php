@@ -373,11 +373,12 @@ class plgSystemTracker extends JPlugin
 	function onAfterRoute()
 	{
 		
+		$this->app->input->post->set('nowpage', JUri::getInstance()->current());
+		
 		// Shows pop-up only to front-end visits
 		if (JFactory::getApplication()->getName() == 'site')
 		{
 			$doc = & JFactory::getDocument();
-			//Astrid asked: do we need this two js-files here? The media-path was not correct so we could not use them before ...
 			$doc->addScript($this->media_path . '/javascript/jquery.js');
 			$doc->addScript($this->media_path . '/javascript/onpageload.js');
 			$doc->addScript($this->media_path . '/javascript/JoommarktSetTimeout.js');
@@ -395,10 +396,6 @@ class plgSystemTracker extends JPlugin
 	 */
 	function onAfterDispatch()
 	{
-
-		// Not sure if we can move this code to OnAfterRoute function...
-		
-		$this->app->input->post->set('nowpage', JUri::getInstance()->current());
 
 		// Shows pop-up only to front-end visits
 		if (JFactory::getApplication()->getName() == 'site')
