@@ -22,7 +22,7 @@ $logs_status = $lang->_('COM_SECURITYCHECKPRO_LOGS_STATUS');
 $autoupdate_status = $lang->_('COM_SECURITYCHECKPRO_AUTOUPDATE_STATUS');
 $translator_url = $lang->_('COM_SECURITYCHECKPRO_TRANSLATOR_URL');
 if (!file_exists(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . "language" . DIRECTORY_SEPARATOR . $lang->get("tag") . DIRECTORY_SEPARATOR . $lang->get("tag") . ".com_joommark.ini")){
-	// No existe traducción
+	// No existe traducciï¿½n
 	$translator_name = "<blink>" . $lang->get("name") . " translation is missing.</blink> Please contribute writing this translation. It's easy. Click to see how.";
 	$translator_url = "http://securitycheck.protegetuordenador.com/index.php/forum/13-news-and-announcement/4-contribute-send-us-your-translation";
 }
@@ -50,7 +50,7 @@ JHTML::stylesheet($opa_icons);
 	<div class="row-fluid" id="cpanel">
 		<div class="box span6">
 			<div class="box-header well" data-original-title>
-				<i class="icon-home"></i><?php echo ' ' . JText::_('COM_JOOMARK_MAIN_MENU'); ?>
+				<i class="icon-home"></i><?php echo ' ' . JText::_('COM_JOOMMARK_MAIN_MENU'); ?>
 			</div>
 		<div class="box-content">
 			<fieldset>

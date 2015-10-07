@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS `#__joommarkt_serverstats`;
-DROP TABLE IF EXISTS `#__joommarkt_stats`;
-DROP TABLE IF EXISTS `#__joommarkt_referral`;
-DROP TABLE IF EXISTS `#__joommarkt_messages`;
-DROP TABLE IF EXISTS `#__joommarkt_searches`;
-DROP TABLE IF EXISTS `#__joommarkt_plansstats`;
-DROP TABLE IF EXISTS `#__joommarkt_plansstats_track`;
-DROP TABLE IF EXISTS `#__joommarkt_feedbacksstats`;
+DROP TABLE IF EXISTS `#__joommark_serverstats`;
+DROP TABLE IF EXISTS `#__joommark_stats`;
+DROP TABLE IF EXISTS `#__joommark_referral`;
+DROP TABLE IF EXISTS `#__joommark_messages`;
+DROP TABLE IF EXISTS `#__joommark_searches`;
+DROP TABLE IF EXISTS `#__joommark_plansstats`;
+DROP TABLE IF EXISTS `#__joommark_plansstats_track`;
+DROP TABLE IF EXISTS `#__joommark_feedbacksstats`;

@@ -1,5 +1,5 @@
 -- Here we save the actual session. If there are two different sessions, here are two different entries. If there is no session, the table is empty.
-CREATE TABLE IF NOT EXISTS `#__joommarkt_stats` (
+CREATE TABLE IF NOT EXISTS `#__joommark_stats` (
   `session_id_person` varchar(255) NOT NULL, 
   `nowpage`           varchar(255) NULL, 
   `lastupdate_time`   int(11) NULL, 
@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS `#__joommarkt_stats` (
   PRIMARY KEY (`session_id_person`)
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
--- If the url changed, we take information from #__joommarkt_stats to this table. For the seconds we count the difference between the actual time and #__joommarkt_stats.lastupdate_time.
-CREATE TABLE IF NOT EXISTS `#__joommarkt_serverstats` (
+-- If the url changed, we take information from #__joommark_stats to this table. For the seconds we count the difference between the actual time and #__joommark_stats.lastupdate_time.
+CREATE TABLE IF NOT EXISTS `#__joommark_serverstats` (
   `session_id` varchar(50), 
   `user_id_person` INT NULL DEFAULT 0,
   `customer_name`     varchar(255), 
@@ -24,14 +24,14 @@ CREATE TABLE IF NOT EXISTS `#__joommarkt_serverstats` (
 ) ENGINE=InnoDB CHARACTER SET `utf8`; 
 
 -- perhaps referrals are interesting for a target
-CREATE TABLE IF NOT EXISTS `#__joommarkt_referral` (
+CREATE TABLE IF NOT EXISTS `#__joommark_referral` (
   `referral` varchar(255) NOT NULL, 
   `record_date` date NOT NULL,
   `ip` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
 -- Messages to be chown to the user
-CREATE TABLE IF NOT EXISTS `#__joommarkt_messages` (
+CREATE TABLE IF NOT EXISTS `#__joommark_messages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `published` int(1) DEFAULT '0',
   `title` varchar(255) NOT NULL,
@@ -42,14 +42,14 @@ CREATE TABLE IF NOT EXISTS `#__joommarkt_messages` (
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
 -- perhaps search words are interesting for a target
-CREATE TABLE IF NOT EXISTS `#__joommarkt_searches` (
+CREATE TABLE IF NOT EXISTS `#__joommark_searches` (
   `searchword` varchar(255) NOT NULL,
   `user_id_person` INT NULL DEFAULT 0, 
   `record_date` date NOT NULL
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
 -- this are our main data, the user can create a plan. Example for type: max clicks on a url, max clicks on an ip, max seconds on a page ...
-CREATE TABLE IF NOT EXISTS `#__joommarkt_plansstats` (
+CREATE TABLE IF NOT EXISTS `#__joommark_plansstats` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `catid` int(11) NOT NULL DEFAULT '0',
   `state` tinyint(1) NOT NULL default '0',
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `#__joommarkt_plansstats` (
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
 -- If the admin wants to be informed, if the plan is reached, we have to track …
-CREATE TABLE IF NOT EXISTS `#__joommarkt_plansstats_track` (
+CREATE TABLE IF NOT EXISTS `#__joommark_plansstats_track` (
   `plan_id` int(11) NOT NULL, 
   `session_id` varchar(200) NOT NULL, 
   `plandate` date NOT NULL, 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `#__joommarkt_plansstats_track` (
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
 -- Perhaps the admin want to check if the plan was good and many people made a feedback ....
-CREATE TABLE IF NOT EXISTS `#__joommarkt_feedbacksstats` (
+CREATE TABLE IF NOT EXISTS `#__joommark_feedbacksstats` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `catid` int(11) NOT NULL DEFAULT '0',
   `planid` int(11) NOT NULL DEFAULT '0',
