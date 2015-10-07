@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -63,7 +64,7 @@ class JoommarksModelVisitorsInfo extends JModelList
 		$search = $db->Quote('%' . $db->escape($search, true) . '%');
 
 		$query->select('*');
-		$query->from('#__joommarkt_serverstats AS a');
+		$query->from('#__joommark_serverstats AS a');
 
 
 		$query->where('(a.session_id LIKE ' . $search . ' OR a.ip LIKE ' . $search . ' OR a.visitdate LIKE ' . $search . ' OR a.visitedpage LIKE ' . $search . ' OR a.browser LIKE ' . $search . ' OR a.os LIKE ' . $search . ')');
@@ -91,7 +92,7 @@ class JoommarksModelVisitorsInfo extends JModelList
 			$db = $this->getDbo();
 			foreach ($visit_timestamp_to_delete as $visit_timestamp)
 			{
-				$sql = "DELETE FROM `#__joommarkt_serverstats` WHERE visit_timestamp='{$visit_timestamp}'";
+				$sql = "DELETE FROM `#__joommark_serverstats` WHERE visit_timestamp='{$visit_timestamp}'";
 				$db->setQuery($sql);
 				$db->execute();
 			}

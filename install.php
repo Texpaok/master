@@ -28,17 +28,17 @@ class com_JoommarkInstallerScript {
 	{
 		// Only allow to install on PHP 5.3.0 or later
 		if ( !version_compare(PHP_VERSION, '5.3.0', 'ge') ) {
-			Jerror::raiseWarning(null, JText::_( 'COM_JOOMMARKT_ERROR_INSTALLING_PHP_VERSION' ));
+			Jerror::raiseWarning(null, JText::_( 'COM_JOOMMARK_ERROR_INSTALLING_PHP_VERSION' ));
 			return false;
 		} else if ( version_compare(JVERSION, '3.0.0', 'lt') ) {
 			// Only allow to install on Joomla! 3.0.0 or later, but not in 2.5 branch
-			Jerror::raiseWarning(null, JText::_( 'COM_JOOMMARKT_ERROR_INSTALLING_JOOMLA_VERSION' ));
+			Jerror::raiseWarning(null, JText::_( 'COM_JOOMMARK_ERROR_INSTALLING_JOOMLA_VERSION' ));
 			return false;
 		}
 		
 		// Check if the 'mb_strlen' function is enabled
 		if ( !function_exists("mb_strlen") ) {
-			Jerror::raiseWarning(null, JText::_( 'COM_JOOMMARKT_ERROR_INSTALLING_FUNCTION_MB_STRLEN' ));
+			Jerror::raiseWarning(null, JText::_( 'COM_JOOMMARK_ERROR_INSTALLING_FUNCTION_MB_STRLEN' ));
 			return false;
 		}
 		

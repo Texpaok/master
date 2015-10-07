@@ -1,3 +1,4 @@
+
 <?php
 /**
 * Modelo Logs para el Componente Securitycheckpro
@@ -57,7 +58,7 @@ public function getListQuery()
 	$search = $db->Quote('%'.$db->escape($search, true).'%');
 		
 	$query->select('*');
-	$query->from('#__joommarkt_messages AS a');
+	$query->from('#__joommark_messages AS a');
 	
 	
 	$query->where('(a.title LIKE '.$search.' OR a.accesslevel LIKE '.$search.')');
@@ -82,7 +83,7 @@ function delete(){
 	
 	$db = $this->getDbo();
 	foreach($uids as $id) {
-		$sql = "DELETE FROM `#__joommarkt_messages` WHERE id='{$id}'";
+		$sql = "DELETE FROM `#__joommark_messages` WHERE id='{$id}'";
 		$db->setQuery($sql);
 		$db->execute();	
 	}

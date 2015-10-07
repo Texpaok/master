@@ -1,3 +1,4 @@
+
 <?php
 /**
 * Modelo Logs para el Componente Securitycheckpro
@@ -57,7 +58,7 @@ public function getListQuery()
 	$search = $db->Quote('%'.$db->escape($search, true).'%');
 		
 	$query->select('*');
-	$query->from('#__joommarkt_stats AS a');
+	$query->from('#__joommark_stats AS a');
 	
 	
 	$query->where('(a.session_id_person LIKE '.$search.' OR a.nowpage LIKE '.$search.' OR a.lastupdate_time LIKE '.$search.' OR a.current_name LIKE '.$search.')');
@@ -79,7 +80,7 @@ function delete(){
 		
 	$db = $this->getDbo();
 	foreach($session_id_persons_to_delete as $session_id_person) {
-		$sql = "DELETE FROM `#__joommarkt_stats` WHERE session_id_person='{$session_id_person}'";
+		$sql = "DELETE FROM `#__joommark_stats` WHERE session_id_person='{$session_id_person}'";
 		$db->setQuery($sql);
 		$db->execute();	
 	}
