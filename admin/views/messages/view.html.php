@@ -32,8 +32,8 @@ JToolBarHelper::title( JText::_( 'Joommark' ).' | ' .JText::_('COM_JOOMMARK_VISI
 JToolBarHelper::custom('redireccion_control_panel','arrow-left','arrow-left','COM_JOOMMARK_REDIRECT_CONTROL_PANEL');
 JToolBarHelper::custom('delete','delete','delete','COM_JOOMMARK_DELETE');
 JToolBarHelper::addNew('item.add');
-JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
-JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+JToolbarHelper::publish('messages.publish', 'JTOOLBAR_PUBLISH', true);
+JToolbarHelper::unpublish('messages.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
 
 		// Model data
@@ -42,9 +42,7 @@ JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$filter_messages_search = $this->state->get('filter_messages.search');
-		
-		dump($this->items,"items");
-		
+				
 		$listDirn = $this->state->get('list.direction');
 		$listOrder =  $this->state->get('list.ordering');
 							

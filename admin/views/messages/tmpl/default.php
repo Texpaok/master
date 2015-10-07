@@ -71,7 +71,7 @@ foreach ($this->items as &$row) {
 		<?php echo $row->id; ?>			
 	</td>
 	<td class="center">
-			<?php echo JHtml::_('jgrid.published', $row->published, $k, 'items.', true); ?>
+			<?php echo JHtml::_('jgrid.published', $row->published, $k, 'messages.', true); ?>
 	</td>
 	<td class="center">
 		<?php echo $row->title; ?>			

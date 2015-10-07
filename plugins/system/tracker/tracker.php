@@ -115,7 +115,7 @@ class plgSystemTracker extends JPlugin
 	}
 
 	/**
-	 * Update #__joommarkt_referral
+	 * Update #__joommark_referral
 	 *
 	 * @access protected
 	 * @return Exception object otherwise boolean true
@@ -155,8 +155,8 @@ class plgSystemTracker extends JPlugin
 
 		try
 		{
-			// Insert the object into the #__joommarkt_referral table.
-			$result = JFactory::getDbo()->insertObject('#__joommarkt_referral', $RefererObject);
+			// Insert the object into the #__joommark_referral table.
+			$result = JFactory::getDbo()->insertObject('#__joommark_referral', $RefererObject);
 		} catch (Exception $e)
 		{
 			//todo exception handling
@@ -167,7 +167,7 @@ class plgSystemTracker extends JPlugin
 	}
 
 	/**
-	 * Update #__joommarkt_serverstats
+	 * Update #__joommark_serverstats
 	 *
 	 * @access protected
 	 * @return Exception object otherwise boolean true
@@ -203,7 +203,7 @@ class plgSystemTracker extends JPlugin
 			// Test if the user visited this page in this session
 			$query = $this->db->getQuery(true);
 			$query->select($this->db->quoteName("session_id"))
-					->from($this->db->quoteName("#__joommarkt_serverstats"))
+					->from($this->db->quoteName("#__joommark_serverstats"))
 					->where($this->db->quoteName("session_id") . " = " . $this->db->quote($ServerstatsObject->session_id))
 					->where($this->db->quoteName("visitdate") . " = " . $this->db->quote($ServerstatsObject->visitdate))
 					->where($this->db->quoteName("visitedpage") . " = " . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null))));
@@ -217,11 +217,11 @@ class plgSystemTracker extends JPlugin
 				//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_EXISTING_SERVERSTAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
-			// Insert the object into the #__joommarkt_serverstats table. Otherwise update the time tracker
+			// Insert the object into the #__joommark_serverstats table. Otherwise update the time tracker
 			if (!$exists)
 			{
 				// The record not exists, so insert a new record, it is the first time that in theis session this visitor visits this page
-				$result = JFactory::getDbo()->insertObject('#__joommarkt_serverstats', $ServerstatsObject);
+				$result = JFactory::getDbo()->insertObject('#__joommark_serverstats', $ServerstatsObject);
 				if ($this->db->getErrorNum())
 				{
 					//todo 
@@ -234,7 +234,7 @@ class plgSystemTracker extends JPlugin
 				$ServerstatsObjectOnlyName->session_id = $this->session->getId();
 				$ServerstatsObjectOnlyName->customer_name = $this->userName;
 				$ServerstatsObjectOnlyName->user_id_person = $this->userId;
-				$result = $this->db->updateObject('#__joommarkt_serverstats', $ServerstatsObjectOnlyName, 'session_id');
+				$result = $this->db->updateObject('#__joommark_serverstats', $ServerstatsObjectOnlyName, 'session_id');
 			}
 		} catch (Exception $e)
 		{
@@ -245,7 +245,7 @@ class plgSystemTracker extends JPlugin
 	}
 
 	/**
-	 * Update #__joommarkt_stats (current sessions)
+	 * Update #__joommark_stats (current sessions)
 	 *
 	 * @access protected
 	 * @return Exception object otherwise boolean true
@@ -264,7 +264,7 @@ class plgSystemTracker extends JPlugin
 			// Test if the session is open
 			$query = $this->db->getQuery(true);
 			$query->select($this->db->quoteName("session_id_person"))
-					->from($this->db->quoteName("#__joommarkt_stats"))
+					->from($this->db->quoteName("#__joommark_stats"))
 					->where($this->db->quoteName("session_id_person") . " = " . $this->db->quote($StatsObject->session_id_person));
 
 			// Set the query and execute
@@ -276,11 +276,11 @@ class plgSystemTracker extends JPlugin
 				//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_EXISTING_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
-			// Insert the object into the #__joommarkt_serverstats table. Otherwise update the time tracker
+			// Insert the object into the #__joommark_serverstats table. Otherwise update the time tracker
 			if (!$exists)
 			{
-				// Insert the object into the #__joommarkt_stats table.
-				$result = JFactory::getDbo()->insertObject('#__joommarkt_stats', $StatsObject);
+				// Insert the object into the #__joommark_stats table.
+				$result = JFactory::getDbo()->insertObject('#__joommark_stats', $StatsObject);
 				if ($this->db->getErrorNum())
 				{
 					//todo 
@@ -295,7 +295,7 @@ class plgSystemTracker extends JPlugin
 				$StatsObjectOnlyName->lastupdate_time = time();
 				$StatsObjectOnlyName->nowpage = urldecode($this->app->input->post->getString('nowpage', null));
 				$StatsObjectOnlyName->current_name = $this->userName;
-				$result = $this->db->updateObject('#__joommarkt_stats', $StatsObjectOnlyName, 'session_id_person');
+				$result = $this->db->updateObject('#__joommark_stats', $StatsObjectOnlyName, 'session_id_person');
 			}
 		} catch (Exception $e)
 		{
@@ -306,7 +306,7 @@ class plgSystemTracker extends JPlugin
 	}
 
 	/**
-	 * Update #__joommarkt_serverstats
+	 * Update #__joommark_serverstats
 	 *
 	 * @access protected
 	 * @return Exception object otherwise boolean true
@@ -320,9 +320,9 @@ class plgSystemTracker extends JPlugin
 			// Create a new query object.
 			$query = $this->db->getQuery(true);
 
-			// Select the seconds from the #__joommarkt_serverstats, if there is a open session today with this session number and page".
+			// Select the seconds from the #__joommark_serverstats, if there is a open session today with this session number and page".
 			$query->select($this->db->quoteName("seconds"))
-							->from($this->db->quoteName('#__joommarkt_serverstats'))
+							->from($this->db->quoteName('#__joommark_serverstats'))
 							->where($this->db->quoteName("session_id") . " = " . $this->db->quote($this->session->getId()))
 							->where($this->db->quoteName('visitdate') . " = " . $this->db->quote(date("Y-m-d") . '"'))
 							->where($this->db->quoteName('visitedpage') . " = " . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null)))) . '"';
@@ -359,7 +359,7 @@ class plgSystemTracker extends JPlugin
 				$this->db->quoteName('visitedpage') . ' = ' . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null)))
 			);
 
-			$query->update($this->db->quoteName('#__joommarkt_serverstats'))->set($fields)->where($conditions);
+			$query->update($this->db->quoteName('#__joommark_serverstats'))->set($fields)->where($conditions);
 			$this->db->setQuery($query);
 			$result = $this->db->execute();
 		} catch (Exception $e)
@@ -376,13 +376,13 @@ class plgSystemTracker extends JPlugin
 		$this->app->input->post->set('nowpage', JUri::getInstance()->current());
 		
 		// Shows pop-up only to front-end visits
-		if (JFactory::getApplication()->getName() == 'site')
+		if ($this->app->getName() == 'site')
 		{
 			$doc = & JFactory::getDocument();
 			$doc->addScript($this->media_path . '/javascript/jquery.js');
 			$doc->addScript($this->media_path . '/javascript/onpageload.js');
-			$doc->addScript($this->media_path . '/javascript/JoommarktSetTimeout.js');
-			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarktStyles.css');
+			$doc->addScript($this->media_path . '/javascript/JoommarkSetTimeout.js');
+			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarkStyles.css');
 			$doc->addStyleSheet('/templates/protostar/css/template.css');			
 		}
 	}
@@ -398,11 +398,11 @@ class plgSystemTracker extends JPlugin
 	{
 
 		// Shows pop-up only to front-end visits
-		if (JFactory::getApplication()->getName() == 'site')
+		if ($this->app->getName() == 'site')
 		{
 			$doc = & JFactory::getDocument();
 			$base = JURI::root();
-			$doc->addScriptDeclaration("var joommarktBaseURI='$base';");
+			$doc->addScriptDeclaration("var joommarkBaseURI='$base';");
 		}
 	}
 
@@ -413,7 +413,12 @@ class plgSystemTracker extends JPlugin
 		{
 			return;
 		}
-
+		
+		/* Get active menu id */
+        $menuActive = $this->app->getMenu()->getActive();
+        if (!$menuActive) { return; }
+        $id = $menuActive->id;
+		
 		$html = JResponse::getBody();
 		if ($html == '')
 		{
@@ -421,7 +426,7 @@ class plgSystemTracker extends JPlugin
 		}
 
 		// Shows pop-up only to front-end visits
-		if (JFactory::getApplication()->getName() == 'site')
+		if ($this->app->getName() == 'site')
 		{
 			$to_replace = '<div class="modal fade" id="Joommark_modal">' . PHP_EOL;
 			$to_replace .= '<div class="modal-header">' . PHP_EOL;
