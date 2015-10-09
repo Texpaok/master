@@ -1,0 +1,45 @@
+/**
+* Joommark
+* @ author Astrid Günther
+* @ Copyright (c) 2015 - Jose A. Luque/Astrid Günther
+* @license GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+
+/*
+ * Styles for Javascript JoommarkSetTimeout.js 
+ */
+ 
+
+div#joommark_msgtext {
+    clear: both;
+    margin: 5px 0px 0px;
+    font-size: 14px;
+    text-align: center;
+}
+
+
+div#joommark_msg {
+    text-align: center;
+    width: 500px;
+    cursor: auto;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: 0px;
+    box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    z-index: 90000;
+    background-color: #EEE;
+    padding: 6px;
+}
+
+div#joommark_msgtitle {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 1px solid #CCC;
+    padding: 10px;
+    background-color: #FDFDFD;
+}
