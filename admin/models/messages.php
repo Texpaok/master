@@ -89,5 +89,36 @@ function delete(){
 	}
 }
 
+/* Function to store a new message */
+function add() {
+	// Creamos el objeto JInput para obtener las variables del formulario
+	$jinput = JFactory::getApplication()->input;
+	
+	
+	// Instanciamos la clase para añadir los datos del formulario
+	$params = new stdClass();
+	
+	$params->name = $jinput->get('name','','string');
+	$params->menuitems = $jinput->get('menuitems','','array');
+	$params->accesslevel = $jinput->get('accesslevel','','string');
+	$params->published = $jinput->get('published',0,'int');
+	$params->message = $jinput->get('message','','string');
+	$params->menus = $jinput->get('allmenus',0,'int');
+		
+	dump($params,"params");
+	
+	/*$db = JFactory::getDBO();
+	$query = $db->getQuery(true);
+					
+	$result = $db->insertObject('#__securitycheckprocontrolcenter_websites', $params);
+		
+	if ( $result ) {
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_SECURITYCHECKPRO_CONTROL_CENTER_WEBSITE_ADDED'));
+	} else {
+		JError::raiseWarning(100,JText::_('COM_SECURITYCHECKPRO_CONTROL_CENTER_WEBSITE_NOT_ADDED'));
+	}*/
+	
+}
+
 
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="general">
+        <field name="name" type="text" 
+            class="input-xlarge" 
+            label="COM_JOOMMARK_TITLE" 
+            description="COM_JOOMMARK_TITLE_DESC" 
+            required="true" 
+            size="40" 
+        />
+
+        <field name="menuitems" type="menuitem" 
+            size="10" 
+            multiple="multiple" 
+            label="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT" 
+            description="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT_DESC" 
+        />
+        <field name="accesslevel" type="accesslevel" 
+            label="COM_JOOMMARK_ACCESSLEVEL" 
+            description="COM_JOOMMARK_ACCESSLEVEL_DESC" 
+            required="true"
+            default="1"
+        />
+        <field name="published" type="radio" 
+            label="JSTATUS" 
+            description="JFIELD_PUBLISHED_DESC" 
+            class="btn-group btn-group-yesno" 
+            filter="intval" 
+            size="1" 
+            default="1">
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+        </field>
+        <field name="id" type="hidden" />
+    
+        <field name="message" type="text" 
+            class="input-xxlarge" 
+            label="COM_JOOMMARK_MESSAGE" 
+            description="COM_JOOMMARK_MESSAGE_DESC" 
+            required="true" 
+            size="60" 
+        />
+    </fieldset>
+    <fieldset name="help">
+        <field name="allmenus" type="checkbox" label="Assign to all pages" description="Check this to display the box on all pages" value="1" default="0" />
+    </fieldset> 
+</form>
