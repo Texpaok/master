@@ -26,5 +26,23 @@ class JoommarksControllerMessages extends JoommarkController
 		
 		parent::display();
 	}
+	
+	/* Redirects to the page which allows admin to define a new message */
+	function add_message()
+	{
+		$this->setRedirect( 'index.php?option=com_joommark&controller=messages&view=addmessage&'. JSession::getFormToken() .'=1' );
+	}
+	
+	
+	/* Save a new message */
+	function save()
+	{
+		$model = $this->getModel("messages");
+		$model->add();
+		
+		$this->setRedirect( 'index.php?option=com_joommark&controller=messages&view=messages&'. JSession::getFormToken() .'=1' );
+				
+		parent::display();	
+	}
 				
 }
