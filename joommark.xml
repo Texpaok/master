@@ -37,6 +37,10 @@
     </media>
     <files folder="site">
         <filename>joommark.php</filename>
+            <folder>controllers</folder>
+            <folder>helpers</folder>
+            <folder>models</folder>
+            <folder>views</folder>
     </files>
     <administration>
         <menu>COM_NAME</menu>
