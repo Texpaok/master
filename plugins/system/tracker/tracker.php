@@ -111,7 +111,7 @@ class plgSystemTracker extends JPlugin
 		$this->updateReferer();
 		$this->updateServerstats();
 		$this->updateStats();
-		$this->updateServerstats_Time();
+		
 	}
 
 	/**
@@ -178,7 +178,7 @@ class plgSystemTracker extends JPlugin
 		//Url is not set, because onafterroute is not yet ready  
 		if ($this->app->input->post->getString('nowpage', null) === null)
 		{
-			return;
+			//return;
 		} else
 		{
 			//do we have to do something special here?
@@ -202,11 +202,11 @@ class plgSystemTracker extends JPlugin
 		{
 			// Test if the user visited this page in this session
 			$query = $this->db->getQuery(true);
-			$query->select($this->db->quoteName("session_id"))
-					->from($this->db->quoteName("#__joommark_serverstats"))
-					->where($this->db->quoteName("session_id") . " = " . $this->db->quote($ServerstatsObject->session_id))
-					->where($this->db->quoteName("visitdate") . " = " . $this->db->quote($ServerstatsObject->visitdate))
-					->where($this->db->quoteName("visitedpage") . " = " . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null))));
+			$query->select($this->db->quoteName('session_id'))
+					->from($this->db->quoteName('#__joommark_serverstats'))
+					->where($this->db->quoteName('session_id') . " = " . $this->db->quote($ServerstatsObject->session_id))
+					->where($this->db->quoteName('visitdate') . " = " . $this->db->quote($ServerstatsObject->visitdate))
+					->where($this->db->quoteName('visitedpage') . " = " . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null))));
 
 			// Set the query and execute
 			$this->db->setQuery($query);
@@ -220,7 +220,7 @@ class plgSystemTracker extends JPlugin
 			// Insert the object into the #__joommark_serverstats table. Otherwise update the time tracker
 			if (!$exists)
 			{
-				// The record not exists, so insert a new record, it is the first time that in theis session this visitor visits this page
+				// The record not exists, so insert a new record, it is the first time that in this session this visitor visits this page
 				$result = JFactory::getDbo()->insertObject('#__joommark_serverstats', $ServerstatsObject);
 				if ($this->db->getErrorNum())
 				{
@@ -305,70 +305,6 @@ class plgSystemTracker extends JPlugin
 		return true;
 	}
 
-	/**
-	 * Update #__joommark_serverstats
-	 *
-	 * @access protected
-	 * @return Exception object otherwise boolean true
-	 */
-	protected function updateServerstats_Time()
-	{
-
-		try
-		{
-
-			// Create a new query object.
-			$query = $this->db->getQuery(true);
-
-			// Select the seconds from the #__joommark_serverstats, if there is a open session today with this session number and page".
-			$query->select($this->db->quoteName("seconds"))
-							->from($this->db->quoteName('#__joommark_serverstats'))
-							->where($this->db->quoteName("session_id") . " = " . $this->db->quote($this->session->getId()))
-							->where($this->db->quoteName('visitdate') . " = " . $this->db->quote(date("Y-m-d") . '"'))
-							->where($this->db->quoteName('visitedpage') . " = " . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null)))) . '"';
-			// Reset the query using our newly populated query object.
-			$this->db->setQuery($query);
-
-			// Load the results 
-			$results = $this->db->loadObjectList();
-
-			if (isset($results[0]->seconds))
-			{
-				$seconds = $results[0]->seconds;
-			} else
-			{
-				//todo Here it should be not possible to have less or more than one element, we have to build exeptions for this.	
-				return;
-			}
-
-
-
-
-			// Create a new query object.
-			$query = $this->db->getQuery(true);
-
-			// Fields to update in the case the page was opened today with this session number  
-			$fields = array(
-				$this->db->quoteName('seconds') . ' = ' . $this->db->quote($seconds + 1)
-			);
-
-			// Conditions for which records should be updated.
-			$conditions = array(
-				$this->db->quoteName('session_id') . ' = ' . $this->db->quote($this->session->getId()),
-				$this->db->quoteName('visitdate') . ' = ' . $this->db->quote(date("Y-m-d")),
-				$this->db->quoteName('visitedpage') . ' = ' . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null)))
-			);
-
-			$query->update($this->db->quoteName('#__joommark_serverstats'))->set($fields)->where($conditions);
-			$this->db->setQuery($query);
-			$result = $this->db->execute();
-		} catch (Exception $e)
-		{
-			//dump($e->getMessage(),"exception");
-			//todo special exeption handling ...
-		}
-		return true;
-	}
 
 	function onAfterRoute()
 	{
@@ -400,7 +336,7 @@ class plgSystemTracker extends JPlugin
 		// Shows pop-up only to front-end visits
 		if ($this->app->getName() == 'site')
 		{
-			$doc = & JFactory::getDocument();
+			$doc = JFactory::getDocument();
 			$base = JURI::root();
 			$doc->addScriptDeclaration("var joommarkBaseURI='$base';");
 		}
