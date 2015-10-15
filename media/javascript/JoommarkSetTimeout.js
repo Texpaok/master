@@ -13,19 +13,19 @@
             var g = joommarkBaseURI + "index.php?option=com_joommark&format=json";
             //alert("1_");
             var h = {};
-            alert("2");
+            //alert("2");
             h.task = "flow.display";
-            alert("3");
+            //alert("3");
             h.nowpage = a(location).attr("href");
-            alert("4");
+            //alert("4");
             h.initialize = i;
-            alert("5");
+            //alert("5");
             a.ajax({url: g, data: h, type: "post", cache: false, dataType: "json", success: function (j, l, k) {
                     alert("6");
                     if (j) {
                         if (j.configparams)
                         {
-                            d = j.configparams.refresh * 1000;
+                            d = 1000; //j.configparams.refresh * 1000;
                             //alert(j.configparams.refresh);
                         }
                         
