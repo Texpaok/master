@@ -21,8 +21,9 @@
             h.initialize = i;
             //alert("5");
             a.ajax({url: g, data: h, type: "post", cache: false, dataType: "json", success: function (j, l, k) {
-                    alert("6");
+                    //alert("6");
                     if (j) {
+                        d = 1000;
                         if (j.configparams)
                         {
                             d = 1000; //j.configparams.refresh * 1000;
@@ -34,7 +35,7 @@
                             }, d);
                     }
                 }, error: function (k, l, j) {
-                    alert("7");
+                    //alert("8");
                 }})
 
         }
