@@ -4,10 +4,21 @@
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.com_joommark.ini</language>
 		<language tag="es-ES">language/es-ES/es-ES.com_joommark.ini</language>		
+		<language tag="de-DE">language/de-DE/de-DE.com_joommark.ini</language>		
 	</languages>
 	
-	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
-		<field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" class="inputbox"	validate="rules" filter="rules" component="com_securitycheckpro" section="component" />		
+	<fieldset id="preferences" name="preferences" label="COM_JOOMMARK_PREFERENCES" > 
+		<field name="refresh" type="list" default="4" label="COM_JOOMMARK_REFRESH" description="COM_JOOMMARK_REFRESH_DESC">
+			<option value="1">COM_JOOMMARK_1_SEC</option>
+			<option value="2">COM_JOOMMARK_2_SEC</option>
+			<option value="4">COM_JOOMMARK_3_SEC</option>
+			<option value="6">COM_JOOMMARK_4_SEC</option>
+			<option value="8">COM_JOOMMARK_5_SEC</option>
+		</field>
+	</fieldset> 
+
+        <fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+		<field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" class="inputbox"	validate="rules" filter="rules" component="com_joommark" section="component" />		
 	</fieldset>
 	
 </config>
