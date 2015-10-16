@@ -3,7 +3,7 @@
     var b = function ()
     {
         var f = this;
-        var d = 1000;
+        var d = 4000;
         this.showTestMsgs = function (h, g)
         {
             a("<div/>").attr("id", "joommark_msg").prependTo("body").append('<div id="joommark_msgtitle">' + h + "</div>").append('<div id="joommark_msgtext">' + g + "</div>").css("margin-top", 0).animate({"margin-top": "-150px"}, 300, "linear")
@@ -26,7 +26,7 @@
                         d = 1000;
                         if (j.configparams)
                         {
-                            d = 1000; //j.configparams.refresh * 1000;
+                            d = j.configparams.refresh * 1000;
                             //alert(j.configparams.refresh);
                         }
                         
