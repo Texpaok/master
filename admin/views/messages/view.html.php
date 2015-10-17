@@ -40,6 +40,7 @@ JToolbarHelper::unpublish('messages.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		
 		$this->state= $this->get('State');
 		$this->items = $this->get('Items');
+				
 		$this->pagination = $this->get('Pagination');
 		$filter_messages_search = $this->state->get('filter_messages.search');
 				

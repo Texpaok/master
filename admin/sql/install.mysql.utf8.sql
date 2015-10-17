@@ -37,8 +37,8 @@ CREATE TABLE IF NOT EXISTS `#__joommark_messages` (
   `title` varchar(255) NOT NULL,
   `cookie` mediumint(9) NOT NULL,
   `accesslevel` smallint(6) DEFAULT NULL,
-  `params` varchar(255) NOT NULL,
-  `menuid` int(11) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `menuid` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
