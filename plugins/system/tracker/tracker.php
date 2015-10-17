@@ -60,6 +60,7 @@ class plgSystemTracker extends JPlugin
 		$this->db = JFactory::getDbo();
 		$this->app = JFactory::getApplication();
 		$this->user = JFactory::getUser();
+		$this->params = JComponentHelper::getParams('com_joommark');
 
 
 
@@ -319,7 +320,7 @@ class plgSystemTracker extends JPlugin
 			$doc->addScript($this->media_path . '/javascript/onpageload.js');
 			$doc->addScript($this->media_path . '/javascript/JoommarkSetTimeout.js');
 			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarkStyles.css');
-			$doc->addStyleSheet('/templates/protostar/css/template.css');			
+			$doc->addStyleSheet('/templates/protostar/css/template.css');				
 		}
 	}
 	/**
@@ -352,9 +353,18 @@ class plgSystemTracker extends JPlugin
 		
 		/* Get active menu id */
         $menuActive = $this->app->getMenu()->getActive();
-        if (!$menuActive) { return; }
-        $id = $menuActive->id;
+        if ($menuActive) { 
+			$menuid = $menuActive->id;
+		}
 		
+		/* We need the MessagesHelper class to retrieve message info */
+        JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR.'/components/com_joommark/helpers/messages.php');
+
+        $user = JFactory::getUser();
+        /* Get message using the menuid and user view levels */
+        $message = MessagesHelper::getMessageInfo($menuid, $user->getAuthorisedViewLevels());
+		
+				
 		$html = JResponse::getBody();
 		if ($html == '')
 		{
@@ -367,10 +377,10 @@ class plgSystemTracker extends JPlugin
 			$to_replace = '<div class="modal fade" id="Joommark_modal">' . PHP_EOL;
 			$to_replace .= '<div class="modal-header">' . PHP_EOL;
 			$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
-			$to_replace .= '  <h3>Modal header</h3>' . PHP_EOL;
+			$to_replace .= '<h3>Modal header</h3>' . PHP_EOL;
 			$to_replace .= '</div>' . PHP_EOL;
 			$to_replace .= '<div class="modal-body">' . PHP_EOL;
-			$to_replace .= '<p>One fine body…</p>' . PHP_EOL;
+			$to_replace .= '<p>' . $message . ' … menuid:' . $menuid . '</p>' . PHP_EOL;
 			$to_replace .= '</div>' . PHP_EOL;
 			$to_replace .= '<div class="modal-footer">' . PHP_EOL;
 			$to_replace .= '<a href="#Joommark_modal" role="button" class="btn" data-toggle="modal">Close</a>' . PHP_EOL;

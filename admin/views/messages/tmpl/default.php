@@ -79,8 +79,8 @@ foreach ($this->items as &$row) {
 	<td class="center">
 		<?php echo $row->cookie; ?>
 	</td>
-	<td clss="center">
-		<?php echo $row->accesslevel; ?>
+	<td class="center">
+		<?php echo $row->accessleveltitle; ?>
 	</td>
 	<td class="center">			
 			<?php echo JHtml::_('grid.id', $k, $row->id); ?>	

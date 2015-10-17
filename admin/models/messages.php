@@ -57,11 +57,12 @@ public function getListQuery()
 	$search = $this->state->get('filter_messages.search');
 	$search = $db->Quote('%'.$db->escape($search, true).'%');
 		
-	$query->select('*');
+	$query->select('a.*, vl.title as accessleveltitle');
 	$query->from('#__joommark_messages AS a');
 	
 	
 	$query->where('(a.title LIKE '.$search.' OR a.accesslevel LIKE '.$search.')');
+	$query->join('LEFT', $db->quoteName('#__viewlevels', 'vl') . ' ON (' . $db->quoteName('a.accesslevel') . ' = ' . $db->quoteName('vl.id') . ')');
 	
 	// Add the list ordering clause.
     $query->order($db->escape($this->getState('list.ordering', 'title')) . ' ' . $db->escape($this->getState('list.direction', 'desc')));
@@ -98,25 +99,25 @@ function add() {
 	// Instanciamos la clase para añadir los datos del formulario
 	$params = new stdClass();
 	
-	$params->name = $jinput->get('name','','string');
-	$params->menuitems = $jinput->get('menuitems','','array');
+	$params->title = $jinput->get('title','','string');
+	$params->menuid = json_encode($jinput->get('menuitems','','array'));
 	$params->accesslevel = $jinput->get('accesslevel','','string');
 	$params->published = $jinput->get('published',0,'int');
 	$params->message = $jinput->get('message','','string');
-	$params->menus = $jinput->get('allmenus',0,'int');
+	//$params->menus = $jinput->get('allmenus',0,'int');
 		
 	dump($params,"params");
 	
-	/*$db = JFactory::getDBO();
+	$db = JFactory::getDBO();
 	$query = $db->getQuery(true);
 					
-	$result = $db->insertObject('#__securitycheckprocontrolcenter_websites', $params);
+	$result = $db->insertObject('#__joommark_messages', $params);
 		
 	if ( $result ) {
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_SECURITYCHECKPRO_CONTROL_CENTER_WEBSITE_ADDED'));
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMMARK_MESSAGE_SAVED'));
 	} else {
-		JError::raiseWarning(100,JText::_('COM_SECURITYCHECKPRO_CONTROL_CENTER_WEBSITE_NOT_ADDED'));
-	}*/
+		JError::raiseWarning(100,JText::_('COM_JOOMMARK_MESSAGE_NOT_SAVED'));
+	}
 	
 }
 
