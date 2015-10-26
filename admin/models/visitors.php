@@ -14,7 +14,7 @@ jimport( 'joomla.application.component.model' );
 /**
 * Modelo Vulninfo
 */
-class JoommarksModelVisitors extends JModelList
+class JoommarkModelVisitors extends JModelList
 {
 
 

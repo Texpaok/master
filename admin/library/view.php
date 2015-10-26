@@ -20,7 +20,7 @@ if(!class_exists('JoomlaCompatView')) {
 	}
 }
 
-class JoommarkView extends JoomlaCompatView {
+class JoommarkAuxView extends JoomlaCompatView {
 
 function __construct() 	{
 	parent::__construct();

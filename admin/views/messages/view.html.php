@@ -1,6 +1,5 @@
 <?php
 /**
-* Logs View para el Componente Securitycheckpro
 * @ author Jose A. Luque
 * @ Copyright (c) 2011 - Jose A. Luque
 * @license GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +14,7 @@ jimport( 'joomla.plugin.helper' );
 * Logs View
 *
 */
-class JoommarksViewMessages extends JViewLegacy
+class JoommarkViewMessages extends JViewLegacy
 {
 
 	protected $items;
@@ -25,29 +24,38 @@ class JoommarksViewMessages extends JViewLegacy
 /**
 * Securitycheckpros view método 'display'
 **/
-function display($tpl = null)
-{
-
-JToolBarHelper::title( JText::_( 'Joommark' ).' | ' .JText::_('COM_JOOMMARK_VISITORS_INFO'), 'joommark' );
-JToolBarHelper::custom('redireccion_control_panel','arrow-left','arrow-left','COM_JOOMMARK_REDIRECT_CONTROL_PANEL');
-JToolBarHelper::custom('delete','delete','delete','COM_JOOMMARK_DELETE');
-JToolBarHelper::custom('add_message','plus','plus','COM_JOOMMARK_NEW');
-JToolbarHelper::publish('messages.publish', 'JTOOLBAR_PUBLISH', true);
-JToolbarHelper::unpublish('messages.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-
+	function display($tpl = null)
+	{
 
 		// Model data
-		
+			
 		$this->state= $this->get('State');
 		$this->items = $this->get('Items');
-				
+					
 		$this->pagination = $this->get('Pagination');
 		$filter_messages_search = $this->state->get('filter_messages.search');
-				
+					
 		$listDirn = $this->state->get('list.direction');
 		$listOrder =  $this->state->get('list.ordering');
 							
+		 // Set the toolbar
+        $this->addToolBar();
 
-parent::display($tpl);
-}
+		parent::display($tpl);
+	}
+
+/**
+     * Setting the toolbar
+     */
+    protected function addToolBar() 
+    {
+        
+		JToolBarHelper::title( JText::_( 'Joommark' ).' | ' .JText::_('COM_JOOMMARK_VISITORS_INFO'), 'joommark' );
+		JToolBarHelper::custom('redireccion_control_panel','arrow-left','arrow-left','COM_JOOMMARK_REDIRECT_CONTROL_PANEL');
+		JToolBarHelper::addNew('message.add');
+		JToolBarHelper::editList('message.edit');
+		JToolBarHelper::deleteList('', 'messages.delete');
+		JToolbarHelper::publish('messages.publish', 'JTOOLBAR_PUBLISH', true);
+		JToolbarHelper::unpublish('messages.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+    }
 }

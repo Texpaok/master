@@ -14,6 +14,6 @@ jimport('joomla.html.parameter');
 
 $library = dirname(__FILE__);
 
-JLoader::register('JoommarkController', $library.'/controller.php');
-JLoader::register('JoommarkModel', $library.'/model.php');
-JLoader::register('JoommarkView', $library.'/view.php');
+JLoader::register('JoommarkAuxController', $library.'/controller.php');
+JLoader::register('JoommarkAuxModel', $library.'/model.php');
+JLoader::register('JoommarkAuxView', $library.'/view.php');

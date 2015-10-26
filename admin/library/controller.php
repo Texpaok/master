@@ -18,14 +18,14 @@ if(!class_exists('JoomlaCompatController')) {
 	}
 }
 
-class JoommarkController extends JoomlaCompatController {
+class JoommarkAuxController extends JoomlaCompatController {
 	
 function __construct()
 {
 parent::__construct();
 }
 
-/* Redirecciona las peticiones al Panel de Control */
+/* Redirects to Control Panel */
 function redireccion_control_panel()
 {
 	$this->setRedirect( 'index.php?option=com_joommark' );

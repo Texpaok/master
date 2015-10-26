@@ -6,7 +6,7 @@ defined('_JEXEC') or die();
 // Load library
 require_once(JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_joommark'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR.'loader.php');
 
-class DatabaseAux extends JoommarkModel
+class DatabaseAux extends JoommarkAuxModel
 {
 	
 	 /**
