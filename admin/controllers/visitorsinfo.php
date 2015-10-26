@@ -8,7 +8,7 @@
 defined('_JEXEC') or die();
 jimport( 'joomla.application.component.model' );
 
-class JoommarksControllerVisitorsInfo extends JoommarkController
+class JoommarkControllerVisitorsInfo extends JoommarkAuxController
 {
 	public function __construct($config = array()) {
 		

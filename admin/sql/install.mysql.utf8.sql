@@ -33,12 +33,12 @@ CREATE TABLE IF NOT EXISTS `#__joommark_referral` (
 -- Messages to be chown to the user
 CREATE TABLE IF NOT EXISTS `#__joommark_messages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `published` tinyint(4) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `cookie` mediumint(9) NOT NULL,
-  `accesslevel` smallint(6) DEFAULT NULL,
-  `message` varchar(255) NOT NULL,
   `menuid` varchar(100) NOT NULL,
+  `accesslevel` smallint(6) DEFAULT NULL,
+  `published` tinyint(4) NOT NULL,
+  `message` varchar(255) NOT NULL, 
+  `cookie` mediumint(9) NOT NULL,   
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 

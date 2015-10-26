@@ -19,7 +19,7 @@ if(!class_exists('JoomlaCompatModel')) {
 	}
 }
 
-class JoommarkModel extends JoomlaCompatModel
+class JoommarkAuxModel extends JoomlaCompatModel
 {
 
 

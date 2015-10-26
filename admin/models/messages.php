@@ -9,12 +9,12 @@
 
 // Chequeamos si el archivo est includo en Joomla!
 defined('_JEXEC') or die();
-jimport( 'joomla.application.component.model' );
+jimport('joomla.application.component.modellist');
 
 /**
 * Modelo Vulninfo
 */
-class JoommarksModelMessages extends JModelList
+class JoommarkModelMessages extends JModelList
 {
 
 
@@ -70,56 +70,6 @@ public function getListQuery()
 	return $query;
 }
 
-/* Function to delete joommark_stats entries */
-function delete(){
-		
-	// Create the JInput object to retrieve form variables
-	$jinput = JFactory::getApplication()->input;
-	
-	// Array of session_id_persons to delete
-	$uids = $jinput->get('cid',null,'array');
-	
-	dump($uids,"uids");
-//	JArrayHelper::toInteger($uids, array());
-	
-	$db = $this->getDbo();
-	foreach($uids as $id) {
-		$sql = "DELETE FROM `#__joommark_messages` WHERE id='{$id}'";
-		$db->setQuery($sql);
-		$db->execute();	
-	}
-}
-
-/* Function to store a new message */
-function add() {
-	// Creamos el objeto JInput para obtener las variables del formulario
-	$jinput = JFactory::getApplication()->input;
-	
-	
-	// Instanciamos la clase para añadir los datos del formulario
-	$params = new stdClass();
-	
-	$params->title = $jinput->get('title','','string');
-	$params->menuid = json_encode($jinput->get('menuitems','','array'));
-	$params->accesslevel = $jinput->get('accesslevel','','string');
-	$params->published = $jinput->get('published',0,'int');
-	$params->message = $jinput->get('message','','string');
-	//$params->menus = $jinput->get('allmenus',0,'int');
-		
-	dump($params,"params");
-	
-	$db = JFactory::getDBO();
-	$query = $db->getQuery(true);
-					
-	$result = $db->insertObject('#__joommark_messages', $params);
-		
-	if ( $result ) {
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMMARK_MESSAGE_SAVED'));
-	} else {
-		JError::raiseWarning(100,JText::_('COM_JOOMMARK_MESSAGE_NOT_SAVED'));
-	}
-	
-}
 
 
 }

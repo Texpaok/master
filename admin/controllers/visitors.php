@@ -7,12 +7,11 @@
 // Protect from unauthorized access
 defined('_JEXEC') or die();
 
-class JoommarksControllerVisitors extends JoommarkController
+class JoommarkControllerVisitors extends JoommarkAuxController
 {
 	public function __construct($config = array()) {
 		
-		parent::__construct($config);
-		
+		parent::__construct($config);				
 		
 	}
 	

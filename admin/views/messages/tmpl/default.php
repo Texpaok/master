@@ -20,7 +20,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 ?>
 
 
-<form action="<?php echo JRoute::_('index.php?option=com_joommark&view=messages');?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_joommark&view=messages" method="post" name="adminForm" id="adminForm">
 
 <div id="filter-bar" class="btn-toolbar">
 	<div class="filter-search btn-group pull-left">
@@ -68,7 +68,9 @@ foreach ($this->items as &$row) {
 ?>
 <tr>
 	<td class="center">
-		<?php echo $row->id; ?>			
+		<a href="<?php echo JRoute::_('index.php?option=com_joommark&task=message.edit&id='.$row->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+		<?php echo $row->id; ?>	
+		</a>
 	</td>
 	<td class="center">
 			<?php echo JHtml::_('jgrid.published', $row->published, $k, 'messages.', true); ?>
@@ -114,7 +116,7 @@ if ( !empty($this->items) ) {
 <input type="hidden" name="option" value="com_joommark" />
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="1" />
-<input type="hidden" name="controller" value="messages" />
+<?php echo JHtml::_('form.token'); ?>
 <input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 

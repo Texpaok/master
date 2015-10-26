@@ -15,7 +15,7 @@ jimport( 'joomla.plugin.helper' );
 * Logs View
 *
 */
-class JoommarksViewVisitorsInfo extends JViewLegacy
+class JoommarkViewVisitorsInfo extends JViewLegacy
 {
 
 	protected $items;
