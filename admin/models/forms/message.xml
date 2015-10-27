@@ -33,12 +33,12 @@
         </field>
         <field name="id" type="hidden" />
     
-        <field name="message" type="text" 
-            class="input-xxlarge" 
+        <field name="message" type="editor" 
+            rows="5" 
+            cols="40" 
+            filter="raw" 
             label="COM_JOOMMARK_MESSAGE" 
-            description="COM_JOOMMARK_MESSAGE_DESC" 
-            required="true" 
-            size="60" 
+            description="COM_JOOMMARK_MESSAGE_DESC"
         />
     </fieldset>
     <fieldset name="help">

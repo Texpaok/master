@@ -64,11 +64,56 @@ class JoommarkModelMessage extends JModelAdmin
 
         if (empty($data)) 
         {
-            $data = $this->getItem();
+            $data = $this->getItem();			
+			$isNew = (!$data->id) ? true : false;
+
+            if (!$isNew) {
+                /* Fetch Menu Items */
+                if ($data->id) {
+					// Extract the array of menuitems, previously json_encoded					
+					$menus = json_decode($data->menuitems);
+					
+					 /* Check if box is assigned to all pages */
+					if (in_array("-1", $data->menuitems)) {
+						$data->allmenus = true;
+					}
+					
+					// Assign menuitems
+					$data->menuitems = $menus;
+				  
+                }
+			}
             
         }
         return $data;
     }
+	
+	/**
+     * Method to save the form data.
+     *
+     * @param   array  The form data.
+     *
+     * @return  boolean  True on success.
+     * @since   1.6
+     */
+
+    public function save($data)
+    {
+		// Check if the menú must be showed to all pages
+		$AllMenus = ($data["allmenus"] == "1") ? true : false;
+		
+		if ( $AllMenus ) {
+			$data["menuitems"] = "-1";
+		}
+				
+		// Json_encode menuitems
+		$data["menuitems"] = json_encode($data["menuitems"]);
+		 
+		 if (parent::save($data))
+        {
+            return true;
+        }  
+	}
 
     
 

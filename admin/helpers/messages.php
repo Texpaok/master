@@ -9,28 +9,37 @@
 abstract class MessagesHelper {
 
 	public static function getMessageInfo($menuitemid, $userAccessLevels) {
-		$message_to_show = "";
-        $user = JFactory::getUser();
+		
+		// Message to be shown: title and message
+		$data_to_show = array(
+                'title', 'message'
+            );
+		
+		$user = JFactory::getUser();
        
         $accesslevel = implode(",", $userAccessLevels);
 
         $query = "select a.* from #__joommark_messages a ";
         $query .= "where a.published = 1 ";
         $query .= "AND ((a.accesslevel IN ($accesslevel)) OR (a.accesslevel IS NULL))";
+		$query .= "AND ((a.menuitems LIKE '%$menuitemid%'))";
         		
 		$db = JFactory::getDBO();
         $db->setQuery($query);
         $messages = $db->loadObjectList();
-
+				
         foreach ($messages as $message) {
-			$message_items_id = json_decode($message->menuid,true);
+			/*$message_items_id = json_decode($message->menuid,true);
 			if ( is_array($message_items_id) ) {			
 				if ( !(array_search($menuitemid,$message_items_id) === false) ) {
 					$message_to_show = $message->message;
 				}
-			}
+			}*/
+			
+			$data_to_show['title'] = $message->title;
+			$data_to_show['message'] = $message->message;
         }
-
-        return $message_to_show;
+		
+		return $data_to_show;        
     }
 }
