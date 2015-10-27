@@ -25,7 +25,7 @@ class JoommarkViewMessage extends JViewLegacy
         // get the Data
         $form = $this->get('Form');
         $item = $this->get('Item');
-
+		
         // Check for errors.
         if (count($errors = $this->get('Errors'))) 
         {

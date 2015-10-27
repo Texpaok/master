@@ -30,7 +30,7 @@ JHtml::_('formbehavior.chosen', 'select');
         <div class="row-fluid">
             <div class="span9">
                 
-                <?php foreach ($this->form->getFieldset("general") as $field) { ?>
+                <?php foreach ($this->form->getFieldset("general") as $field) { ?>					
 					<div class="control-group clearfix <?php echo $field->name ?>">
                         <div class="control-label"><?php echo $field->label ?></div>
                         <div class="controls">

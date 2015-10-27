@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `#__joommark_referral` (
 CREATE TABLE IF NOT EXISTS `#__joommark_messages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `menuid` varchar(100) NOT NULL,
+  `menuitems`varchar(255) NOT NULL,
   `accesslevel` smallint(6) DEFAULT NULL,
   `published` tinyint(4) NOT NULL,
   `message` varchar(255) NOT NULL, 
