@@ -318,6 +318,7 @@ class plgSystemTracker extends JPlugin
 			$doc = & JFactory::getDocument();
 			$doc->addScript($this->media_path . '/javascript/jquery.js');
 			$doc->addScript($this->media_path . '/javascript/onpageload.js');
+			$doc->addScript($this->media_path . '/javascript/js.cookie.js');
 			$doc->addScript($this->media_path . '/javascript/JoommarkSetTimeout.js');
 			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarkStyles.css');
 			$doc->addStyleSheet('/templates/protostar/css/template.css');				
@@ -362,7 +363,7 @@ class plgSystemTracker extends JPlugin
 			
 			/* We need the MessagesHelper class to retrieve message info */
 			JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR.'/components/com_joommark/helpers/messages.php');
-
+			
 			$user = JFactory::getUser();
 			/* Get message using the menuid and user view levels */
 			$message = MessagesHelper::getMessageInfo($menuid, $user->getAuthorisedViewLevels());
@@ -385,15 +386,24 @@ class plgSystemTracker extends JPlugin
 				$to_replace .= '<p>' . $message['message'] . ' … menuid:' . $menuid . '</p>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 				$to_replace .= '<div class="modal-footer">' . PHP_EOL;
-				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn" data-toggle="modal">Close</a>' . PHP_EOL;
+				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn" id="close_button" data-toggle="modal">Close</a>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
-				$to_replace .= '</div>' . PHP_EOL;			
+				$to_replace .= '</div>' . PHP_EOL;
+				
+				$to_replace .= '<script type="text/javascript">';
+				//$to_replace .= "jQuery('#Joommark_modal').on('hidden', function() {";
+				$to_replace .= "jQuery('#close_button').on('click', function(event) {";
+				$to_replace .= 'Cookies.set("hola","2");';
+				$to_replace .= '});';
+				$to_replace .= '</script>';
 				
 				$to_replace .= '</body>';
 
 				$html = str_replace("</body>", $to_replace, $html);
 
 				JResponse::setBody($html);
+				
+				
 			}
 		}
 	}

@@ -51,7 +51,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_TITLE', 'title', $listDirn, $listOrder); ?>
 			</th>
 			<th class="center" width="15%">
-				<?php echo JText::_('COM_JOOMMARK_COOKIE'); ?>				
+				<?php echo JText::_('COM_JOOMMARK_ITEM_COOKIE'); ?>				
 			</th>
 			<th class="center"width="15%">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_ACCESSLEVEL', 'accesslevel', $listDirn, $listOrder); ?>

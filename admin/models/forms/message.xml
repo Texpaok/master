@@ -32,6 +32,13 @@
             <option value="0">JUNPUBLISHED</option>
         </field>
         <field name="id" type="hidden" />
+		
+		<field name="cookie" default="30" type="text" 
+            class="input-mini" 
+            label="COM_JOOMMARK_ITEM_COOKIE" 
+            description="COM_JOOMMARK_ITEM_COOKIE_DESC"
+            size="6"
+        />		
     
         <field name="message" type="editor" 
             rows="5" 
@@ -40,6 +47,7 @@
             label="COM_JOOMMARK_MESSAGE" 
             description="COM_JOOMMARK_MESSAGE_DESC"
         />
+			
     </fieldset>
     <fieldset name="help">
         <field name="allmenus" type="checkbox" label="Assign to all pages" description="Check this to display the box on all pages" value="1" default="0" />

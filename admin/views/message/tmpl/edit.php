@@ -14,16 +14,6 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 
-<script type="text/javascript">
-    Joomla.submitbutton = function(task)
-    {
-        if (task == 'item.cancel' || document.formvalidator.isValid(document.id('adminForm')))
-        {
-            Joomla.submitform(task, document.getElementById('adminForm'));
-        }
-    }
-</script>
-
 <div class="form-horizontal">
     <form action="<?php echo JRoute::_('index.php?option=com_joommark&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm">
         
@@ -52,6 +42,52 @@ JHtml::_('formbehavior.chosen', 'select');
         <input type="hidden" name="task" value="joommark.edit" />
 		<?php echo JHtml::_('form.token'); ?>
     </form>
+
+<script type="text/javascript">
+    Joomla.submitbutton = function(task)
+    {
+        if (task == 'item.cancel' || document.formvalidator.isValid(document.id('adminForm')))
+        {
+            Joomla.submitform(task, document.getElementById('adminForm'));
+        }
+    }
+</script>
+
+<script type="text/javascript" language="javascript">
+	// Check if the "assign to all pages" checkbox is true
+	;(function($,undefined){
+		$(function() {
+	
+		  
+		/* All menus assignment */
+			$("#jform_allmenus").click(function() {
+				checked = $(this).is(':checked');
+		   
+				if (checked) {
+					disableElement($("#jform_menuitems"), true);
+					disableElement($("#jform_menuitems_chzn"), true);					
+				} else {
+					disableElement($("#jform_menuitems"), false);
+					disableElement($("#jform_menuitems_chzn"), false);
+				}
+			});
+
+			function disableElement(element, state) {
+				if (state) {
+					element.addClass("hide");	
+				} else {
+					element.removeClass("hide");					
+				}
+			}
+			
+			window.addEvent('domready', function() {
+				allMenusIsChecked = $("#jform_allmenus").is(':checked');				
+				disableElement($("#jform_menuitems_chzn"),allMenusIsChecked);
+			});
+	    });
+	})(jQuery);
+</script>
+
 </div>
 
 
