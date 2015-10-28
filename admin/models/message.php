@@ -74,7 +74,7 @@ class JoommarkModelMessage extends JModelAdmin
 					$menus = json_decode($data->menuitems);
 					
 					 /* Check if box is assigned to all pages */
-					if (in_array("-1", $data->menuitems)) {
+					if (in_array("-1", $menus)) {
 						$data->allmenus = true;
 					}
 					
@@ -103,12 +103,14 @@ class JoommarkModelMessage extends JModelAdmin
 		$AllMenus = ($data["allmenus"] == "1") ? true : false;
 		
 		if ( $AllMenus ) {
-			$data["menuitems"] = "-1";
+			$data["menuitems"] = array();
+			array_push($data["menuitems"],"-1");
 		}
 				
 		// Json_encode menuitems
 		$data["menuitems"] = json_encode($data["menuitems"]);
-		 
+		
+				 
 		 if (parent::save($data))
         {
             return true;
