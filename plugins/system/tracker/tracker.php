@@ -315,7 +315,7 @@ class plgSystemTracker extends JPlugin
 		// Shows pop-up only to front-end visits
 		if ($this->app->getName() == 'site')
 		{
-			$doc = & JFactory::getDocument();
+			$doc =& JFactory::getDocument();
 			$doc->addScript($this->media_path . '/javascript/jquery.js');
 			$doc->addScript($this->media_path . '/javascript/onpageload.js');
 			$doc->addScript($this->media_path . '/javascript/js.cookie.js');
@@ -367,7 +367,7 @@ class plgSystemTracker extends JPlugin
 			$user = JFactory::getUser();
 			/* Get message using the menuid and user view levels */
 			$message = MessagesHelper::getMessageInfo($menuid, $user->getAuthorisedViewLevels());
-						
+			
 			/* There is a message to show in this menu */
 			if ( !empty($message['message']) ) {
 				$html = JResponse::getBody();
@@ -383,17 +383,20 @@ class plgSystemTracker extends JPlugin
 				$to_replace .= '<h3>' . $message['title'] . '</h3>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 				$to_replace .= '<div class="modal-body">' . PHP_EOL;
-				$to_replace .= '<p>' . $message['message'] . ' … menuid:' . $menuid . '</p>' . PHP_EOL;
+				$to_replace .= '<p>' . $message['message'] . '</p>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 				$to_replace .= '<div class="modal-footer">' . PHP_EOL;
-				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn" id="close_button" data-toggle="modal">Close</a>' . PHP_EOL;
+				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="close_button" data-toggle="modal">' . JText::_( 'COM_JOOMMARK_CLOSE' ) .'</a>' . PHP_EOL;
+				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn" id="not_show_button" data-toggle="modal">' . JText::_( 'COM_JOOMARK_DONT_SHOW' ) .'</a>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 				
 				$to_replace .= '<script type="text/javascript">';
-				//$to_replace .= "jQuery('#Joommark_modal').on('hidden', function() {";
+				$to_replace .= "jQuery('#not_show_button').on('click', function(event) {";
+				$to_replace .= 'Cookies.set("message_' . $message['id'] . '", "all", { expires: ' . $message['cookie'] . '});';				
+				$to_replace .= '});';
 				$to_replace .= "jQuery('#close_button').on('click', function(event) {";
-				$to_replace .= 'Cookies.set("hola","2");';
+				$to_replace .= 'Cookies.set("message_' . $message['id'] . '", "true", { expires: ' . $message['cookie'] . '});';				
 				$to_replace .= '});';
 				$to_replace .= '</script>';
 				
