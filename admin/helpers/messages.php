@@ -12,7 +12,7 @@ abstract class MessagesHelper {
 		
 		// Message to be shown: title and message
 		$data_to_show = array(
-                'title', 'message'
+                'id', 'title', 'message', 'cookie'
             );
 		
 		$user = JFactory::getUser();
@@ -30,15 +30,19 @@ abstract class MessagesHelper {
         $messages = $db->loadObjectList();
 				
         foreach ($messages as $message) {
-			/*$message_items_id = json_decode($message->menuid,true);
-			if ( is_array($message_items_id) ) {			
-				if ( !(array_search($menuitemid,$message_items_id) === false) ) {
-					$message_to_show = $message->message;
-				}
-			}*/
+			// Get the cookie data (if exists)
+			$cookie = JFactory::getApplication()->input->cookie;			
+			$cookie_data = $cookie->get('message_' . $message->id);
 			
-			$data_to_show['title'] = $message->title;
-			$data_to_show['message'] = $message->message;
+			//The cookie is not set to hide it
+			if ( $cookie_data != "all" ) {
+				$data_to_show['id'] = $message->id;
+				$data_to_show['title'] = $message->title;
+				$data_to_show['message'] = $message->message;
+				$data_to_show['cookie'] = $message->cookie;	
+			}
+			
+			
         }
 		
 		return $data_to_show;        
