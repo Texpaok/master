@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `#__joommark_messages` (
   `menuitems`varchar(255) NOT NULL,
   `accesslevel` smallint(6) DEFAULT NULL,
   `published` tinyint(4) NOT NULL,
+  `percentage` int(3) unsigned,
   `message` varchar(255) NOT NULL, 
   `cookie` mediumint(9) NOT NULL,   
   PRIMARY KEY (`id`)

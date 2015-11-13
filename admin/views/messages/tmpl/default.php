@@ -68,7 +68,6 @@ foreach ($this->items as &$row) {
 ?>
 <tr>
 	<td class="center">
-		<a href="<?php echo JRoute::_('index.php?option=com_joommark&task=message.edit&id='.$row->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 		<?php echo $row->id; ?>	
 		</a>
 	</td>
@@ -76,6 +75,7 @@ foreach ($this->items as &$row) {
 			<?php echo JHtml::_('jgrid.published', $row->published, $k, 'messages.', true); ?>
 	</td>
 	<td class="center">
+		<a href="<?php echo JRoute::_('index.php?option=com_joommark&task=message.edit&id='.$row->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">	
 		<?php echo $row->title; ?>			
 	</td>
 	<td class="center">

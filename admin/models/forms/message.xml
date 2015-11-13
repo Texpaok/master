@@ -33,6 +33,14 @@
         </field>
         <field name="id" type="hidden" />
 		
+		<field name="percentage" type="text" 
+            class="input-mini" 
+            label="COM_JOOMMARK_ITEM_PERCENTAGE" 
+            default="80"
+            description="COM_JOOMMARK_ITEM_PERCENTAGE_DESC"
+            size="6"
+        />
+		
 		<field name="cookie" default="30" type="text" 
             class="input-mini" 
             label="COM_JOOMMARK_ITEM_COOKIE" 
