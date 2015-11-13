@@ -38,6 +38,7 @@ abstract class MessagesHelper {
 			if ( $cookie_data != "all" ) {
 				$data_to_show['id'] = $message->id;
 				$data_to_show['title'] = $message->title;
+				$data_to_show['percentage'] = $message->percentage;
 				$data_to_show['message'] = $message->message;
 				$data_to_show['cookie'] = $message->cookie;	
 			}
