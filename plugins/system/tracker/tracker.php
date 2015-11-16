@@ -48,10 +48,10 @@ class plgSystemTracker extends JPlugin
 	 */
 	protected $session;
 	protected $media_path = "media/com_joommark";
-	
+
 	function plgSystemTracker(&$subject, $config)
 	{
-		
+
 		parent::__construct($subject, $config);
 
 		/* Load the language of the component */
@@ -113,7 +113,7 @@ class plgSystemTracker extends JPlugin
 		$this->updateReferer();
 		$this->updateServerstats();
 		$this->updateStats();
-		
+
 	}
 
 	/**
@@ -136,7 +136,7 @@ class plgSystemTracker extends JPlugin
 		}
 
 
-		// Are the referrer external 
+		// Are the referrer external
 		$uriReferral = JUri::getInstance($this->referer);
 		$hostReferral = $uriReferral->toString(array('scheme', 'host', 'port'));
 		$uriCurrentpage = JUri::getInstance();
@@ -177,7 +177,7 @@ class plgSystemTracker extends JPlugin
 	protected function updateServerstats()
 	{
 
-		//Url is not set, because onafterroute is not yet ready  
+		//Url is not set, because onafterroute is not yet ready
 		if ($this->app->input->post->getString('nowpage', null) === null)
 		{
 			//return;
@@ -215,7 +215,7 @@ class plgSystemTracker extends JPlugin
 			$exists = (bool) $this->db->loadResult();
 			if ($this->db->getErrorNum())
 			{
-				//todo 
+				//todo
 				//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_EXISTING_SERVERSTAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
@@ -226,7 +226,7 @@ class plgSystemTracker extends JPlugin
 				$result = JFactory::getDbo()->insertObject('#__joommark_serverstats', $ServerstatsObject);
 				if ($this->db->getErrorNum())
 				{
-					//todo 
+					//todo
 					//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_SERVERSTAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
 			} else
@@ -274,7 +274,7 @@ class plgSystemTracker extends JPlugin
 			$exists = (bool) $this->db->loadResult();
 			if ($this->db->getErrorNum())
 			{
-				//todo 
+				//todo
 				//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_EXISTING_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
@@ -285,7 +285,7 @@ class plgSystemTracker extends JPlugin
 				$result = JFactory::getDbo()->insertObject('#__joommark_stats', $StatsObject);
 				if ($this->db->getErrorNum())
 				{
-					//todo 
+					//todo
 					//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
 			} else
@@ -310,23 +310,26 @@ class plgSystemTracker extends JPlugin
 
 	function onAfterRoute()
 	{
-		
+
 		$this->app->input->post->set('nowpage', JUri::getInstance()->current());
-		
+
 		// Shows pop-up only to front-end visits
 		if ($this->app->getName() == 'site')
 		{
-						
-			$doc =& JFactory::getDocument();
+
+			$doc = JFactory::getDocument();
 			JHTML::_('behavior.modal');
 			JHtml::_('jquery.framework');
 			$doc->addScript($this->media_path . '/javascript/messages.js');
-			
+
 			$doc->addScript($this->media_path . '/javascript/js.cookie.js');
 			$doc->addScript($this->media_path . '/javascript/JoommarkSetTimeout.js');
+			JHtml::script('com_joommark/javascript/JoommarkSetTimeout.js', false, true);
+
+
 			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarkStyles.css');
-			$doc->addStyleSheet('/templates/protostar/css/template.css');				
-		
+			$doc->addStyleSheet('/templates/protostar/css/template.css');
+
 		}
 	}
 	/**
@@ -351,7 +354,7 @@ class plgSystemTracker extends JPlugin
 
 	public function onAfterRender()
 	{
-		
+
 		// Shows pop-up only to front-end visits
 		if ($this->app->getName() == 'site')
 		{
@@ -360,20 +363,20 @@ class plgSystemTracker extends JPlugin
 			{
 				return;
 			}
-			
-			// Get active menu id 
+
+			// Get active menu id
 			$menuActive = $this->app->getMenu()->getActive();
-			if ($menuActive) { 
+			if ($menuActive) {
 				$menuid = $menuActive->id;
 			}
-			
-			// We need the MessagesHelper class to retrieve message info 
+
+			// We need the MessagesHelper class to retrieve message info
 			JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR.'/components/com_joommark/helpers/messages.php');
-						
-			// Get message using the menuid and user view levels 
+
+			// Get message using the menuid and user view levels
 			$message = MessagesHelper::getMessageInfo($menuid, $this->user->getAuthorisedViewLevels());
-						
-			// There is a message to show in this menu 
+
+			// There is a message to show in this menu
 			if ( !empty($message['message']) ) {
 				$html = JResponse::getBody();
 				if ($html == '')
@@ -381,7 +384,7 @@ class plgSystemTracker extends JPlugin
 					return;
 				}
 
-			
+
 				$to_replace = '<div class="modal fade joommark-percentage" id="Joommark_modal" data-percentage="'  . $message['percentage'] . '">' . PHP_EOL;
 				$to_replace .= '<div class="modal-header joommark-id" data-id="'  . $message['id'] . '">' . PHP_EOL;
 				$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
@@ -395,23 +398,23 @@ class plgSystemTracker extends JPlugin
 				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="not_show_button" data-toggle="modal">' . JText::_( 'COM_JOOMARK_DONT_SHOW' ) .'</a>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
-				
+
 				$to_replace .= '<script type="text/javascript">';
 				$to_replace .= "jQuery('#not_show_button').on('click', function(event) {";
-				$to_replace .= 'Cookies.set("joommark_message_' . $message['id'] . '", "all", { expires: ' . $message['cookie'] . '});';				
+				$to_replace .= 'Cookies.set("joommark_message_' . $message['id'] . '", "all", { expires: ' . $message['cookie'] . '});';
 				$to_replace .= '});';
 				/*$to_replace .= "jQuery('#close_button').on('click', function(event) {";
-				$to_replace .= 'Cookies.set("message_' . $message['id'] . '", "true", { expires: ' . $message['cookie'] . '});';				
+				$to_replace .= 'Cookies.set("message_' . $message['id'] . '", "true", { expires: ' . $message['cookie'] . '});';
 				$to_replace .= '});';*/
 				$to_replace .= '</script>';
-				
+
 				$to_replace .= '</body>';
 
 				$html = str_replace("</body>", $to_replace, $html);
 
 				JResponse::setBody($html);
-				
-				
+
+
 			}
 		}
 	}
