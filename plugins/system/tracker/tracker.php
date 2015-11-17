@@ -532,8 +532,8 @@ class PlgSystemTracker extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			//dump($e->getMessage(),JText::_('PLG_TRACKER_COM_JOOMMARK_ERROR_SAVING_SEARCHWORD'));
 			JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 			// Todo special exeption handling
 		}
 		return true;
