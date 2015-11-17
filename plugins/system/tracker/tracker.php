@@ -110,8 +110,8 @@ class PlgSystemTracker extends JPlugin
 			$this->platform = $browser_data->getPlatform();
 			$this->is_mobile = $browser_data->isMobile();
 			$this->is_robot = $browser_data->isRobot();
-			$this->uri = $_SERVER['REQUEST_URI'];
-			$this->ip = $_SERVER['REMOTE_ADDR'];
+			$this->uri = JRequest::getVar('REQUEST_URI', ' ', 'server','STRING');
+			$this->ip = JRequest::getVar('REMOTE_ADDR', ' ', 'server','STRING');
 		}
 		else
 		{
@@ -163,7 +163,7 @@ class PlgSystemTracker extends JPlugin
 
 		if (stripos($baseCurrentPage, $hostReferral) === 0 && !empty($hostReferral))
 		{
-			return true;
+			//return true;
 		}
 		else
 		{
