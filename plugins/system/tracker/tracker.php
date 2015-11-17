@@ -1,9 +1,10 @@
 <?php
-
-/*
- * @ author Jose A. Luque
- * @ Copyright (c) 2011 - Jose A. Luque
- * @license GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  User.joomla
+ *
+ * @copyright   Copyright (c) 2015 - Jose A. Luque.
+ * @license     GNU General Public License version 2 or later http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined('_JEXEC') or die('Restricted access');
 
@@ -13,9 +14,13 @@ if (!class_exists('BrowserDetection'))
 	include_once JPATH_ADMINISTRATOR . '/components/com_joommark/helpers/BrowserDetection.php';
 }
 
-class plgSystemTracker extends JPlugin
+/**
+ * Joommark Tracker Plugin
+ *
+ * @since  3.0
+ */
+class PlgSystemTracker extends JPlugin
 {
-
 	/**
 	 * Database reference
 	 *
@@ -47,11 +52,21 @@ class plgSystemTracker extends JPlugin
 	 * @var Object
 	 */
 	protected $session;
+
 	protected $media_path = "media/com_joommark";
-	
-	function plgSystemTracker(&$subject, $config)
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   3.0
+	 */
+	public function __construct(&$subject, $config = array())
 	{
-		
 		parent::__construct($subject, $config);
 
 		/* Load the language of the component */
@@ -63,25 +78,31 @@ class plgSystemTracker extends JPlugin
 		$this->user = JFactory::getUser();
 		$this->params = JComponentHelper::getParams('com_joommark');
 
-
-
 		/* Load the auxiliary methods */
 		require_once JPATH_ADMINISTRATOR . '/components/com_joommark/helpers/database.php';
 	}
 
-	function onAfterInitialise()
+	/**
+	 * onAfterInitialise
+	 *
+	 * @return Exception object otherwise boolean true
+	 *
+	 * @since   3.0
+	 */
+	public function onAfterInitialise()
 	{
-
 		// We store only front-end visits
 		if ($this->app->getName() !== 'site')
 		{
 			return;
 		}
 
+		/*
+		 * Collecting the data
+		 * Extract info from BrowserDetection
+		 */
+		$browser_data = new BrowserDetection;
 
-		// Collecting the data
-		// Extract info from BrowserDetection
-		$browser_data = new BrowserDetection();
 		if (!empty($browser_data))
 		{
 			$this->browser = $browser_data->getBrowser();
@@ -89,9 +110,10 @@ class plgSystemTracker extends JPlugin
 			$this->platform = $browser_data->getPlatform();
 			$this->is_mobile = $browser_data->isMobile();
 			$this->is_robot = $browser_data->isRobot();
-			$this->uri = $_SERVER['REQUEST_URI'];
-			$this->ip = $_SERVER['REMOTE_ADDR'];
-		} else
+			$this->uri = JRequest::getVar('REQUEST_URI', ' ', 'server', 'STRING');
+			$this->ip = JRequest::getVar('REMOTE_ADDR', ' ', 'server', 'STRING');
+		}
+		else
 		{
 			$this->browser = JText::_('COM_JOOMMARK_UNKNOW');
 			$this->browser_version = JText::_('COM_JOOMMARK_UNKNOW');
@@ -102,18 +124,18 @@ class plgSystemTracker extends JPlugin
 
 		// Get the user id
 		$this->userId = $this->user->id;
+
 		if (!$this->userName)
 		{
-			//todo we have to think about this - perhaps we can use a random username
+			// Todo we have to think about this - perhaps we can use a random username
 			$this->userName = 'guest';
 			$this->userId = 0;
 		}
 
-		// update
+		// Update
 		$this->updateReferer();
 		$this->updateServerstats();
 		$this->updateStats();
-		
 	}
 
 	/**
@@ -124,33 +146,37 @@ class plgSystemTracker extends JPlugin
 	 */
 	protected function updateReferer()
 	{
-
-		//Collecting the data
-
-		if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != "")
+		// Collecting the data
+		if (isset(JRequest::getVar('HTTP_REFERER')) && JRequest::getVar('HTTP_REFERER') != "")
 		{
-			$this->referer = trim($_SERVER['HTTP_REFERER']);
-		} else
+			$this->referer = trim(JRequest::getVar('HTTP_REFERER'));
+		}
+		else
 		{
 			$this->referer = JText::_('COM_JOOMMARK_UNKNOW');
 		}
 
-
-		// Are the referrer external 
+		// Are the referrer external
 		$uriReferral = JUri::getInstance($this->referer);
 		$hostReferral = $uriReferral->toString(array('scheme', 'host', 'port'));
 		$uriCurrentpage = JUri::getInstance();
 		$baseCurrentPage = $uriCurrentpage->base();
+
 		if (stripos($baseCurrentPage, $hostReferral) === 0 && !empty($hostReferral))
 		{
-			return true;
-		} else
+			/*
+			 * return true;
+			 */
+		}
+		else
 		{
-			//todo do we need our own (internal) referes
+			/*
+			 * do we need our own intern refers;
+			 */
 		}
 
 		// Create and populate an object.
-		$RefererObject = new stdClass();
+		$RefererObject = new stdClass;
 		$RefererObject->referral = $this->referer;
 		$RefererObject->record_date = date("Y-m-d");
 		$RefererObject->ip = $this->ip;
@@ -158,13 +184,18 @@ class plgSystemTracker extends JPlugin
 		try
 		{
 			// Insert the object into the #__joommark_referral table.
-			$result = JFactory::getDbo()->insertObject('#__joommark_referral', $RefererObject);
-		} catch (Exception $e)
+			JFactory::getDbo()->insertObject('#__joommark_referral', $RefererObject);
+		}
+		catch (Exception $e)
 		{
-			//todo exception handling
-			//JFactory::getApplication()->enqueueMessage('Your Message', 'error');
-			//JLog::add(JText::_('JTEXT_ERROR_MESSAGE'), JLog::WARNING, 'jerror');
-			//dump($e->getMessage(),"exception");
+			/*
+			 *  Todo exception handling
+			 *  JFactory::getApplication()->enqueueMessage('Your Message', 'error');
+			 *  JLog::add(JText::_('JTEXT_ERROR_MESSAGE'), JLog::WARNING, 'jerror');
+			 *  Dump($e->getMessage(),"exception");
+			 */
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 		}
 	}
 
@@ -176,18 +207,18 @@ class plgSystemTracker extends JPlugin
 	 */
 	protected function updateServerstats()
 	{
-
-		//Url is not set, because onafterroute is not yet ready  
+		// Url is not set, because onafterroute is not yet ready
 		if ($this->app->input->post->getString('nowpage', null) === null)
 		{
-			//return;
-		} else
+			// Return;
+		}
+		else
 		{
-			//do we have to do something special here?
+			// Do we have to do something special here?
 		}
 
 		// Create and populate an object.
-		$ServerstatsObject = new stdClass();
+		$ServerstatsObject = new stdClass;
 		$ServerstatsObject->session_id = $this->session->getId();
 		$ServerstatsObject->user_id_person = $this->userId;
 		$ServerstatsObject->customer_name = $this->userName;
@@ -213,10 +244,12 @@ class plgSystemTracker extends JPlugin
 			// Set the query and execute
 			$this->db->setQuery($query);
 			$exists = (bool) $this->db->loadResult();
+
 			if ($this->db->getErrorNum())
 			{
-				//todo 
-				//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_EXISTING_SERVERSTAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+				// Todo
+				throw new Exception(
+					JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
 			// Insert the object into the #__joommark_serverstats table. Otherwise update the time tracker
@@ -224,24 +257,34 @@ class plgSystemTracker extends JPlugin
 			{
 				// The record not exists, so insert a new record, it is the first time that in this session this visitor visits this page
 				$result = JFactory::getDbo()->insertObject('#__joommark_serverstats', $ServerstatsObject);
+
 				if ($this->db->getErrorNum())
 				{
-					//todo 
-					//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_SERVERSTAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+					/* Todo
+					 * Throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_SERVERSTAT',
+					 * $this->db->getErrorMsg()), 'error', 'Server stats');
+					 *
+					 */
+					throw new Exception(
+						JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
-			} else
+			}
+			else
 			{
 				// In the case, that the user logged in the meantime, we have to update the username!
-				$ServerstatsObjectOnlyName = new stdClass ();
+				$ServerstatsObjectOnlyName = new stdClass;
 				$ServerstatsObjectOnlyName->session_id = $this->session->getId();
 				$ServerstatsObjectOnlyName->customer_name = $this->userName;
 				$ServerstatsObjectOnlyName->user_id_person = $this->userId;
 				$result = $this->db->updateObject('#__joommark_serverstats', $ServerstatsObjectOnlyName, 'session_id');
 			}
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
-			//dump($e->getMessage(),"exception");
-			//todo special exeption handling ...
+			// Dump($e->getMessage(),"exception");
+			// Todo special exeption handling ...
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 		}
 		return true;
 	}
@@ -255,7 +298,7 @@ class plgSystemTracker extends JPlugin
 	protected function updateStats()
 	{
 		// Create and populate an object.
-		$StatsObject = new stdClass();
+		$StatsObject = new stdClass;
 		$StatsObject->session_id_person = $this->session->getId();
 		$StatsObject->nowpage = urldecode($this->app->input->post->getString('nowpage', null));
 		$StatsObject->lastupdate_time = time();
@@ -272,10 +315,12 @@ class plgSystemTracker extends JPlugin
 			// Set the query and execute
 			$this->db->setQuery($query);
 			$exists = (bool) $this->db->loadResult();
+
 			if ($this->db->getErrorNum())
 			{
-				//todo 
-				//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_EXISTING_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+				// Todo
+				throw new Exception(
+					JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
 			// Insert the object into the #__joommark_serverstats table. Otherwise update the time tracker
@@ -283,63 +328,73 @@ class plgSystemTracker extends JPlugin
 			{
 				// Insert the object into the #__joommark_stats table.
 				$result = JFactory::getDbo()->insertObject('#__joommark_stats', $StatsObject);
+
 				if ($this->db->getErrorNum())
 				{
-					//todo 
-					//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+					// Todo
+					throw new Exception(
+						JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
-			} else
+			}
+			else
 			{
 				// In the case, that the session exists we have to update nowpage and lastupdate_time!
-				//Todo or have we do this only on afterroute?
-				$StatsObjectOnlyName = new stdClass ();
+				// Todo or have we do this only on afterroute?
+				$StatsObjectOnlyName = new stdClass;
 				$StatsObjectOnlyName->session_id_person = $this->session->getId();
 				$StatsObjectOnlyName->lastupdate_time = time();
 				$StatsObjectOnlyName->nowpage = urldecode($this->app->input->post->getString('nowpage', null));
 				$StatsObjectOnlyName->current_name = $this->userName;
 				$result = $this->db->updateObject('#__joommark_stats', $StatsObjectOnlyName, 'session_id_person');
 			}
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
-			//dump($e->getMessage(),"exception");
-			//todo special exeption handling
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
+
+			// Todo special exeption handling
 		}
 		return true;
 	}
 
-
-	function onAfterRoute()
+	/**
+	 * onAfterRoute
+	 *
+	 * @return Exception object otherwise boolean true
+	 *
+	 * @since   3.0
+	 */
+	public function onAfterRoute()
 	{
-		
 		$this->app->input->post->set('nowpage', JUri::getInstance()->current());
-		
+
 		// Shows pop-up only to front-end visits
 		if ($this->app->getName() == 'site')
 		{
-						
-			$doc =& JFactory::getDocument();
+			$doc = JFactory::getDocument();
 			JHTML::_('behavior.modal');
 			JHtml::_('jquery.framework');
 			$doc->addScript($this->media_path . '/javascript/messages.js');
-			
+
 			$doc->addScript($this->media_path . '/javascript/js.cookie.js');
 			$doc->addScript($this->media_path . '/javascript/JoommarkSetTimeout.js');
+			JHtml::script('com_joommark/javascript/JoommarkSetTimeout.js', false, true);
+
 			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarkStyles.css');
-			$doc->addStyleSheet('/templates/protostar/css/template.css');				
-		
+			$doc->addStyleSheet('/templates/protostar/css/template.css');
 		}
 	}
+
 	/**
-	 * onBeforeDispatch handler
+	 * onAfterDispatch
 	 *
 	 * Main plugin hook
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function onAfterDispatch()
+	public function onAfterDispatch()
 	{
-
 		// Shows pop-up only to front-end visits
 		if ($this->app->getName() == 'site')
 		{
@@ -349,41 +404,56 @@ class plgSystemTracker extends JPlugin
 		}
 	}
 
+	/**
+	 * onAfterRender
+	 *
+	 * Main plugin hook
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function onAfterRender()
 	{
-		
 		// Shows pop-up only to front-end visits
 		if ($this->app->getName() == 'site')
 		{
-			// only in html and feeds
+			// Only in html and feeds
 			if (JFactory::getDocument()->getType() !== 'html' && JFactory::getDocument()->getType() !== 'feed')
 			{
 				return;
 			}
-			
-			// Get active menu id 
+
+			// Get active menu id or default page
+			$menuDefault = $this->app->getMenu()->getDefault();
 			$menuActive = $this->app->getMenu()->getActive();
-			if ($menuActive) { 
+
+			if ($menuActive)
+			{
 				$menuid = $menuActive->id;
 			}
-			
-			// We need the MessagesHelper class to retrieve message info 
-			JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR.'/components/com_joommark/helpers/messages.php');
-						
-			// Get message using the menuid and user view levels 
+			else
+			{
+				$menuid = $menuDefault->id;
+			}
+
+			// We need the MessagesHelper class to retrieve message info
+			JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_joommark/helpers/messages.php');
+
+			// Get message using the menuid and user view levels
 			$message = MessagesHelper::getMessageInfo($menuid, $this->user->getAuthorisedViewLevels());
-						
-			// There is a message to show in this menu 
-			if ( !empty($message['message']) ) {
+
+			// There is a message to show in this menu
+			if (!empty($message['message']))
+			{
 				$html = JResponse::getBody();
+
 				if ($html == '')
 				{
 					return;
 				}
 
-			
-				$to_replace = '<div class="modal fade joommark-percentage" id="Joommark_modal" data-percentage="'  . $message['percentage'] . '">' . PHP_EOL;
-				$to_replace .= '<div class="modal-header joommark-id" data-id="'  . $message['id'] . '">' . PHP_EOL;
+				$to_replace = '<div class="modal fade joommark-percentage" id="Joommark_modal" data-percentage="' . $message['percentage'] . '">' . PHP_EOL;
+				$to_replace .= '<div class="modal-header joommark-id" data-id="' . $message['id'] . '">' . PHP_EOL;
 				$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
 				$to_replace .= '<h3>' . $message['title'] . '</h3>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
@@ -391,29 +461,93 @@ class plgSystemTracker extends JPlugin
 				$to_replace .= '<p>' . $message['message'] . '</p>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 				$to_replace .= '<div class="modal-footer">' . PHP_EOL;
-				//$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="close_button" data-toggle="modal">' . JText::_( 'COM_JOOMMARK_CLOSE' ) .'</a>' . PHP_EOL;
-				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="not_show_button" data-toggle="modal">' . JText::_( 'COM_JOOMARK_DONT_SHOW' ) .'</a>' . PHP_EOL;
+
+				/* $to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="close_button"
+				  data-toggle="modal">' . JText::_( 'COM_JOOMMARK_CLOSE' ) .'</a>' . PHP_EOL; */
+				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="not_show_button" '
+						. 'data-toggle="modal">' . JText::_('COM_JOOMARK_DONT_SHOW') . '</a>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
-				
+
 				$to_replace .= '<script type="text/javascript">';
 				$to_replace .= "jQuery('#not_show_button').on('click', function(event) {";
-				$to_replace .= 'Cookies.set("joommark_message_' . $message['id'] . '", "all", { expires: ' . $message['cookie'] . '});';				
+				$to_replace .= 'Cookies.set("joommark_message_' . $message['id'] . '", "all", { expires: ' . $message['cookie'] . '});';
 				$to_replace .= '});';
-				/*$to_replace .= "jQuery('#close_button').on('click', function(event) {";
-				$to_replace .= 'Cookies.set("message_' . $message['id'] . '", "true", { expires: ' . $message['cookie'] . '});';				
-				$to_replace .= '});';*/
+				/* $to_replace .= "jQuery('#close_button').on('click', function(event) {";
+				  $to_replace .= 'Cookies.set("message_' . $message['id'] . '", "true", { expires: ' . $message['cookie'] . '});';
+				  $to_replace .= '});'; */
 				$to_replace .= '</script>';
-				
+
 				$to_replace .= '</body>';
 
 				$html = str_replace("</body>", $to_replace, $html);
 
 				JResponse::setBody($html);
-				
-				
 			}
 		}
 	}
 
+	/**
+	 * OnContentSearch
+	 *
+	 * @param   string  $text  Target search string.
+	 *
+	 * @return  array  Search results.
+	 *
+	 * @since   3.0
+	 */
+	public function onContentSearch($text)
+	{
+		// Exclude always for backend
+		if ($this->app->getName() == 'admin')
+		{
+			return false;
+		}
+
+		$doc = JFactory::getDocument();
+
+		if ($doc->getType() !== 'html')
+		{
+			return false;
+		}
+
+		// Discard other params and take only text keywords
+		if (trim($text))
+		{
+			$this->saveSearchword(trim($text));
+
+			// TODOReturn notifications/Exception if called from this plugin
+		}
+	}
+
+	/**
+	 * Set text searched by users in frontent,
+	 * TODO both for old search and com_finder smart search?
+	 *
+	 * @param   string  $text  The phrase searched keyword to store/increment
+	 *
+	 * @access   protected
+	 * @return   mixed  If some exceptions occur return an Exception object otherwise boolean true
+	 */
+	protected function saveSearchword($text)
+	{
+		// Create and populate an object.
+		$SearchObject = new stdClass;
+		$SearchObject->user_id_person = $this->userId;
+		$SearchObject->record_date = date("Y-m-d");
+		$SearchObject->searchword = $text;
+
+		try
+		{
+			// Insert the object into the #__joommark_stats table.
+			JFactory::getDbo()->insertObject('#__joommark_searches', $SearchObject);
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
+
+			// Todo special exeption handling
+		}
+		return true;
+	}
 }
