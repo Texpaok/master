@@ -8,7 +8,7 @@
     <copyright>Copyright www.protegetuordenador.com</copyright>
     <license>GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html</license>
     <version>1.0.0</version>
-    <description>Joommark</description> 
+    <description>Joommark</description>
 
     <!-- Runs on install/uninstall/update; New in 1.6 -->
     <scriptfile>install.php</scriptfile>
@@ -49,6 +49,7 @@
             <filename>joommark.php</filename>
             <filename>config.xml</filename>
             <filename>access.xml</filename>
+            <filename>controller.php</filename>
             <folder>controllers</folder>
             <folder>language</folder>
             <folder>library</folder>
@@ -65,14 +66,14 @@
             <language tag="es-ES">language/es-ES/es-ES.com_joommark.ini</language>
             <language tag="es-ES">language/es-ES/es-ES.com_joommark.sys.ini</language>
             <language tag="de-DE">language/de-DE/de-DE.com_joommark.ini</language>
-            <language tag="de-DE">language/de-DE/de-DE.com_joommark.sys.ini</language>	
+            <language tag="de-DE">language/de-DE/de-DE.com_joommark.sys.ini</language>
         </languages>
     </administration>
 
     <plugins>
-        <plugin folder="plugins/system" plugin="tracker" name="System - Tracker" group="system" />	  
+        <plugin folder="plugins/system" plugin="tracker" name="System - Tracker" group="system" />
     </plugins>
-	
+
     <updateservers>
         <server type="extension" priority="1" name="Joommark Update Site"><![CDATA[http://securitycheck.protegetuordenador.com/update/updates_joommark.xml]]></server>
     </updateservers>

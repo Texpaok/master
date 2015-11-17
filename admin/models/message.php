@@ -9,10 +9,10 @@
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
- 
+
 // import Joomla modelform library
 jimport('joomla.application.component.modeladmin');
- 
+
 /**
  * Item Model
  */
@@ -27,7 +27,7 @@ class JoommarkModelMessage extends JModelAdmin
      * @return      JTable  A database object
      * @since       2.5
      */
-    public function getTable($type = 'Message', $prefix = 'JoommarkTable', $config = array()) 
+    public function getTable($type = 'Message', $prefix = 'JoommarkTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);
     }
@@ -40,11 +40,11 @@ class JoommarkModelMessage extends JModelAdmin
      * @return      mixed   A JForm object on success, false on failure
      * @since       2.5
      */
-    public function getForm($data = array(), $loadData = true) 
+    public function getForm($data = array(), $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm('com_joommark.message', 'message', array('control' => 'jform', 'load_data' => $loadData));
-        if (empty($form)) 
+        if (empty($form))
         {
             return false;
         }
@@ -57,37 +57,43 @@ class JoommarkModelMessage extends JModelAdmin
      * @return      mixed   The data for the form.
      * @since       2.5
      */
-    protected function loadFormData() 
+    protected function loadFormData()
     {
         // Check the session for previously entered form data.
         $data = JFactory::getApplication()->getUserState('com_joommark.edit.message.data', array());
 
-        if (empty($data)) 
+        if (empty($data))
         {
-            $data = $this->getItem();			
+            $data = $this->getItem();
 			$isNew = (!$data->id) ? true : false;
 
             if (!$isNew) {
                 /* Fetch Menu Items */
                 if ($data->id) {
-					// Extract the array of menuitems, previously json_encoded					
-					$menus = json_decode($data->menuitems);
-					
+					// Extract the array of menuitems, previously json_encoded
+					$menus = array();
+
+					if (!empty($data->menuitems))
+					{
+						$menus = json_decode($data->menuitems);
+					}
+
+
 					 /* Check if box is assigned to all pages */
-					if (in_array("-1", $menus)) {
+					if (!empty($menus) && in_array("-1", $menus)) {
 						$data->allmenus = true;
 					}
-					
+
 					// Assign menuitems
 					$data->menuitems = $menus;
-				  
+
                 }
 			}
-            
+
         }
         return $data;
     }
-	
+
 	/**
      * Method to save the form data.
      *
@@ -101,23 +107,23 @@ class JoommarkModelMessage extends JModelAdmin
     {
 		// Check if the menú must be showed to all pages
 		$AllMenus = ($data["allmenus"] == "1") ? true : false;
-		
+
 		if ( $AllMenus ) {
 			$data["menuitems"] = array();
 			array_push($data["menuitems"],"-1");
 		}
-				
+
 		// Json_encode menuitems
 		$data["menuitems"] = json_encode($data["menuitems"]);
-		
-				 
+
+
 		 if (parent::save($data))
         {
             return true;
-        }  
+        }
 	}
 
-    
+
 
 }
 
