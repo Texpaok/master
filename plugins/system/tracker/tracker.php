@@ -147,7 +147,7 @@ class PlgSystemTracker extends JPlugin
 	protected function updateReferer()
 	{
 		// Collecting the data
-		if (isset(JRequest::getVar('HTTP_REFERER')) && JRequest::getVar('HTTP_REFERER') != "")
+		if (JRequest::getVar('HTTP_REFERER', ' ', 'server', 'STRING' ) != ' ')
 		{
 			$this->referer = trim(JRequest::getVar('HTTP_REFERER'));
 		}
