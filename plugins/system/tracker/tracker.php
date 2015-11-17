@@ -6,7 +6,6 @@
  * @copyright   Copyright (c) 2015 - Jose A. Luque.
  * @license     GNU General Public License version 2 or later http://www.gnu.org/licenses/gpl-2.0.html
  */
-
 defined('_JEXEC') or die('Restricted access');
 
 // We need the BrowserDetection class; if it's not loaded, we load it
@@ -449,7 +448,7 @@ class PlgSystemTracker extends JPlugin
 				$to_replace .= '<div class="modal-footer">' . PHP_EOL;
 
 				/* $to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="close_button"
-				 data-toggle="modal">' . JText::_( 'COM_JOOMMARK_CLOSE' ) .'</a>' . PHP_EOL; */
+				  data-toggle="modal">' . JText::_( 'COM_JOOMMARK_CLOSE' ) .'</a>' . PHP_EOL; */
 				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="not_show_button" '
 						. 'data-toggle="modal">' . JText::_('COM_JOOMARK_DONT_SHOW') . '</a>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
@@ -475,8 +474,6 @@ class PlgSystemTracker extends JPlugin
 
 	/**
 	 * OnContentSearch
-	 * The SQL must return the following fields that are used in a common display
-	 * routine: href, title, section, created, text, browsernav.
 	 *
 	 * @param   string  $text      Target search string.
 	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
@@ -485,7 +482,7 @@ class PlgSystemTracker extends JPlugin
 	 *
 	 * @return  array  Search results.
 	 *
-	 * @since   1.6
+	 * @since   3.0
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
@@ -497,7 +494,7 @@ class PlgSystemTracker extends JPlugin
 
 		$doc = JFactory::getDocument();
 
-		if ($doc->getType() !== 'html' || $this->app->input->getCmd('tmpl') === 'component')
+		if ($doc->getType() !== 'html')
 		{
 			return false;
 		}
@@ -505,11 +502,40 @@ class PlgSystemTracker extends JPlugin
 		// Discard other params and take only text keywords
 		if (trim($text))
 		{
-			// SQL Statement
-			$test = trim($text);
-			echo $test;
+			$this->saveSearchword(trim($text));
 
 			// TODOReturn notifications/Exception if called from this plugin
 		}
+	}
+
+	/**
+	 * Set text searched by users in frontent,
+	 * TODO both for old search and com_finder smart search?
+	 *
+	 * @param   string  $text  The phrase searched keyword to store/increment
+	 *
+	 * @access   protected
+	 * @return   mixed  If some exceptions occur return an Exception object otherwise boolean true
+	 */
+	protected function saveSearchword($text)
+	{
+		// Create and populate an object.
+		$SearchObject = new stdClass;
+		$SearchObject->user_id_person = $this->userId;
+		$SearchObject->record_date = date("Y-m-d");
+		$SearchObject->searchword = $text;
+
+		try
+		{
+			// Insert the object into the #__joommark_stats table.
+			$result = JFactory::getDbo()->insertObject('#__joommark_searches', $SearchObject);
+		}
+		catch (Exception $e)
+		{
+			//dump($e->getMessage(),JText::_('PLG_TRACKER_COM_JOOMMARK_ERROR_SAVING_SEARCHWORD'));
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
+			// Todo special exeption handling
+		}
+		return true;
 	}
 }
