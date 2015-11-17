@@ -1,5 +1,4 @@
 <?php
-
 /*
  * @ author Jose A. Luque
  * @ Copyright (c) 2011 - Jose A. Luque
@@ -12,7 +11,6 @@ if (!class_exists('BrowserDetection'))
 {
 	include_once JPATH_ADMINISTRATOR . '/components/com_joommark/helpers/BrowserDetection.php';
 }
-
 class plgSystemTracker extends JPlugin
 {
 
@@ -47,6 +45,7 @@ class plgSystemTracker extends JPlugin
 	 * @var Object
 	 */
 	protected $session;
+
 	protected $media_path = "media/com_joommark";
 
 	function plgSystemTracker(&$subject, $config)
@@ -91,7 +90,8 @@ class plgSystemTracker extends JPlugin
 			$this->is_robot = $browser_data->isRobot();
 			$this->uri = $_SERVER['REQUEST_URI'];
 			$this->ip = $_SERVER['REMOTE_ADDR'];
-		} else
+		}
+		else
 		{
 			$this->browser = JText::_('COM_JOOMMARK_UNKNOW');
 			$this->browser_version = JText::_('COM_JOOMMARK_UNKNOW');
@@ -113,7 +113,6 @@ class plgSystemTracker extends JPlugin
 		$this->updateReferer();
 		$this->updateServerstats();
 		$this->updateStats();
-
 	}
 
 	/**
@@ -130,7 +129,8 @@ class plgSystemTracker extends JPlugin
 		if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != "")
 		{
 			$this->referer = trim($_SERVER['HTTP_REFERER']);
-		} else
+		}
+		else
 		{
 			$this->referer = JText::_('COM_JOOMMARK_UNKNOW');
 		}
@@ -144,7 +144,8 @@ class plgSystemTracker extends JPlugin
 		if (stripos($baseCurrentPage, $hostReferral) === 0 && !empty($hostReferral))
 		{
 			return true;
-		} else
+		}
+		else
 		{
 			//todo do we need our own (internal) referes
 		}
@@ -159,7 +160,8 @@ class plgSystemTracker extends JPlugin
 		{
 			// Insert the object into the #__joommark_referral table.
 			$result = JFactory::getDbo()->insertObject('#__joommark_referral', $RefererObject);
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			//todo exception handling
 			//JFactory::getApplication()->enqueueMessage('Your Message', 'error');
@@ -181,7 +183,8 @@ class plgSystemTracker extends JPlugin
 		if ($this->app->input->post->getString('nowpage', null) === null)
 		{
 			//return;
-		} else
+		}
+		else
 		{
 			//do we have to do something special here?
 		}
@@ -229,7 +232,8 @@ class plgSystemTracker extends JPlugin
 					//todo
 					//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_SERVERSTAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
-			} else
+			}
+			else
 			{
 				// In the case, that the user logged in the meantime, we have to update the username!
 				$ServerstatsObjectOnlyName = new stdClass ();
@@ -238,7 +242,8 @@ class plgSystemTracker extends JPlugin
 				$ServerstatsObjectOnlyName->user_id_person = $this->userId;
 				$result = $this->db->updateObject('#__joommark_serverstats', $ServerstatsObjectOnlyName, 'session_id');
 			}
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			//dump($e->getMessage(),"exception");
 			//todo special exeption handling ...
@@ -288,7 +293,8 @@ class plgSystemTracker extends JPlugin
 					//todo
 					//throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
-			} else
+			}
+			else
 			{
 				// In the case, that the session exists we have to update nowpage and lastupdate_time!
 				//Todo or have we do this only on afterroute?
@@ -299,14 +305,14 @@ class plgSystemTracker extends JPlugin
 				$StatsObjectOnlyName->current_name = $this->userName;
 				$result = $this->db->updateObject('#__joommark_stats', $StatsObjectOnlyName, 'session_id_person');
 			}
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			//dump($e->getMessage(),"exception");
 			//todo special exeption handling
 		}
 		return true;
 	}
-
 
 	function onAfterRoute()
 	{
@@ -329,9 +335,9 @@ class plgSystemTracker extends JPlugin
 
 			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarkStyles.css');
 			$doc->addStyleSheet('/templates/protostar/css/template.css');
-
 		}
 	}
+
 	/**
 	 * onBeforeDispatch handler
 	 *
@@ -364,20 +370,28 @@ class plgSystemTracker extends JPlugin
 				return;
 			}
 
-			// Get active menu id
+			// Get active menu id or default page
+			$menuDefault = $this->app->getMenu()->getDefault();
 			$menuActive = $this->app->getMenu()->getActive();
-			if ($menuActive) {
+			if ($menuActive)
+			{
 				$menuid = $menuActive->id;
 			}
+			else
+			{
+				$menuid = $menuDefault->id;
+			}
+
 
 			// We need the MessagesHelper class to retrieve message info
-			JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR.'/components/com_joommark/helpers/messages.php');
+			JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_joommark/helpers/messages.php');
 
 			// Get message using the menuid and user view levels
 			$message = MessagesHelper::getMessageInfo($menuid, $this->user->getAuthorisedViewLevels());
 
 			// There is a message to show in this menu
-			if ( !empty($message['message']) ) {
+			if (!empty($message['message']))
+			{
 				$html = JResponse::getBody();
 				if ($html == '')
 				{
@@ -385,8 +399,8 @@ class plgSystemTracker extends JPlugin
 				}
 
 
-				$to_replace = '<div class="modal fade joommark-percentage" id="Joommark_modal" data-percentage="'  . $message['percentage'] . '">' . PHP_EOL;
-				$to_replace .= '<div class="modal-header joommark-id" data-id="'  . $message['id'] . '">' . PHP_EOL;
+				$to_replace = '<div class="modal fade joommark-percentage" id="Joommark_modal" data-percentage="' . $message['percentage'] . '">' . PHP_EOL;
+				$to_replace .= '<div class="modal-header joommark-id" data-id="' . $message['id'] . '">' . PHP_EOL;
 				$to_replace .= '<a class="close" data-dismiss="modal">×</a>' . PHP_EOL;
 				$to_replace .= '<h3>' . $message['title'] . '</h3>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
@@ -395,7 +409,7 @@ class plgSystemTracker extends JPlugin
 				$to_replace .= '</div>' . PHP_EOL;
 				$to_replace .= '<div class="modal-footer">' . PHP_EOL;
 				//$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="close_button" data-toggle="modal">' . JText::_( 'COM_JOOMMARK_CLOSE' ) .'</a>' . PHP_EOL;
-				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="not_show_button" data-toggle="modal">' . JText::_( 'COM_JOOMARK_DONT_SHOW' ) .'</a>' . PHP_EOL;
+				$to_replace .= '<a href="#Joommark_modal" role="button" class="btn btn-primary" id="not_show_button" data-toggle="modal">' . JText::_('COM_JOOMARK_DONT_SHOW') . '</a>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 				$to_replace .= '</div>' . PHP_EOL;
 
@@ -403,9 +417,9 @@ class plgSystemTracker extends JPlugin
 				$to_replace .= "jQuery('#not_show_button').on('click', function(event) {";
 				$to_replace .= 'Cookies.set("joommark_message_' . $message['id'] . '", "all", { expires: ' . $message['cookie'] . '});';
 				$to_replace .= '});';
-				/*$to_replace .= "jQuery('#close_button').on('click', function(event) {";
-				$to_replace .= 'Cookies.set("message_' . $message['id'] . '", "true", { expires: ' . $message['cookie'] . '});';
-				$to_replace .= '});';*/
+				/* $to_replace .= "jQuery('#close_button').on('click', function(event) {";
+				  $to_replace .= 'Cookies.set("message_' . $message['id'] . '", "true", { expires: ' . $message['cookie'] . '});';
+				  $to_replace .= '});'; */
 				$to_replace .= '</script>';
 
 				$to_replace .= '</body>';
@@ -413,10 +427,46 @@ class plgSystemTracker extends JPlugin
 				$html = str_replace("</body>", $to_replace, $html);
 
 				JResponse::setBody($html);
-
-
 			}
 		}
 	}
 
+/**
+	 * Search content (articles).
+	 * The SQL must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav.
+	 *
+	 * @param   string  $text      Target search string.
+	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
+	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+	 * @param   mixed   $areas     An array if the search it to be restricted to areas or null to search all areas.
+	 *
+	 * @return  array  Search results.
+	 *
+	 * @since   1.6
+	 */
+	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
+	{
+		// Exclude always for backend
+		if ($this->app->getName() == 'admin')
+		{
+			return false;
+		}
+
+		$doc = JFactory::getDocument();
+
+		if ($doc->getType() !== 'html' || $this->app->input->getCmd('tmpl') === 'component')
+		{
+			return false;
+		}
+
+		// Discard other params and take only text keywords
+		if (trim($text))
+		{
+			//SQL Statement
+			$test=trim($text);
+			echo $test;
+			// TODOReturn notifications/Exception if called from this plugin
+		}
+	}
 }
