@@ -110,8 +110,8 @@ class PlgSystemTracker extends JPlugin
 			$this->platform = $browser_data->getPlatform();
 			$this->is_mobile = $browser_data->isMobile();
 			$this->is_robot = $browser_data->isRobot();
-			$this->uri = JRequest::getVar('REQUEST_URI', ' ', 'server','STRING');
-			$this->ip = JRequest::getVar('REMOTE_ADDR', ' ', 'server','STRING');
+			$this->uri = JRequest::getVar('REQUEST_URI', ' ', 'server', 'STRING');
+			$this->ip = JRequest::getVar('REMOTE_ADDR', ' ', 'server', 'STRING');
 		}
 		else
 		{
@@ -147,14 +147,15 @@ class PlgSystemTracker extends JPlugin
 	protected function updateReferer()
 	{
 		// Collecting the data
-		if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] != "")
+		if (isset(JRequest::getVar('HTTP_REFERER')) && JRequest::getVar('HTTP_REFERER') != "")
 		{
-			$this->referer = trim($_SERVER['HTTP_REFERER']);
+			$this->referer = trim(JRequest::getVar('HTTP_REFERER'));
 		}
 		else
 		{
 			$this->referer = JText::_('COM_JOOMMARK_UNKNOW');
 		}
+
 		// Are the referrer external
 		$uriReferral = JUri::getInstance($this->referer);
 		$hostReferral = $uriReferral->toString(array('scheme', 'host', 'port'));
@@ -163,11 +164,15 @@ class PlgSystemTracker extends JPlugin
 
 		if (stripos($baseCurrentPage, $hostReferral) === 0 && !empty($hostReferral))
 		{
-			//return true;
+			/*
+			 * return true;
+			 */
 		}
 		else
 		{
-			// Todo do we need our own (internal) referes
+			/*
+			 * do we need our own intern refers;
+			 */
 		}
 
 		// Create and populate an object.
@@ -179,7 +184,7 @@ class PlgSystemTracker extends JPlugin
 		try
 		{
 			// Insert the object into the #__joommark_referral table.
-			$result = JFactory::getDbo()->insertObject('#__joommark_referral', $RefererObject);
+			JFactory::getDbo()->insertObject('#__joommark_referral', $RefererObject);
 		}
 		catch (Exception $e)
 		{
@@ -189,6 +194,8 @@ class PlgSystemTracker extends JPlugin
 			 *  JLog::add(JText::_('JTEXT_ERROR_MESSAGE'), JLog::WARNING, 'jerror');
 			 *  Dump($e->getMessage(),"exception");
 			 */
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 		}
 	}
 
@@ -241,7 +248,8 @@ class PlgSystemTracker extends JPlugin
 			if ($this->db->getErrorNum())
 			{
 				// Todo
-				// Throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_EXISTING_SERVERSTAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+				throw new Exception(
+					JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
 			// Insert the object into the #__joommark_serverstats table. Otherwise update the time tracker
@@ -257,6 +265,8 @@ class PlgSystemTracker extends JPlugin
 					 * $this->db->getErrorMsg()), 'error', 'Server stats');
 					 *
 					 */
+					throw new Exception(
+						JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
 			}
 			else
@@ -273,6 +283,8 @@ class PlgSystemTracker extends JPlugin
 		{
 			// Dump($e->getMessage(),"exception");
 			// Todo special exeption handling ...
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 		}
 		return true;
 	}
@@ -307,7 +319,8 @@ class PlgSystemTracker extends JPlugin
 			if ($this->db->getErrorNum())
 			{
 				// Todo
-				// Tthrow new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_EXISTING_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+				throw new Exception(
+					JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
 			// Insert the object into the #__joommark_serverstats table. Otherwise update the time tracker
@@ -319,7 +332,8 @@ class PlgSystemTracker extends JPlugin
 				if ($this->db->getErrorNum())
 				{
 					// Todo
-					// Throw new Exception(JText::sprintf('COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+					throw new Exception(
+						JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
 			}
 			else
@@ -336,7 +350,8 @@ class PlgSystemTracker extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			// Dump($e->getMessage(),"exception");
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 			// Todo special exeption handling
 		}
 		return true;
@@ -475,16 +490,13 @@ class PlgSystemTracker extends JPlugin
 	/**
 	 * OnContentSearch
 	 *
-	 * @param   string  $text      Target search string.
-	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
-	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
-	 * @param   mixed   $areas     An array if the search it to be restricted to areas or null to search all areas.
+	 * @param   string  $text  Target search string.
 	 *
 	 * @return  array  Search results.
 	 *
 	 * @since   3.0
 	 */
-	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
+	public function onContentSearch($text)
 	{
 		// Exclude always for backend
 		if ($this->app->getName() == 'admin')
@@ -528,7 +540,7 @@ class PlgSystemTracker extends JPlugin
 		try
 		{
 			// Insert the object into the #__joommark_stats table.
-			$result = JFactory::getDbo()->insertObject('#__joommark_searches', $SearchObject);
+			JFactory::getDbo()->insertObject('#__joommark_searches', $SearchObject);
 		}
 		catch (Exception $e)
 		{
