@@ -87,8 +87,44 @@ JHTML::stylesheet($opa_icons);
 		</div>
 		</div>
 		
-		
+		<div class="box span6">
+			<div class="box-header well" data-original-title>
+				<i class="icon-home"></i><?php echo ' ' . JText::_('COM_JOOMMARK_STATS'); ?>
+			</div>
+			<div class="box-content">
+				
+				<div class="well span6 top-block">
+					<span class="sc-icon32 sc-icon-blue sc-icon-user"></span>
+
+					<div><?php echo JText::_( 'COM_JOOMMARK_TOTAL_VISITORS' ); ?></div>
+					<div><span class="label label-info"><?php echo "20"; ?></span></div>
+					
+				</div>		
+				
+				<div class="well span6 top-block">
+					<span class="sc-icon32 sc-icon-green sc-icon-document"></span>
+					<div><?php echo JText::_( 'COM_JOOMMARK_TOTAL_VISITED_PAGES' ); ?></div>
+					<div><span class="label label-info"><?php echo "342"; ?></span></div>				
+				</div>				
+				
+			</div>
+			<div class="box-content">
+				
+				<div class="well span6 top-block">
+					<span class="sc-icon32 sc-icon-red sc-icon-pin"></span>
+
+					<div><?php echo JText::_( 'COM_JOOMMARK_EVENTS' ); ?></div>
+					<div><span class="label label-info"><?php echo "20"; ?></span></div>
+					
+				</div>									
+				
+			</div>
+			
+		</div>		
 	</div>
+	
+	
+	
 </div>
 
 <input type="hidden" name="option" value="com_joommark" />
