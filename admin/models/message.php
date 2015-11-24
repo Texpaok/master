@@ -122,6 +122,37 @@ class JoommarkModelMessage extends JModelAdmin
             return true;
         }
 	}
+	
+	/* Function to get total visited pages by day */
+	public function total_visited_pages() {
+		
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query 
+			->select('COUNT(*)')
+			->from($db->quoteName('#__joommark_serverstats'))
+			->where('DATE(NOW()) = DATE(`visitdate`)');				
+		$db->setQuery($query);
+		$res = $db->loadResult();
+		
+		return $res;		
+	
+	}
+	
+	/* Function to get total visitors by day */
+	public function total_visitors() {
+		
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query 
+			->select('COUNT(DISTINCT session_id)')
+			->from($db->quoteName('#__joommark_serverstats'));				
+		$db->setQuery($query);
+		$res = $db->loadResult();
+		
+		return $res;		
+	
+	}
 
 
 

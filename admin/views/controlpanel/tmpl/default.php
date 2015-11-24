@@ -89,7 +89,7 @@ JHTML::stylesheet($opa_icons);
 		
 		<div class="box span6">
 			<div class="box-header well" data-original-title>
-				<i class="icon-home"></i><?php echo ' ' . JText::_('COM_JOOMMARK_STATS'); ?>
+				<i class="icon-home"></i><?php echo ' ' . JText::_('COM_JOOMMARK_STATS') . ' (' . DATE('Y-m-d') . ')'; ?>
 			</div>
 			<div class="box-content">
 				
@@ -97,14 +97,14 @@ JHTML::stylesheet($opa_icons);
 					<span class="sc-icon32 sc-icon-blue sc-icon-user"></span>
 
 					<div><?php echo JText::_( 'COM_JOOMMARK_TOTAL_VISITORS' ); ?></div>
-					<div><span class="label label-info"><?php echo "20"; ?></span></div>
+					<div><span class="label label-info"><?php echo $this->total_visitors; ?></span></div>
 					
 				</div>		
 				
 				<div class="well span6 top-block">
 					<span class="sc-icon32 sc-icon-green sc-icon-document"></span>
 					<div><?php echo JText::_( 'COM_JOOMMARK_TOTAL_VISITED_PAGES' ); ?></div>
-					<div><span class="label label-info"><?php echo "342"; ?></span></div>				
+					<div><span class="label label-info"><?php echo $this->visited_pages; ?></span></div>				
 				</div>				
 				
 			</div>
