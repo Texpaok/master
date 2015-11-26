@@ -13,6 +13,7 @@ if (!class_exists('BrowserDetection'))
 {
 	include_once JPATH_ADMINISTRATOR . '/components/com_joommark/helpers/BrowserDetection.php';
 }
+
 /**
  * Joommark Tracker Plugin
  *
@@ -20,7 +21,6 @@ if (!class_exists('BrowserDetection'))
  */
 class PlgSystemTracker extends JPlugin
 {
-
 	/**
 	 * Database reference
 	 *
@@ -155,13 +155,16 @@ class PlgSystemTracker extends JPlugin
 		}
 		else
 		{
-			// No Referer if
-			// - entered the site URL in browser address bar itself
-			// - visited the site by a browser-maintained bookmark.
-			// - visited the site as first page in the window/tab
-			// - switched from a https URL
-			// - has security software installed, or behind a proxi that strips the referrer
-			// - visited the site programmatically without setting the header
+			/* No Referer if
+			 *
+			 * - entered the site URL in browser address bar itself
+			 * - visited the site by a browser-maintained bookmark.
+			 * - visited the site as first page in the window/tab
+			 * - switched from a https URL
+			 * - has security software installed, or behind a proxi that strips the referrer
+			 * - visited the site programmatically without setting the header
+			 *
+			 */
 			$this->referer = JText::_('COM_JOOMMARK_UNKNOW');
 		}
 
@@ -177,7 +180,6 @@ class PlgSystemTracker extends JPlugin
 		}
 		else
 		{
-			//return true;
 			/*
 			 * do we need our own intern refers;
 			 */
@@ -303,7 +305,7 @@ class PlgSystemTracker extends JPlugin
 	 */
 	protected function tidyingup()
 	{
-		//ToDo nur einmal am Tag ausführen
+		// ToDo nur einmal am Tag ausführen
 		$gcenabled = $this->params->get('gcenabled', 0);
 		$expiredays = $this->params->get('gc_serverstats_period', 99);
 
@@ -336,6 +338,7 @@ class PlgSystemTracker extends JPlugin
 			catch (Exception $e)
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 				// Todo special exeption handling
 			}
 
@@ -359,6 +362,7 @@ class PlgSystemTracker extends JPlugin
 			catch (Exception $e)
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 				// Todo special exeption handling
 			}
 
@@ -382,6 +386,7 @@ class PlgSystemTracker extends JPlugin
 			catch (Exception $e)
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 				// Todo special exeption handling
 			}
 
@@ -405,6 +410,7 @@ class PlgSystemTracker extends JPlugin
 			catch (Exception $e)
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 				// Todo special exeption handling
 			}
 		}
