@@ -15,7 +15,7 @@ if (!class_exists('BrowserDetection'))
 }
 
 /**
- * Joommark Tracker Plugin
+ * Joommark Tracker Plugin 
  *
  * @since  1.0
  */
