@@ -71,7 +71,7 @@ class PlgSystemTracker extends JPlugin
 
 		/* Load the language of the component */
 		$lang = JFactory::getLanguage();
-		$lang->load('com_joommark', JPATH_ADMINISTRATOR);
+		$lang->load('plg_system_tracker', JPATH_ADMINISTRATOR);
 		$this->session = JFactory::getSession();
 		$this->db = JFactory::getDbo();
 		$this->app = JFactory::getApplication();
@@ -127,7 +127,6 @@ class PlgSystemTracker extends JPlugin
 
 		if (!$this->userName)
 		{
-			// Todo we have to think about this - perhaps we can use a random username
 			$this->userName = JText::_('COM_JOOMMARK_GUEST_PREFIX') . '_' . $this->generateSuffixFromSessionId($this->session->getId());
 			$this->userId = 0;
 		}
