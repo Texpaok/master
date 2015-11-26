@@ -17,18 +17,18 @@ class JoommarkViewControlPanel extends JViewLegacy
 	function display($tpl = NULL)
 	{
 		JToolBarHelper::title( JText::_( 'Joommark' ).' | ' .JText::_('COM_JOOMMARK_CONTROLPANEL'), 'joommark' );
-		
+
 		// Get an instance of the Message model
 		$model = JmodelLegacy::getInstance("message", "JoommarkModel");
-		
+
 		// Get the data
 		$visited_pages = $model->total_visited_pages();
 		$total_visitors = $model->total_visitors();
-		
+
 		// Put them available
 		$this->assignRef('visited_pages', $visited_pages);
 		$this->assignRef('total_visitors', $total_visitors);
-									
+
 		parent::display();
 	}
 }

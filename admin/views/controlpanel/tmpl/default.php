@@ -45,8 +45,8 @@ JHTML::stylesheet($opa_icons);
 <form action="<?php echo JRoute::_('index.php?option=com_joommark');?>" method="post" name="adminForm" id="adminForm">
 
 <div class="securitycheck-bootstrap">
-		
-	
+
+
 	<div class="row-fluid" id="cpanel">
 		<div class="box span6">
 			<div class="box-header well" data-original-title>
@@ -60,22 +60,29 @@ JHTML::stylesheet($opa_icons);
 					<div class="joommark-icon-visitors">&nbsp;</div>
 					<span><?php echo JText::_('COM_JOOMMARK_VISITORS'); ?></span>
 					</a>
-				</div>	
-				
+				</div>
+
 				<div class="icon">
 					<a href="<?php echo JRoute::_( 'index.php?option=com_joommark&controller=visitorsinfo&view=visitorsinfo&'. JSession::getFormToken() .'=1' );?>">
 					<div class="joommark-icon-visitors_info">&nbsp;</div>
 					<span><?php echo JText::_('COM_JOOMMARK_VISITORS_INFO'); ?></span>
 					</a>
 				</div>
-				
+
 				<div class="icon">
 					<a href="<?php echo JRoute::_( 'index.php?option=com_joommark&controller=messages&view=messages&'. JSession::getFormToken() .'=1' );?>">
 						<div class="joommark-icon-messages">&nbsp;</div>
 						<span><?php echo JText::_('COM_JOOMMARK_MESSAGES'); ?></span>
 					</a>
 				</div>
-				
+
+				<div class="icon">
+					<a href="<?php echo JRoute::_( 'index.php?option=com_joommark&controller=plans&view=plans&'. JSession::getFormToken() .'=1' );?>">
+						<div class="joommark-icon-plans">&nbsp;</div>
+						<span><?php echo JText::_('COM_JOOMMARK_PLANS'); ?></span>
+					</a>
+				</div>
+
 				<div class="icon">
 					<a href="index.php?option=com_config&view=component&component=com_joommark&path=&return=<?php echo base64_encode(JURI::getInstance()->toString()) ?>">
 					<div class="joommark-icon-configure">&nbsp;</div>
@@ -83,48 +90,48 @@ JHTML::stylesheet($opa_icons);
 				</a>
 			</div>
 			</fieldset>
-					
+
 		</div>
 		</div>
-		
+
 		<div class="box span6">
 			<div class="box-header well" data-original-title>
 				<i class="icon-home"></i><?php echo ' ' . JText::_('COM_JOOMMARK_STATS') . ' (' . DATE('Y-m-d') . ')'; ?>
 			</div>
 			<div class="box-content">
-				
+
 				<div class="well span6 top-block">
 					<span class="sc-icon32 sc-icon-blue sc-icon-user"></span>
 
 					<div><?php echo JText::_( 'COM_JOOMMARK_TOTAL_VISITORS' ); ?></div>
 					<div><span class="label label-info"><?php echo $this->total_visitors; ?></span></div>
-					
-				</div>		
-				
+
+				</div>
+
 				<div class="well span6 top-block">
 					<span class="sc-icon32 sc-icon-green sc-icon-document"></span>
 					<div><?php echo JText::_( 'COM_JOOMMARK_TOTAL_VISITED_PAGES' ); ?></div>
-					<div><span class="label label-info"><?php echo $this->visited_pages; ?></span></div>				
-				</div>				
-				
+					<div><span class="label label-info"><?php echo $this->visited_pages; ?></span></div>
+				</div>
+
 			</div>
 			<div class="box-content">
-				
+
 				<div class="well span6 top-block">
 					<span class="sc-icon32 sc-icon-red sc-icon-pin"></span>
 
 					<div><?php echo JText::_( 'COM_JOOMMARK_EVENTS' ); ?></div>
 					<div><span class="label label-info"><?php echo "20"; ?></span></div>
-					
-				</div>									
-				
+
+				</div>
+
 			</div>
-			
-		</div>		
+
+		</div>
 	</div>
-	
-	
-	
+
+
+
 </div>
 
 <input type="hidden" name="option" value="com_joommark" />
