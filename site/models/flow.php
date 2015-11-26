@@ -1,16 +1,20 @@
 <?php
-
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_jommark
+ *
+ * @copyright   Copyright (C) 2014-2015 Jose A. Luque and Astrid Günther. All rights reserved.
+ * @license     GNU General Public License version 2
+ */
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Flow model
- * 
- * @subpackage models
- * @since 3.0
+ * class Joommark Model Flow
+ *
+ * @since  1.0
  */
 class JoommarkModelFlow extends JModelLegacy
 {
-
 	/**
 	 * Session Object
 	 *
@@ -36,7 +40,7 @@ class JoommarkModelFlow extends JModelLegacy
 	private $config;
 
 	/**
-	 * Max lifetime 
+	 * Max lifetime
 	 *
 	 * @access private
 	 * @var int
@@ -44,7 +48,7 @@ class JoommarkModelFlow extends JModelLegacy
 	private $maxInactivityTime;
 
 	/**
-	 * Array 
+	 * Array
 	 *
 	 * @access private
 	 * @var array
@@ -60,7 +64,7 @@ class JoommarkModelFlow extends JModelLegacy
 	protected $componentParams;
 
 	/**
-	 * Execute 
+	 * Execute
 	 *
 	 * @access public
 	 * @return Object The response object to be encoded for JS app
@@ -68,12 +72,15 @@ class JoommarkModelFlow extends JModelLegacy
 	public function getData()
 	{
 		$initialize = $this->getState('initialize', false);
+
 		// Store server stats con dependency injected object
 		$userName = $this->myUser->name;
+
 		if (!$userName)
 		{
 			$userName = 'Guest';
 		}
+
 		$this->setState('username', $userName);
 		$this->setState('userid', $this->myUser->id);
 
@@ -93,9 +100,7 @@ class JoommarkModelFlow extends JModelLegacy
 	/**
 	 * Class constructor
 	 *
-	 * @access public
-	 * @param array $config        	
-	 * @return Object&
+	 * @param   array  $config  The config
 	 */
 	public function __construct($config = array())
 	{
@@ -112,15 +117,14 @@ class JoommarkModelFlow extends JModelLegacy
 		$this->cParams = $this->getComponentParams();
 
 		// Set max life time for valid session on Realtime display stats
-		$this->maxInactivityTime = '8'; //todo$this->cParams->get('maxlifetime_session', 8)?;
-
+		$this->maxInactivityTime = '8';
 
 		parent::__construct($config);
 	}
 
 	/**
 	 * Get the component params width view override/merge
-	 * @access public
+	 *
 	 * @return Object
 	 */
 	public function getComponentParams()
@@ -135,13 +139,12 @@ class JoommarkModelFlow extends JModelLegacy
 		$app = JFactory::getApplication();
 		$this->componentParams = $app->getParams('com_joommark');
 
-
 		return $this->componentParams;
 	}
 
 	/**
-	 * 
-	 * @access public
+	 * Save the seconds depending on the parameter
+	 *
 	 * @return Object
 	 */
 	public function saveSeconds()
@@ -151,28 +154,29 @@ class JoommarkModelFlow extends JModelLegacy
 			$this->session = JFactory::getSession();
 			$this->app = JFactory::getApplication();
 			$this->user = JFactory::getUser();
+
 			// Create a new query object.
 			$this->db = $this->getDbo();
-			
+
 			$this->input = new JInput;
- 
+
 			// Die $_POST Superglobale beziehen.
-					
-			$nowpage = urldecode($this->input->post->getString('nowpage', null));
+
+			$nowpage = str_replace(JUri::getInstance()->base(), '', urldecode($this->app->input->post->getString('nowpage', null)));
+
 			// Create a new query object.
 			$query = $this->db->getQuery(true);
 
 			// Fields to update.
 			$fields = array(
-				$this->db->quoteName('seconds') . ' = ' . '(' . $this->_db->quoteName('seconds') . ' + 1)' 
+				$this->db->quoteName('seconds') . ' = ' . '(' . $this->_db->quoteName('seconds') . ' + 1)'
 			);
 
 			// Conditions for which records should be updated.
 			$conditions = array(
 				$this->db->quoteName('session_id') . " like " . $this->db->quote($this->session->getId()),
 				$this->db->quoteName('visitdate') . " like " . $this->db->quote(date('Y-m-d')),
-				//$this->db->quoteName('visitedpage') . " like " . $this->db->quote(urldecode($this->app->input->post->getString('nowpage', null)))
-				$this->db->quoteName('visitedpage') . " like " . $this->db->quote(urldecode($this->input->post->getString('nowpage', null)))
+				$this->db->quoteName('visitedpage') . " like " . $this->db->quote($nowpage)
 			);
 
 			$query->update($this->db->quoteName('#__joommark_serverstats'))->set($fields)->where($conditions);
@@ -180,12 +184,11 @@ class JoommarkModelFlow extends JModelLegacy
 			$this->db->setQuery($query);
 
 			$result = $this->db->execute();
-
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
-			//dump($e->getMessage(),"exception");
-			//todo special exeption handling ...
+			// Dump($e->getMessage(),"exception");
+			// Todo special exeption handling ...
 		}
 	}
-
 }

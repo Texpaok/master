@@ -156,12 +156,13 @@ class PlgSystemTracker extends JPlugin
 
 		// Implode the digits
 		$SuffixFromSessionId = 0000;
+
 		if (is_array($matches [0]) && count($matches [0]))
 		{
 			$SuffixFromSessionId = (float) (implode('', $matches [0]));
 		}
 
-		//Take the first four digits
+		// Take the first four digits
 		$SuffixFromSessionId = substr($SuffixFromSessionId, 0, 4);
 
 		return $SuffixFromSessionId;
@@ -205,9 +206,7 @@ class PlgSystemTracker extends JPlugin
 		if (stripos($baseCurrentPage, $hostReferral) === 0 && !empty($hostReferral))
 		{
 			return true;
-		}
-		else
-		{
+
 			/*
 			 * do we need our own intern refers;
 			 */
@@ -261,7 +260,7 @@ class PlgSystemTracker extends JPlugin
 		$ServerstatsObject->customer_name = $this->userName;
 		$ServerstatsObject->visitdate = date("Y-m-d");
 		$ServerstatsObject->visit_timestamp = date("Y-m-d H:i:s");
-		$ServerstatsObject->visitedpage = urldecode($this->app->input->post->getString('nowpage', null));
+		$ServerstatsObject->visitedpage = str_replace(JUri::getInstance()->base(), '', urldecode($this->app->input->post->getString('nowpage', null)));
 		$ServerstatsObject->geolocation = 'todo';
 		$ServerstatsObject->ip = $this->ip;
 		$ServerstatsObject->browser = $this->browser . ' ' . $this->browser_version;
@@ -457,7 +456,8 @@ class PlgSystemTracker extends JPlugin
 		// Create and populate an object.
 		$StatsObject = new stdClass;
 		$StatsObject->session_id_person = $this->session->getId();
-		$StatsObject->nowpage = urldecode($this->app->input->post->getString('nowpage', null));
+		$StatsObject->nowpage = str_replace(JUri::getInstance()->base(), '', urldecode($this->app->input->post->getString('nowpage', null)));
+		str_replace("11223344", "", "REGISTER 11223344 here");
 		$StatsObject->lastupdate_time = time();
 		$StatsObject->current_name = $this->userName;
 
