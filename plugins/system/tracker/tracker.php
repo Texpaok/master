@@ -128,7 +128,7 @@ class PlgSystemTracker extends JPlugin
 		if (!$this->userName)
 		{
 			// Todo we have to think about this - perhaps we can use a random username
-			$this->userName = 'guest' . '_' . $this->generateSuffixFromSessionId($this->session->getId());
+			$this->userName = JText::_('COM_JOOMMARK_GUEST_PREFIX') . '_' . $this->generateSuffixFromSessionId($this->session->getId());
 			$this->userId = 0;
 		}
 
