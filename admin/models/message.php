@@ -108,7 +108,8 @@ class JoommarkModelMessage extends JModelAdmin
 		// Check if the menú must be showed to all pages
 		$AllMenus = ($data["allmenus"] == "1") ? true : false;
 
-		if ( $AllMenus ) {
+		if ( $AllMenus )
+		{
 			$data["menuitems"] = array();
 			array_push($data["menuitems"],"-1");
 		}
@@ -116,45 +117,39 @@ class JoommarkModelMessage extends JModelAdmin
 		// Json_encode menuitems
 		$data["menuitems"] = json_encode($data["menuitems"]);
 
-
-		 if (parent::save($data))
+		if (parent::save($data))
         {
             return true;
         }
 	}
-	
+
 	/* Function to get total visited pages by day */
 	public function total_visited_pages() {
-		
+
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query 
-			->select('COUNT(*)')
+		$query
+			->select('COUNT(DISTINCT visitedpage)')
 			->from($db->quoteName('#__joommark_serverstats'))
-			->where('DATE(NOW()) = DATE(`visitdate`)');				
+			->where('DATE(NOW()) = DATE(`visitdate`)');
 		$db->setQuery($query);
 		$res = $db->loadResult();
-		
-		return $res;		
-	
+
+		return $res;
+
 	}
-	
+
 	/* Function to get total visitors by day */
 	public function total_visitors() {
-		
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query 
-			->select('COUNT(DISTINCT session_id)')
-			->from($db->quoteName('#__joommark_serverstats'));				
+		$query
+			->select('COUNT(DISTINCT customer_name)')
+			->from($db->quoteName('#__joommark_serverstats'))
+			->where('DATE(NOW()) = DATE(`visitdate`)');
 		$db->setQuery($query);
 		$res = $db->loadResult();
-		
-		return $res;		
-	
+
+		return $res;
 	}
-
-
-
 }
-

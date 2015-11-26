@@ -1,4 +1,4 @@
-﻿<?php 
+﻿<?php
 
 /*
 * @ author Jose A. Luque
@@ -6,7 +6,7 @@
 * @license GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.model' );
 
@@ -37,15 +37,15 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 <div>
 	<span class="badge" style="background-color: #A9BCF5; padding: 10px 10px 10px 10px; float:right;"><?php echo JText::_('COM_JOOMMARK_VISITORS_INFO');?></span>
 </div>
-	
+
 	<table class="table table-bordered table-hover">
 	<thead>
 		<tr>
-			<th class="logs" align="center">				
+			<th class="logs" align="center">
 				<?php echo JHtml::_('grid.sort', 'Session', 'session_id_person', $listDirn, $listOrder); ?>
 			</th>
 			<th class="logs" align="center">
-				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_LAST_PAGE_VISITED', 'nowpage', $listDirn, $listOrder); ?>				
+				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_LAST_PAGE_VISITED', 'nowpage', $listDirn, $listOrder); ?>
 			</th>
 			<th class="logs" align="center">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_TIME', 'lastupdate_time', $listDirn, $listOrder); ?>
@@ -60,8 +60,8 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 	</thead>
 <?php
 $k = 0;
-if (!empty($this->items)) { 
-foreach ($this->items as &$row) {	
+if (!empty($this->items)) {
+foreach ($this->items as &$row) {
 ?>
 <tr>
 	<td align="center">
@@ -73,13 +73,14 @@ foreach ($this->items as &$row) {
             </span>
 	</td>
 	<td align="center">
-			<?php echo $row->nowpage; ?>	
+			<?php echo $row->nowpage; ?>
 	</td>
 	<td align="center">
-			<?php echo gmdate("Y-m-d\T H:i:s\Z",$row->lastupdate_time); ?>
+			<?php //echo gmdate("Y-m-d\T H:i:s\Z",$row->lastupdate_time); ?>
+			<?php echo JHtml::_('date', $row->lastupdate_time, JText::_('DATE_FORMAT_LC2'));?>
 	</td>
 	<td align="center">
-			<?php 
+			<?php
 				if ( empty($row->current_name) ) {
 					$span = "<span class=\"label \">";
 					$row->current_name = JText::_('COM_JOOMMARK_NONE');
@@ -88,11 +89,11 @@ foreach ($this->items as &$row) {
 				}
 			?>
 			<?php echo $span . $row->current_name; ?>
-			</span>			
+			</span>
 	</td>
-	<td align="center">			
+	<td align="center">
 			<?php echo JHtml::_('grid.id', $k, $row->session_id_person, '', 'session_id_person_array'); ?>
-	</td>	
+	</td>
 </tr>
 <?php
 $k = $k+1;
@@ -103,14 +104,14 @@ $k = $k+1;
 </table>
 
 <?php
-if ( !empty($this->items) ) {		
+if ( !empty($this->items) ) {
 ?>
 <div class="pagination">
 <tfoot>
 	<tr>
 		<td colspan="9"><?php echo $this->pagination->getListFooter(); ?>
 		<?php echo $this->pagination->getLimitBox(); ?>
-		</td>						
+		</td>
 	</tr>
 </tfoot>
 </div>
