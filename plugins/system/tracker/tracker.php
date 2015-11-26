@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  User.joomla
+ * @subpackage  System.joommark
  *
  * @copyright   Copyright (c) 2015 - Jose A. Luque.
  * @license     GNU General Public License version 2 or later http://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +15,7 @@ if (!class_exists('BrowserDetection'))
 }
 
 /**
- * Joommark Tracker Plugin 
+ * Joommark Tracker Plugin
  *
  * @since  1.0
  */
@@ -128,7 +128,7 @@ class PlgSystemTracker extends JPlugin
 		if (!$this->userName)
 		{
 			// Todo we have to think about this - perhaps we can use a random username
-			$this->userName = 'guest';
+			$this->userName = 'guest' . '_' . $this->generateSuffixFromSessionId($this->session->getId());
 			$this->userId = 0;
 		}
 
@@ -137,6 +137,35 @@ class PlgSystemTracker extends JPlugin
 		$this->updateServerstats();
 		$this->updateStats();
 		$this->tidyingup();
+	}
+
+	/**
+	 * Methode generateSuffixFromSessionId
+	 *
+	 * @param   String  $sessionID  The session id
+	 *
+	 * @return	 String
+	 *
+	 * @since   1.0
+	 */
+	public function generateSuffixFromSessionId($sessionID)
+	{
+		$matches = array();
+
+		// Take all digits from session id
+		preg_match_all('/\d/i', $sessionID, $matches);
+
+		// Implode the digits
+		$SuffixFromSessionId = 0000;
+		if (is_array($matches [0]) && count($matches [0]))
+		{
+			$SuffixFromSessionId = (float) (implode('', $matches [0]));
+		}
+
+		//Take the first four digits
+		$SuffixFromSessionId = substr($SuffixFromSessionId, 0, 4);
+
+		return $SuffixFromSessionId;
 	}
 
 	/**
