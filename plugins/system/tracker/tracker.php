@@ -13,14 +13,14 @@ if (!class_exists('BrowserDetection'))
 {
 	include_once JPATH_ADMINISTRATOR . '/components/com_joommark/helpers/BrowserDetection.php';
 }
-
 /**
  * Joommark Tracker Plugin
  *
- * @since  3.0
+ * @since  1.0
  */
 class PlgSystemTracker extends JPlugin
 {
+
 	/**
 	 * Database reference
 	 *
@@ -63,7 +63,7 @@ class PlgSystemTracker extends JPlugin
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 *
-	 * @since   3.0
+	 * @since   1.0
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -87,7 +87,7 @@ class PlgSystemTracker extends JPlugin
 	 *
 	 * @return Exception object otherwise boolean true
 	 *
-	 * @since   3.0
+	 * @since   1.0
 	 */
 	public function onAfterInitialise()
 	{
@@ -136,6 +136,7 @@ class PlgSystemTracker extends JPlugin
 		$this->updateReferer();
 		$this->updateServerstats();
 		$this->updateStats();
+		$this->tidyingup();
 	}
 
 	/**
@@ -148,12 +149,19 @@ class PlgSystemTracker extends JPlugin
 	{
 		// Collecting the data
 		// ToDo if (isset($GLOBALS['_JREQUEST'][$name]['SET.' . $hash]) && ($GLOBALS['_JREQUEST'][$name]['SET.' . $hash] === true))
-		if (JRequest::getVar('HTTP_REFERER', ' ', 'server', 'STRING' ) != ' ')
+		if (null != JRequest::getVar('HTTP_REFERER', ' ', 'server', 'STRING'))
 		{
-			$this->referer = trim(JRequest::getVar('HTTP_REFERER'));
+			$this->referer = trim(JRequest::getVar('HTTP_REFERER', ' ', 'server', 'STRING'));
 		}
 		else
 		{
+			// No Referer if
+			// - entered the site URL in browser address bar itself
+			// - visited the site by a browser-maintained bookmark.
+			// - visited the site as first page in the window/tab
+			// - switched from a https URL
+			// - has security software installed, or behind a proxi that strips the referrer
+			// - visited the site programmatically without setting the header
 			$this->referer = JText::_('COM_JOOMMARK_UNKNOW');
 		}
 
@@ -165,12 +173,11 @@ class PlgSystemTracker extends JPlugin
 
 		if (stripos($baseCurrentPage, $hostReferral) === 0 && !empty($hostReferral))
 		{
-			/*
-			 * return true;
-			 */
+			return true;
 		}
 		else
 		{
+			//return true;
 			/*
 			 * do we need our own intern refers;
 			 */
@@ -196,7 +203,6 @@ class PlgSystemTracker extends JPlugin
 			 *  Dump($e->getMessage(),"exception");
 			 */
 			JFactory::getApplication()->enqueueMessage($e->getMessage());
-
 		}
 	}
 
@@ -250,7 +256,7 @@ class PlgSystemTracker extends JPlugin
 			{
 				// Todo
 				throw new Exception(
-					JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+				JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
 			// Insert the object into the #__joommark_serverstats table. Otherwise update the time tracker
@@ -267,7 +273,7 @@ class PlgSystemTracker extends JPlugin
 					 *
 					 */
 					throw new Exception(
-						JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+					JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
 			}
 			else
@@ -285,8 +291,124 @@ class PlgSystemTracker extends JPlugin
 			// Dump($e->getMessage(),"exception");
 			// Todo special exeption handling ...
 			JFactory::getApplication()->enqueueMessage($e->getMessage());
-
 		}
+		return true;
+	}
+
+	/**
+	 * Delete expired records
+	 *
+	 * @access protected
+	 * @return Exception object otherwise boolean true
+	 */
+	protected function tidyingup()
+	{
+		//ToDo nur einmal am Tag ausführen
+		$gcenabled = $this->params->get('gcenabled', 0);
+		$expiredays = $this->params->get('gc_serverstats_period', 99);
+
+		/* @var $date type */
+		$date = strtotime('-' . $expiredays . ' day');
+
+		/* @var $dateString type */
+		$dateString = date('Y-m-d', $date);
+		$db = JFactory::getDbo();
+
+		if (isset($gcenabled) && $gcenabled)
+		{
+			/*
+			 * REFERER
+			 */
+			try
+			{
+				$query = $db->getQuery(true);
+				$conditions = array(
+					$db->quoteName('record_date') . ' <= ' . $db->quote($dateString)
+				);
+
+				$query->delete($db->quoteName('#__joommark_referral'));
+				$query->where($conditions);
+
+				$db->setQuery($query);
+
+				$result = $db->execute();
+			}
+			catch (Exception $e)
+			{
+				JFactory::getApplication()->enqueueMessage($e->getMessage());
+				// Todo special exeption handling
+			}
+
+			/*
+			 * SEARCH
+			 */
+			try
+			{
+				$query = $db->getQuery(true);
+				$conditions = array(
+					$db->quoteName('record_date') . ' <= ' . $db->quote($dateString)
+				);
+
+				$query->delete($db->quoteName('#__joommark_searches'));
+				$query->where($conditions);
+
+				$db->setQuery($query);
+
+				$result = $db->execute();
+			}
+			catch (Exception $e)
+			{
+				JFactory::getApplication()->enqueueMessage($e->getMessage());
+				// Todo special exeption handling
+			}
+
+			/*
+			 * SERVERSTATS
+			 */
+			try
+			{
+				$query = $db->getQuery(true);
+				$conditions = array(
+					$db->quoteName('visitdate') . ' <= ' . $db->quote($dateString)
+				);
+
+				$query->delete($db->quoteName('#__joommark_serverstats'));
+				$query->where($conditions);
+
+				$db->setQuery($query);
+
+				$result = $db->execute();
+			}
+			catch (Exception $e)
+			{
+				JFactory::getApplication()->enqueueMessage($e->getMessage());
+				// Todo special exeption handling
+			}
+
+			/*
+			 * STATS
+			 */
+			try
+			{
+				$query = $db->getQuery(true);
+				$conditions = array(
+					$db->quoteName('lastupdate_time') . ' <= ' . $db->quote($date)
+				);
+
+				$query->delete($db->quoteName('#__joommark_stats'));
+				$query->where($conditions);
+
+				$db->setQuery($query);
+
+				$result = $db->execute();
+			}
+			catch (Exception $e)
+			{
+				JFactory::getApplication()->enqueueMessage($e->getMessage());
+				// Todo special exeption handling
+			}
+		}
+
 		return true;
 	}
 
@@ -321,7 +443,7 @@ class PlgSystemTracker extends JPlugin
 			{
 				// Todo
 				throw new Exception(
-					JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+				JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 			}
 
 			// Insert the object into the #__joommark_serverstats table. Otherwise update the time tracker
@@ -334,7 +456,7 @@ class PlgSystemTracker extends JPlugin
 				{
 					// Todo
 					throw new Exception(
-						JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
+					JText::sprintf('PLG_TRACKER_COM_JOOMMLAMARK_ERROR_READING_INSERTING_NEW_STAT', $this->db->getErrorMsg()), 'error', 'Server stats');
 				}
 			}
 			else
@@ -363,7 +485,7 @@ class PlgSystemTracker extends JPlugin
 	 *
 	 * @return Exception object otherwise boolean true
 	 *
-	 * @since   3.0
+	 * @since   1.0
 	 */
 	public function onAfterRoute()
 	{
@@ -495,7 +617,7 @@ class PlgSystemTracker extends JPlugin
 	 *
 	 * @return  array  Search results.
 	 *
-	 * @since   3.0
+	 * @since   1.0
 	 */
 	public function onContentSearch($text)
 	{
