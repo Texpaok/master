@@ -161,8 +161,7 @@ class JoommarkModelFlow extends JModelLegacy
 			$this->input = new JInput;
 
 			// Die $_POST Superglobale beziehen.
-
-			$nowpage = str_replace(JUri::getInstance()->base(), '', urldecode($this->app->input->post->getString('nowpage', null)));
+			$nowpage = str_replace(JUri::getInstance()->base(), '', urldecode($this->input->post->getString('nowpage', null)));
 
 			// Create a new query object.
 			$query = $this->db->getQuery(true);

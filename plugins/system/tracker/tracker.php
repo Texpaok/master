@@ -500,7 +500,7 @@ class PlgSystemTracker extends JPlugin
 				$StatsObjectOnlyName = new stdClass;
 				$StatsObjectOnlyName->session_id_person = $this->session->getId();
 				$StatsObjectOnlyName->lastupdate_time = time();
-				$StatsObjectOnlyName->nowpage = urldecode($this->app->input->post->getString('nowpage', null));
+				$StatsObjectOnlyName->nowpage = str_replace(JUri::getInstance()->base(), '', urldecode($this->app->input->post->getString('nowpage', null)));
 				$StatsObjectOnlyName->current_name = $this->userName;
 				$result = $this->db->updateObject('#__joommark_stats', $StatsObjectOnlyName, 'session_id_person');
 			}
