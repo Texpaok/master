@@ -128,46 +128,4 @@ class JoommarkModelPlan extends JModelAdmin
 			return true;
 		}
 	}
-
-	/**
-	 * Method to save the form data.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.0
-	 */
-	public function total_visited_pages()
-	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query
-			->select('COUNT(DISTINCT visitedpage)')
-			->from($db->quoteName('#__joommark_serverstats'))
-			->where('DATE(NOW()) = DATE(`visitdate`)');
-		$db->setQuery($query);
-		$res = $db->loadResult();
-
-		return $res;
-	}
-
-	/**
-	 * Visitors by day.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.0
-	 */
-	public function total_visitors()
-	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query
-			->select('COUNT(DISTINCT customer_name)')
-			->from($db->quoteName('#__joommark_serverstats'))
-			->where('DATE(NOW()) = DATE(`visitdate`)');
-		$db->setQuery($query);
-		$res = $db->loadResult();
-
-		return $res;
-	}
 }
