@@ -64,22 +64,20 @@ class JoommarkModelPlans extends JModelList
 	 */
 	public function getListQuery()
 	{
-		// Creamos el nuevo objeto query
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		// Sanitizamos la entrada
 		$search = $this->state->get('filter_plans.search');
 		$search = $db->Quote('%' . $db->escape($search, true) . '%');
 
-		$query->select('a.*, vl.title as accessleveltitle');
-		$query->from('#__joommark_planssats AS a');
+		$query->select('*');
+		$query->from('#__joommark_plansstats AS a');
 
-		$query->where('(a.title LIKE ' . $search . ' OR a.accesslevel LIKE ' . $search . ')');
-		$query->join('LEFT', $db->quoteName('#__viewlevels', 'vl') . ' ON (' . $db->quoteName('a.accesslevel') . ' = ' . $db->quoteName('vl.id') . ')');
+		// $query->where('(a.title LIKE ' . $search . ' OR a.accesslevel LIKE ' . $search . ')');
+		// $query->join('LEFT', $db->quoteName('#__viewlevels', 'vl') . ' ON (' . $db->quoteName('a.accesslevel') . ' = ' . $db->quoteName('vl.id') . ')');
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'title')) . ' ' . $db->escape($this->getState('list.direction', 'desc')));
+		// $query->order($db->escape($this->getState('list.ordering', 'title')) . ' ' . $db->escape($this->getState('list.direction', 'desc')));
 
 		return $query;
 	}

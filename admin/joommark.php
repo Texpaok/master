@@ -13,8 +13,8 @@ require_once(JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPA
 // We need to control which controller must be loaded
 if ( $controller = JRequest::getWord('controller') ) {
 	$path = JPATH_COMPONENT.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.$controller.'.php';
-	if ( file_exists($path) && ($controller != 'messages') ) {
-		require_once $path;	
+	if ( file_exists($path) && ($controller != 'messages') && ($controller != 'plans') ) {
+		require_once $path;
 		// Create the controller
 		$classname = 'JoommarkController'.$controller;
 		$controller = new $classname( );
@@ -40,6 +40,6 @@ if ( $controller = JRequest::getWord('controller') ) {
 	$controller->execute($input->getCmd('task'));
 
 	// Redirect if set by the controller
-	$controller->redirect();	
+	$controller->redirect();
 }
 

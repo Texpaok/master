@@ -12,6 +12,6 @@ defined('_JEXEC') or die();
  *
  * @since  1.0
  */
-class JoommarkControllerMessage extends JControllerForm
+class JoommarkControllerPlan extends JControllerForm
 {
 }

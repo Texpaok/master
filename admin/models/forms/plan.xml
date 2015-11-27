@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form addrulepath="/administrator/components/com_joommark/models/rules">
+    <fieldset name="myfields">
+        <field
+            name="id"
+            type="hidden"
+            label="COM_JOOMMARK_ID_LABEL"
+            description="COM_JOOMMARK_ID_DESC"
+            size="40"
+            class="inputbox"
+        />
+        <field name="state" type="list"
+               label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
+               class="inputbox small" size="1" default="1" >
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field
+            name="catid"
+            type="category"
+            extension="com_joommark"
+            class="inputbox"
+            default=""
+            label="COM_JOOMMARK_FIELD_CATID_LABEL"
+            description="COM_JOOMMARK_FIELD_CATID_DESC"
+        >
+            <option value="0">JOPTION_SELECT_CATEGORY</option>
+        </field>
+        <field
+            name="description"
+            type="editor"
+            label="COM_JOOMMARK_JOOMMARK_DESCRIPTION_LABEL"
+            description="COM_JOOMMARK_JOOMMARK_DESCRIPTION_DESC"
+            default=""
+            buttons="true"
+            filter="JComponentHelper::filterText"
+        />
+       <field
+            name="name"
+            type="text"
+            label="COM_JOOMMARK_JOOMMARK_NAME_LABEL"
+            description="COM_JOOMMARK_JOOMMARK_NAME_DESC"
+            default=""
+        />
+
+
+    </fieldset>
+</form>
