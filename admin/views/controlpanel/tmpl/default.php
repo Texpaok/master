@@ -78,7 +78,7 @@ JHTML::stylesheet($opa_icons);
 
 				<div class="icon">
 					<a href="<?php echo JRoute::_( 'index.php?option=com_joommark&controller=plans&view=plans&'. JSession::getFormToken() .'=1' );?>">
-						<div class="joommark-icon-plans">&nbsp;</div>
+						<i class="icon-wand"></i>
 						<span><?php echo JText::_('COM_JOOMMARK_PLANS'); ?></span>
 					</a>
 				</div>
