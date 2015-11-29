@@ -26,20 +26,25 @@
 
         <fieldset id="tidingup" name="tidingup" label="COM_JOOMMARK_TIDINGUP">
 		<field type="spacer" class="label label-info spacer" label="COM_JOOMMARK_TIDINGUP_TIDINGUPDATABASE"/>
-		<field name="gcenabled" class="btn-group"
-                        type="radio"
-                        default="1"
-                        label="COM_JOOMMARK_TIDINGUP_TIDINGUPDATABASE_ONOFF"
-                        description="COM_JOOMMARK_TIDINGUP_TIDINGUPDATABASE_ONOFF_DESC">
+		<field
+			name="gcenabled"
+			class="btn-group"
+			type="radio"
+			default="1"
+            label="COM_JOOMMARK_TIDINGUP_TIDINGUPDATABASE_ONOFF"
+            description="COM_JOOMMARK_TIDINGUP_TIDINGUPDATABASE_ONOFF_DESC">
    			<option value="0">JNO</option>
    			<option value="1">JYES</option>
    		</field>
-  		<field name="gc_serverstats_period"
-                        type="text" size="10"
-                        default="24"
-						filter="integer"
-                        label="COM_JOOMMARK_TIDINGUP_TIDINGUPDATABASE_PERIOD"
-                        description="COM_JOOMMARK_TIDINGUP_TIDINGUPDATABASE_PERIOD_DESC" />
+  		<field
+			name="gc_serverstats_period"
+			type="text"
+			size="10"
+			default="24"
+			filter="integer"
+			label="COM_JOOMMARK_TIDINGUP_TIDINGUPDATABASE_PERIOD"
+			description="COM_JOOMMARK_TIDINGUP_TIDINGUPDATABASE_PERIOD_DESC"
+		/>
 
    		<field type="spacer" class="label label-info spacer" label="COM_JOOMMARK_TIDINGUP_EXCLUSIONS"/>
 	</fieldset>
