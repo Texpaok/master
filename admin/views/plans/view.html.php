@@ -55,7 +55,7 @@ class JoommarkViewPlans extends JViewLegacy
 	 */
 	protected function addToolBar()
 	{
-		JToolBarHelper::title(JText::_('Joommark') . ' | ' . JText::_('COM_JOOMMARK_VISITORS_INFO'), 'joommark');
+		JToolBarHelper::title(JText::_('Joommark') . ' | ' . JText::_('COM_JOOMMARK_PLANS'), 'joommark');
 		JToolBarHelper::custom('redireccion_control_panel', 'arrow-left', 'arrow-left', 'COM_JOOMMARK_REDIRECT_CONTROL_PANEL');
 		JToolBarHelper::addNew('plan.add');
 		JToolBarHelper::editList('plan.edit');
