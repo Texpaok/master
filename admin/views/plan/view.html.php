@@ -57,6 +57,15 @@ class JoommarkViewPlan extends JViewLegacy
 	{
 		$isNew = $this->item->id == 0;
 
+		if ($isNew)
+		{
+			JToolBarHelper::title(JText::_('Joommark') . ' | ' . JText::_('COM_JOOMMARK_PLANS_NEW'), 'joommark');
+		}
+		else
+		{
+			JToolBarHelper::title(JText::_('Joommark') . ' | ' . JText::_('COM_JOOMMARK_PLANS_EDIT'), 'joommark');
+		}
+
 		JToolbarHelper::apply('plan.apply');
 		JToolBarHelper::save('plan.save');
 		JToolbarHelper::save2new('plan.save2new');
