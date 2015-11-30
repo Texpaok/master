@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addrulepath="/administrator/components/com_joommark/models/rules">
-		<field
-			name="type"
-			type="list"
-			default=""
-			label="COM_JOOMMARK_TYP_LABEL"
-			description="">
-			<option value="0">COM_JOOMMARK_TYP_OPTION0_MIN_VISITED_PAGES_PER_USER_SAME_SESSION</option>
-			<option value="1">COM_JOOMMARK_TYP_OPTION1_MIN_VISITED_TIME_PER_USER_SAME_SESSION</option>
-			<option value="2">COM_JOOMMARK_TYP_OPTION2_MIN_VISITED_TIME_PER_USER_PER_PAGE_SAME_SESSION</option>
-			<option value="3">COM_JOOMMARK_TYP_OPTION3_MIN_VISITED_USERS_PER_PAGE_OVER_ALL</option>
-			<option value="4">COM_JOOMMARK_TYP_OPTION4_MIN_VISITED_TIME_PER_PAGE_OVER_ALL</option>
-			<option value="5">COM_JOOMMARK_TYP_OPTION5_MIN_VISITED_TIME_PER_PAGE_PER_USER_OVER_ALL</option>
-		</field>
-
-		<fieldset name="general">
+	<fieldset name="general">
 		<field
 			name="id"
 			type="hidden"
@@ -23,9 +9,34 @@
 			size="40"
 			class="inputbox"
 		/>
-		<field name="state" type="list"
-			   label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
-			   class="inputbox small" size="1" default="1" >
+		<field
+			name="name"
+			type="text"
+			label="COM_JOOMMARK_JOOMMARK_NAME_LABEL"
+			description="COM_JOOMMARK_JOOMMARK_NAME_DESC"
+			default=""
+		/>
+		<field
+			name="type"
+			type="list"
+			default=""
+			label="COM_JOOMMARK_TYP_LABEL"
+			description="COM_JOOMMARK_TYP_DESC">
+			<option value="0">COM_JOOMMARK_TYP_OPTION0_MIN_VISITED_PAGES_PER_USER_SAME_SESSION</option>
+			<option value="1">COM_JOOMMARK_TYP_OPTION1_MIN_VISITED_TIME_PER_USER_SAME_SESSION</option>
+			<option value="2">COM_JOOMMARK_TYP_OPTION2_MIN_VISITED_TIME_PER_USER_PER_PAGE_SAME_SESSION</option>
+			<option value="3">COM_JOOMMARK_TYP_OPTION3_MIN_VISITED_USERS_PER_PAGE_OVER_ALL</option>
+			<option value="4">COM_JOOMMARK_TYP_OPTION4_MIN_VISITED_TIME_PER_PAGE_OVER_ALL</option>
+			<option value="5">COM_JOOMMARK_TYP_OPTION5_MIN_VISITED_TIME_PER_PAGE_PER_USER_OVER_ALL</option>
+		</field>
+
+		<field name="state"
+			   type="list"
+			   label="JSTATUS"
+			   description="JFIELD_PUBLISHED_DESC"
+			   class="inputbox small"
+			   size="1"
+			   default="1" >
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
@@ -52,15 +63,10 @@
 			filter="JComponentHelper::filterText"
 		/>
 		<field
-			name="name"
-			type="text"
-			label="COM_JOOMMARK_JOOMMARK_NAME_LABEL"
-			description="COM_JOOMMARK_JOOMMARK_NAME_DESC"
-			default=""
-		/>
-		<field
 			name="hastarget"
 			type="list"
+			label="COM_JOOMMARK_TYP_OPTION_HASTARGET_LBL"
+			description="COM_JOOMMARK_TYP_OPTION_HASTARGET_DESC"
 		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
