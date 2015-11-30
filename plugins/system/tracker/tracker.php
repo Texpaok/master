@@ -53,8 +53,6 @@ class PlgSystemTracker extends JPlugin
 	 */
 	protected $session;
 
-	protected $media_path = "media/com_joommark";
-
 	/**
 	 * Constructor
 	 *
@@ -531,13 +529,14 @@ class PlgSystemTracker extends JPlugin
 			$doc = JFactory::getDocument();
 			JHTML::_('behavior.modal');
 			JHtml::_('jquery.framework');
-			$doc->addScript($this->media_path . '/javascript/messages.js');
 
-			$doc->addScript($this->media_path . '/javascript/js.cookie.js');
-			$doc->addScript($this->media_path . '/javascript/JoommarkSetTimeout.js');
-			JHtml::script('com_joommark/javascript/JoommarkSetTimeout.js', false, true);
+			JHtml::script('com_joommark/messages.js', false, true);
+			JHtml::script('com_joommark/js.cookie.js', false, true);
 
-			$doc->addStyleSheet($this->media_path . '/stylesheets/JoommarkStyles.css');
+			JHtml::script('com_joommark/JoommarkSetTimeout.js', false, true);
+			JHtml::script('com_joommark/JoommarkForms.js', array(), true);
+			JHtml::stylesheet('com_joommark/JoommarkStyles.css', array(), true);
+
 			$doc->addStyleSheet('/templates/protostar/css/template.css');
 		}
 	}
