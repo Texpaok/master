@@ -13,6 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 // Load library
 require_once JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_joommark' . DIRECTORY_SEPARATOR . 'library' . DIRECTORY_SEPARATOR . 'loader.php';
 
+JHtml::_('jquery.framework');
 JHtml::script('com_joommark/JoommarkForm.admin.js', false, true);
 JHtml::stylesheet('com_joommark/JoommarkStyles.admin.css', array(), true);
 
