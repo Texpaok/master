@@ -1,12 +1,11 @@
 <?php
 /**
-* Securitycheck Pro Library
-* @ author Jose A. Luque
-* @ Copyright (c) 2011 - Jose A. Luque
-* @license GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
-*/
-
-// No Permission
+ * @package     Joomla.Administrator
+ * @subpackage  com_jommark
+ *
+ * @copyright   Copyright (C) 2014-2015 Jose A. Luque and Astrid Günther. All rights reserved.
+ * @license     GNU General Public License version 2
+ */
 defined('_JEXEC') or die('Restricted access');
 
 // Import Joomla Libraries
@@ -14,6 +13,10 @@ jimport('joomla.html.parameter');
 
 $library = dirname(__FILE__);
 
-JLoader::register('JoommarkAuxController', $library.'/controller.php');
-JLoader::register('JoommarkAuxModel', $library.'/model.php');
-JLoader::register('JoommarkAuxView', $library.'/view.php');
+// Todo I think this is easier with JLoader::discover('MYExtension', __DIR__);
+// JLoader::registerPrefix('joommark', $library);
+
+JLoader::register('JoommarkAuxController', $library . '/controller.php');
+JLoader::register('JoommarkAuxModel', $library . '/model.php');
+JLoader::register('JoommarkAuxView', $library . '/view.php');
+JLoader::register('JoommarkAuxJoommarktable', $library . '/joommarktable.php');
