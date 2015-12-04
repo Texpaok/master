@@ -61,6 +61,7 @@
 			default=""
 			buttons="true"
 			filter="JComponentHelper::filterText"
+			height="100"
 		/>
 		<field
 			name="hastarget"
