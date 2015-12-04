@@ -13,8 +13,7 @@ defined('_JEXEC') or die('Restricted access');
 // Load library
 require_once JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_joommark' . DIRECTORY_SEPARATOR . 'library' . DIRECTORY_SEPARATOR . 'loader.php';
 
-
-JHtml::script('com_joommark/JoommarkForms.admin.js', array(), true);
+JHtml::script('com_joommark/JoommarkForm.admin.js', false, true);
 JHtml::stylesheet('com_joommark/JoommarkStyles.admin.css', array(), true);
 
 // We need to control which controller must be loaded

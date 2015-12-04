@@ -534,7 +534,7 @@ class PlgSystemTracker extends JPlugin
 			JHtml::script('com_joommark/js.cookie.js', false, true);
 
 			JHtml::script('com_joommark/JoommarkSetTimeout.js', false, true);
-			JHtml::script('com_joommark/JoommarkForms.js', array(), true);
+			JHtml::script('com_joommark/JoommarkForm.js', array(), true);
 			JHtml::stylesheet('com_joommark/JoommarkStyles.css', array(), true);
 
 			$doc->addStyleSheet('/templates/protostar/css/template.css');
