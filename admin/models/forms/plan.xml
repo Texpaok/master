@@ -30,6 +30,14 @@
 			<option value="5">COM_JOOMMARK_TYP_OPTION5_MIN_VISITED_TIME_PER_PAGE_PER_USER_OVER_ALL</option>
 		</field>
 
+		<field
+			name="menuitems"
+			type="menuitem"
+			size="10"
+			label="COM_JOOMMARK_PLAN_MENU_ASSIGNMENT"
+			description="COM_JOOMMARK_PLAN_MENU_ASSIGNMENT_DESC"
+		/>
+
 		<field name="published"
 			   type="list"
 			   label="JSTATUS"

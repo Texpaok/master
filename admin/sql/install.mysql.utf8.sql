@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `#__joommark_plansstats` (
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) NOT NULL default '0',
+  `menuitems`varchar(255) NOT NULL,
   `params` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
