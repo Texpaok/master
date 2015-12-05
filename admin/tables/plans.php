@@ -57,5 +57,4 @@ class JoommarkTablePlans extends JoommarkAuxJoommarktable
 	{
 		return $this->name;
 	}
-
 }

@@ -1,63 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <fieldset name="general">
-        <field name="title" type="text" 
-            class="input-xlarge" 
-            label="COM_JOOMMARK_TITLE" 
-            description="COM_JOOMMARK_TITLE_DESC" 
-            required="true" 
-            size="40" 
-        />
+	<fieldset name="general">
+		<field
+			name="id"
+			type="hidden" />
 
-        <field name="menuitems" type="menuitem" 
-            size="10" 
-            multiple="multiple" 
-            label="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT" 
-            description="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT_DESC" 
-        />
-        <field name="accesslevel" type="accesslevel" 
-            label="COM_JOOMMARK_ACCESSLEVEL" 
-            description="COM_JOOMMARK_ACCESSLEVEL_DESC" 
-            required="true"
-            default="1"
-        />
-        <field name="published" type="radio" 
-            label="JSTATUS" 
-            description="JFIELD_PUBLISHED_DESC" 
-            class="btn-group btn-group-yesno" 
-            filter="intval" 
-            size="1" 
-            default="1">
-            <option value="1">JPUBLISHED</option>
-            <option value="0">JUNPUBLISHED</option>
-        </field>
-        <field name="id" type="hidden" />
-		
-		<field name="percentage" type="text" 
-            class="input-mini" 
-            label="COM_JOOMMARK_ITEM_PERCENTAGE" 
-            default="80"
-            description="COM_JOOMMARK_ITEM_PERCENTAGE_DESC"
-            size="6"
-        />
-		
-		<field name="cookie" default="30" type="text" 
-            class="input-mini" 
-            label="COM_JOOMMARK_ITEM_COOKIE" 
-            description="COM_JOOMMARK_ITEM_COOKIE_DESC"
-            size="6"
-        />		
-    
-        <field name="message" type="editor" 
-            rows="5" 
-            cols="40" 
-            filter="raw" 
-            label="COM_JOOMMARK_MESSAGE" 
-            description="COM_JOOMMARK_MESSAGE_DESC"
-        />
-			
-    </fieldset>
-    <fieldset name="help">
-        <field name="allmenus" type="checkbox" label="Assign to all pages" description="Check this to display the box on all pages" value="1" default="0" />
-    </fieldset> 
+		<field
+			name="title"
+			type="text"
+			class="input-xlarge"
+			label="COM_JOOMMARK_TITLE"
+			description="COM_JOOMMARK_TITLE_DESC"
+			required="true"
+			size="40"
+		/>
+
+		<field
+			name="menuitems"
+			type="menuitem"
+			size="10"
+			multiple="multiple"
+			label="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT"
+			description="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT_DESC"
+		/>
+
+		<field name="published"
+			   type="list"
+			   label="JSTATUS"
+			   description="JFIELD_PUBLISHED_DESC"
+			   class="inputbox small"
+			   size="1"
+			   default="1" >
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="catid"
+			type="category"
+			extension="com_joommark"
+			class="inputbox"
+			default=""
+			label="COM_JOOMMARK_FIELD_CATID_LABEL"
+			description="COM_JOOMMARK_FIELD_CATID_DESC"
+		>
+			<option value="0">JOPTION_SELECT_CATEGORY</option>
+		</field>
+
+		<field
+			name="percentage"
+			type="text"
+			class="input-mini"
+			label="COM_JOOMMARK_ITEM_PERCENTAGE"
+			default="80"
+			description="COM_JOOMMARK_ITEM_PERCENTAGE_DESC"
+			size="6"
+		/>
+
+		<field name="cookie" default="30" type="text"
+			   class="input-mini"
+			   label="COM_JOOMMARK_ITEM_COOKIE"
+			   description="COM_JOOMMARK_ITEM_COOKIE_DESC"
+			   size="6"
+		/>
+
+		<field
+			name="message"
+			type="editor"
+			rows="5"
+			cols="40"
+			filter="raw"
+			label="COM_JOOMMARK_MESSAGE"
+			description="COM_JOOMMARK_MESSAGE_DESC"
+		/>
+
+		<field
+			name="rules"
+			type="rules"
+			component="com_joommark"
+			filter="rules"
+			validate="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			section="component"
+		/>
+
+
+	</fieldset>
+
+	<fieldset
+		name="help">
+		<field
+			name="allmenus"
+			type="checkbox"
+			label="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_LBL"
+			description="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_DESC"
+			value="1"
+			default="0"
+		/>
+	</fieldset>
 </form>

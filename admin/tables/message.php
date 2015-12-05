@@ -1,24 +1,61 @@
 <?php
 /**
-* @ author Jose A. Luque
-* @ Copyright (c) 2011 - Jose A. Luque
-* @license GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
-*/
-// No direct access
+ * @package     Joomla.Administrator
+ * @subpackage  com_jommark
+ *
+ * @copyright   Copyright (C) 2014-2015 Jose A. Luque and Astrid Günther. All rights reserved.
+ * @license     GNU General Public License version 2
+ */
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Joommark Table class
+ * class Joommark Tabele Messages
+ *
+ * @since  1.0
  */
-class JoommarkTableMessage extends JoommarkTableJoommarktable
+class JoommarkTableMessage extends JoommarkAuxJoommarktable
 {
 	/**
-	 * Constructor
+	 * Object constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  A database connector object
+	 * @param   JDatabaseDriver  $db  JDatabaseDriver object.
+	 *
+	 * @since   1.0
 	 */
-	function __construct(&$db)
+
+	function __construct($db)
 	{
 		parent::__construct('#__joommark_messages', 'id', $db);
+	}
+
+	/**
+	 * Method to return the name
+	 *
+	 * @return  string  The string to use as the title in the asset table.
+	 *
+	 * @since   1.0
+	 */
+	protected function _getAssetName()
+	{
+		$k = $this->_tbl_key;
+
+		return 'com_joommark.message.' . (int) $this->$k;
+	}
+
+	/**
+	 * Method to return the title to use for the asset table.  In
+	 * tracking the assets a title is kept for each asset so that there is some
+	 * context available in a unified access manager.  Usually this would just
+	 * return $this->title or $this->name or whatever is being used for the
+	 * primary name of the row. If this method is not overridden, the asset name is used.
+	 *
+	 * @return  string  The string to use as the title in the asset table.
+	 *
+	 * @link    https://docs.joomla.org/JTable/getAssetTitle
+	 * @since   1.0
+	 */
+	protected function _getAssetTitle()
+	{
+		return $this->name;
 	}
 }
