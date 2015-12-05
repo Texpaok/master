@@ -72,7 +72,9 @@ foreach ($this->items as &$row) {
 		</a>
 	</td>
 	<td class="center">
-			<?php echo JHtml::_('jgrid.published', $row->state, $k, 'plans.', true); ?>
+			<?php
+			echo JHtml::_('jgrid.published', $row->published, $k, 'plans.', true);
+			?>
 	</td>
 	<td class="center">
 		<a href="<?php echo JRoute::_('index.php?option=com_joommark&task=plan.edit&id='.$row->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
@@ -82,7 +84,7 @@ foreach ($this->items as &$row) {
 		<?php echo $row->description; ?>
 	</td>
 	<td class="center">
-		<?php echo $row->state; ?>
+		<?php echo $row->published; ?>
 	</td>
 	<td class="center">
 			<?php echo JHtml::_('grid.id', $k, $row->id); ?>

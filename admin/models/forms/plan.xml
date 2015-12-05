@@ -30,7 +30,7 @@
 			<option value="5">COM_JOOMMARK_TYP_OPTION5_MIN_VISITED_TIME_PER_PAGE_PER_USER_OVER_ALL</option>
 		</field>
 
-		<field name="state"
+		<field name="published"
 			   type="list"
 			   label="JSTATUS"
 			   description="JFIELD_PUBLISHED_DESC"

@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `#__joommark_plansstats` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `catid` int(11) NOT NULL DEFAULT '0',
   `asset_id` int(11) NOT NULL DEFAULT '0',
-  `state` tinyint(1) NOT NULL default '0',
+  `published` tinyint(4) NOT NULL,
   `type` varchar(50) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text NULL ,

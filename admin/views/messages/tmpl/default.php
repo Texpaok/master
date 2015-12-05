@@ -77,7 +77,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						</a>
 					</td>
 					<td class="center">
-		<?php echo JHtml::_('jgrid.published', $row->published, $k, 'messages.', true); ?>
+		<?php
+			echo JHtml::_('jgrid.published', $row->published, $k, 'messages.', true);
+			?>
 					</td>
 					<td class="center">
 						<a href="<?php echo JRoute::_('index.php?option=com_joommark&task=message.edit&id=' . $row->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
