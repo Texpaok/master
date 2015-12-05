@@ -2,7 +2,7 @@
 	$(document).ready(function ()
 	{
 		// hide field on load on the form for the plans
-		document.getElementById('jform_target_expectation').parentElement.parentElement.style.display = 'none';
+		//document.getElementById('jform_target_expectation').parentElement.parentElement.style.display = 'none';
 
         // Target
         $('#jform_hastarget').change(function () {

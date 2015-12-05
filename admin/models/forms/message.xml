@@ -30,8 +30,9 @@
 			size="10"
 			multiple="multiple"
 			label="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT"
-			description="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT_DESC"
-		/>
+			description="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT_DESC" >
+			<option	value="">JSELECT</option>
+		</field>
 
 		<field name="published"
 			   type="list"
