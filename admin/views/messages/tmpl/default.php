@@ -1,4 +1,4 @@
-﻿<?php 
+﻿<?php
 
 /*
 * @ author Jose A. Luque
@@ -6,7 +6,7 @@
 * @license GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.model' );
 
@@ -37,21 +37,21 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 <div>
 	<span class="badge" style="background-color: #A9BCF5; padding: 10px 10px 10px 10px; float:right;"><?php echo JText::_('COM_JOOMMARK_MESSAGES');?></span>
 </div>
-	
+
 	<table class="table table-striped">
 	<thead>
 		<tr>
 			<th class="center" width="7%">
-				<?php echo JHtml::_('grid.sort', 'ID', 'id', $listDirn, $listOrder); ?>				
+				<?php echo JHtml::_('grid.sort', 'ID', 'id', $listDirn, $listOrder); ?>
 			</th>
 			<th class="center" width="7%">
-				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_PUBLISHED', 'published', $listDirn, $listOrder); ?>				
+				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_PUBLISHED', 'published', $listDirn, $listOrder); ?>
 			</th>
 			<th class="center">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_TITLE', 'title', $listDirn, $listOrder); ?>
 			</th>
 			<th class="center" width="15%">
-				<?php echo JText::_('COM_JOOMMARK_ITEM_COOKIE'); ?>				
+				<?php echo JText::_('COM_JOOMMARK_ITEM_COOKIE'); ?>
 			</th>
 			<th class="center"width="15%">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_ACCESSLEVEL', 'accesslevel', $listDirn, $listOrder); ?>
@@ -63,30 +63,30 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 	</thead>
 <?php
 $k = 0;
-if (!empty($this->items)) { 
-foreach ($this->items as &$row) {	
+if (!empty($this->items)) {
+foreach ($this->items as &$row) {
 ?>
 <tr>
 	<td class="center">
-		<?php echo $row->id; ?>	
+		<?php echo $row->id; ?>
 		</a>
 	</td>
 	<td class="center">
 			<?php echo JHtml::_('jgrid.published', $row->published, $k, 'messages.', true); ?>
 	</td>
 	<td class="center">
-		<a href="<?php echo JRoute::_('index.php?option=com_joommark&task=message.edit&id='.$row->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">	
-		<?php echo $row->title; ?>			
+		<a href="<?php echo JRoute::_('index.php?option=com_joommark&task=message.edit&id='.$row->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+		<?php echo $row->title; ?>
 	</td>
 	<td class="center">
 		<?php echo $row->cookie; ?>
 	</td>
 	<td class="center">
-		<?php echo $row->accessleveltitle; ?>
+		<?php echo $row->asset_id; ?>
 	</td>
-	<td class="center">			
-			<?php echo JHtml::_('grid.id', $k, $row->id); ?>	
-	</td>	
+	<td class="center">
+			<?php echo JHtml::_('grid.id', $k, $row->id); ?>
+	</td>
 </tr>
 <?php
 $k = $k+1;
@@ -97,14 +97,14 @@ $k = $k+1;
 </table>
 
 <?php
-if ( !empty($this->items) ) {		
+if ( !empty($this->items) ) {
 ?>
 <div class="pagination">
 <tfoot>
 	<tr>
 		<td colspan="9"><?php echo $this->pagination->getListFooter(); ?>
 		<?php echo $this->pagination->getLimitBox(); ?>
-		</td>						
+		</td>
 	</tr>
 </tfoot>
 </div>

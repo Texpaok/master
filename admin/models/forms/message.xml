@@ -16,6 +16,15 @@
 		/>
 
 		<field
+			name="allmenus"
+			type="checkbox"
+			label="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_LBL"
+			description="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_DESC"
+			value="1"
+			default="0"
+		/>
+
+		<field
 			name="menuitems"
 			type="menuitem"
 			size="10"
@@ -89,15 +98,4 @@
 
 	</fieldset>
 
-	<fieldset
-		name="help">
-		<field
-			name="allmenus"
-			type="checkbox"
-			label="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_LBL"
-			description="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_DESC"
-			value="1"
-			default="0"
-		/>
-	</fieldset>
 </form>

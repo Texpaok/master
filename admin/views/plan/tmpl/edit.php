@@ -17,40 +17,24 @@ JHtml::_('formbehavior.chosen', 'select');
     <form action="<?php echo JRoute::_('index.php?option=com_joommark&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm">
         <div class="row-fluid">
             <div class="span9">
-				<?php foreach ($this->form->getFieldset("general") as $field)
-				{ ?>
+				<?php
+				foreach ($this->form->getFieldset("general") as $field)
+				{
+					?>
 					<div class="control-group clearfix <?php echo $field->name ?>">
 						<div class="control-label"><?php echo $field->label ?></div>
 						<div class="controls">
-							<?php if ($field->name == "jform[menuitems][]")
-							{ ?>
-								<div class="helpcontrol clearfix">
-									<span style="float:left; margin-right:6px; margin-top:-3px;">
-									<?php echo $this->form->getField("allmenus")->input; ?>
-									</span>
-								<?php echo $this->form->getField("allmenus")->label; ?>
-								</div>
-							<?php } ?>
-	<?php echo $field->input ?>
+							<?php echo $field->input ?>
 						</div>
 					</div>
-<?php } ?>
-
+				<?php
+				}
+				?>
             </div>
         </div>
         <input type="hidden" name="task" value="joommark.edit" />
 <?php echo JHtml::_('form.token'); ?>
     </form>
-
-	<script type="text/javascript">
-		Joomla.submitbutton = function (task)
-		{
-			if (task == 'item.cancel' || document.formvalidator.isValid(document.id('adminForm')))
-			{
-				Joomla.submitform(task, document.getElementById('adminForm'));
-			}
-		}
-	</script>
 
 </div>
 
