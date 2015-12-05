@@ -10,7 +10,6 @@ defined('_JEXEC') or die();
 
 // JLoader::register('clas', JPATH_ADMINISTRATOR . 'path'); ??
 jimport('joomla.application.component.modellist');
-
 /**
  * class Joommark Model Messages - Modelo Vulninfo
  *
@@ -18,6 +17,7 @@ jimport('joomla.application.component.modellist');
  */
 class JoommarkModelMessages extends JModelList
 {
+
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -55,7 +55,6 @@ class JoommarkModelMessages extends JModelList
 		$messages_search = $app->getUserStateFromRequest('filter_messages.search', 'filter_messages_search');
 		$this->setState('filter_messages.search', $messages_search);
 
-
 		// List state information.
 		parent::populateState('title', 'desc');
 	}
@@ -67,19 +66,6 @@ class JoommarkModelMessages extends JModelList
 	 */
 	public function getListQuery()
 	{
-		$jfilter = JFilterInput::getInstance();
-
-		$params = JComponentHelper::getComponent('com_joommark')->params;
-
-		$query = parent::getListQuery();
-
-		$list = $this->getState('filter.list');
-
-		// Meh, someone tries to trick us
-		if (empty($list->id))
-		{
-			$query->where('1!=1');
-		}
 		// Creamos el nuevo objeto query
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -90,9 +76,6 @@ class JoommarkModelMessages extends JModelList
 
 		$query->select('a.*');
 		$query->from('#__joommark_messages AS a');
-
-		// $query->where('(a.title LIKE ' . $search . ' OR a.asset_id LIKE ' . $search . ')');
-		// $query->join('LEFT', $db->quoteName('#__viewlevels', 'vl') . ' ON (' . $db->quoteName('a.assed_id') . ' = ' . $db->quoteName('vl.id') . ')');
 
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'title')) . ' ' . $db->escape($this->getState('list.direction', 'desc')));

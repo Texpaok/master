@@ -19,4 +19,3 @@ $library = dirname(__FILE__);
 JLoader::register('JoommarkAuxController', $library . '/controller.php');
 JLoader::register('JoommarkAuxModel', $library . '/model.php');
 JLoader::register('JoommarkAuxView', $library . '/view.php');
-JLoader::register('JoommarkAuxJoommarktable', $library . '/joommarktable.php');
