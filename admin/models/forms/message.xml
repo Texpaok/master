@@ -16,6 +16,15 @@
 		/>
 
 		<field
+			name="allmenus"
+			type="checkbox"
+			label="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_LBL"
+			description="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_DESC"
+			value="1"
+			default="0"
+		/>
+
+		<field
 			name="menuitems"
 			type="menuitem"
 			size="10"
@@ -76,28 +85,19 @@
 			description="COM_JOOMMARK_MESSAGE_DESC"
 		/>
 
-		<field
-			name="rules"
-			type="rules"
-			component="com_joommark"
-			filter="rules"
-			validate="rules"
-			label="JCONFIG_PERMISSIONS_LABEL"
-			section="component"
-		/>
-
+	<fieldset name="accesscontrol">
+        <field name="asset_id" type="hidden" filter="unset" />
+        <field name="rules"
+                type="rules"
+				description="JCONFIG_PERMISSIONS_DESC"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                filter="rules"
+                validate="rules"
+                component="com_joommark"
+                section="message"
+        />
+	</fieldset>
 
 	</fieldset>
 
-	<fieldset
-		name="help">
-		<field
-			name="allmenus"
-			type="checkbox"
-			label="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_LBL"
-			description="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_DESC"
-			value="1"
-			default="0"
-		/>
-	</fieldset>
 </form>

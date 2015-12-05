@@ -84,14 +84,17 @@
 			label="COM_JOOMMARK_TYP_OPTION_TARGET_EXPECTATIOM_LBL"
 			description="COM_JOOMMARK_TYP_OPTION_TARGET_EXPECTATIOM_DESC"
 		/>
-		<field
-			name="rules"
-			type="rules"
-			component="com_joommark"
-			filter="rules"
-			validate="rules"
-			label="JCONFIG_PERMISSIONS_LABEL"
-			section="component"
-		/>
+	<fieldset name="accesscontrol">
+        <field name="asset_id" type="hidden" filter="unset" />
+        <field name="rules"
+                type="rules"
+				description="JCONFIG_PERMISSIONS_DESC"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                filter="rules"
+                validate="rules"
+                component="com_joommark"
+                section="plan"
+        />
+	</fieldset>
 	</fieldset>
 </form>

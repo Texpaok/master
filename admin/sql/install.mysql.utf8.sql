@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `#__joommark_messages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `catid` int(11) NOT NULL DEFAULT '0',
+  `params` TEXT NOT NULL DEFAULT '',
   `asset_id` int(11) NOT NULL DEFAULT '0',
   `menuitems`varchar(255) NOT NULL,
   `published` tinyint(4) NOT NULL,

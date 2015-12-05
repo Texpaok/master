@@ -17,7 +17,35 @@
             ;
         });
 
+		/* All menus assignment */
+			$("#jform_allmenus").click(function() {
+				checked = $(this).is(':checked');
+
+				if (checked) {
+					disableElement($("#jform_menuitems"), true);
+					disableElement($("#jform_menuitems_chzn"), true);
+				} else {
+					disableElement($("#jform_menuitems"), false);
+					disableElement($("#jform_menuitems_chzn"), false);
+				}
+			});
+
+			function disableElement(element, state) {
+				if (state) {
+					element.addClass("hide");
+				} else {
+					element.removeClass("hide");
+				}
+			}
+
+			window.addEvent('domready', function() {
+				allMenusIsChecked = $("#jform_allmenus").is(':checked');
+				disableElement($("#jform_menuitems_chzn"),allMenusIsChecked);
+			});
 
 
 	});
 })(jQuery);
+
+
+

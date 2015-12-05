@@ -1,75 +1,85 @@
-
 <?php
 /**
-* Modelo Logs para el Componente Securitycheckpro
-* @ author Jose A. Luque
-* @ Copyright (c) 2011 - Jose A. Luque
-* @license GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
-*/
-
-// Chequeamos si el archivo est includo en Joomla!
+ * @package     Joomla.Administrator
+ * @subpackage  com_jommark
+ *
+ * @copyright   Copyright (C) 2014-2015 Jose A. Luque and Astrid Günther. All rights reserved.
+ * @license     GNU General Public License version 2
+ */
 defined('_JEXEC') or die();
+
+// JLoader::register('clas', JPATH_ADMINISTRATOR . 'path'); ??
 jimport('joomla.application.component.modellist');
 
 /**
-* Modelo Vulninfo
-*/
+ * class Joommark Model Messages - Modelo Vulninfo
+ *
+ * @since  1.0
+ */
 class JoommarkModelMessages extends JModelList
 {
+	/**
+	 * Returns a reference to the a Table object, always creating it.
+	 *
+	 * @param   type  $config  The table type to instantiate
+	 *
+	 * @since   1.0
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id', 'published', 'title', 'asset_id'
+			);
+		}
 
+		parent::__construct($config);
+	}
 
-public function __construct($config = array()) {
-	
-	if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'published', 'title', 'accesslevel'
-            );
-        }
+	/**
+	 * Returns a reference to the a Table object, always creating it.
+	 *
+	 * @param   type  $ordering   The table type to instantiate
+	 * @param   type  $direction  The table type to instantiate
+	 *
+	 * @return boolean
+	 *
+	 * @since   1.0
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		// Inicializamos las variables
+		$app = JFactory::getApplication();
 
-    parent::__construct($config);		
-}
+		$messages_search = $app->getUserStateFromRequest('filter_messages.search', 'filter_messages_search');
+		$this->setState('filter_messages.search', $messages_search);
 
-/***/
-protected function populateState($ordering = null, $direction = null) 
-{
-	// Inicializamos las variables
-	$app		= JFactory::getApplication();
-	
-	$messages_search = $app->getUserStateFromRequest('filter_messages.search', 'filter_messages_search');
-	$this->setState('filter_messages.search', $messages_search);
-	
-		
-	 // List state information.
-        parent::populateState('title', 'desc');
-}
+		// List state information.
+		parent::populateState('title', 'desc');
+	}
 
+	/**
+	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 *
+	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set. Return all data filtered (if there is a search term)
+	 */
+	public function getListQuery()
+	{
+		// Creamos el nuevo objeto query
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
-/*
-* Return all data filtered (if there is a search term)
-*/
-public function getListQuery()
-{
-	// Creamos el nuevo objeto query
-	$db = $this->getDbo();
-	$query = $db->getQuery(true);
-	
-	// Sanitizamos la entrada
-	$search = $this->state->get('filter_messages.search');
-	$search = $db->Quote('%'.$db->escape($search, true).'%');
-		
-	$query->select('a.*, vl.title as accessleveltitle');
-	$query->from('#__joommark_messages AS a');
-	
-	
-	$query->where('(a.title LIKE '.$search.' OR a.accesslevel LIKE '.$search.')');
-	$query->join('LEFT', $db->quoteName('#__viewlevels', 'vl') . ' ON (' . $db->quoteName('a.accesslevel') . ' = ' . $db->quoteName('vl.id') . ')');
-	
-	// Add the list ordering clause.
-    $query->order($db->escape($this->getState('list.ordering', 'title')) . ' ' . $db->escape($this->getState('list.direction', 'desc')));
-	
-	return $query;
-}
+		// Sanitizamos la entrada
+		$search = $this->state->get('filter_messages.search');
+		$search = $db->Quote('%' . $db->escape($search, true) . '%');
 
+		$query->select('a.*');
+		$query->from('#__joommark_messages AS a');
 
+		// Add the list ordering clause.
+		$query->order($db->escape($this->getState('list.ordering', 'title')) . ' ' . $db->escape($this->getState('list.direction', 'desc')));
 
+		return $query;
+	}
 }
