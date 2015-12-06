@@ -31,11 +31,49 @@
 		</field>
 
 		<field
-			name="menuitems"
+			name="plans_min_visited_pages"
+			type="text"
+			size="10"
+			default="100"
+			filter="integer"
+			label="COM_JOOMMARK_PLAN_MIN_VISITET_PAGES_LBL"
+			description="COM_JOOMMARK_PLAN_MIN_VISITET_PAGES_DESC"
+		/>
+
+		<field
+			name="plans_min_visited_time_sec"
+			type="text"
+			size="10"
+			default="100"
+			filter="integer"
+			label="COM_JOOMMARK_PLAN_MIN_VISITET_TIME_SEC_LBL"
+			description="COM_JOOMMARK_PLAN_MIN_VISITET_TIME_SEC_DESC"
+		/>
+
+		<field
+			name="plans_mode_menu_or_url"
+			type="list"
+			default=""
+			label="COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_LBL"
+			description="COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_DESC">
+			<option value="url">COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_URL</option>
+			<option value="menu">COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_LBL_MENU</option>
+		</field>
+
+		<field
+			name="plans_menuitems"
 			type="menuitem"
 			size="10"
 			label="COM_JOOMMARK_PLAN_MENU_ASSIGNMENT"
 			description="COM_JOOMMARK_PLAN_MENU_ASSIGNMENT_DESC"
+		/>
+		<!-- Todo default value and validation -->
+		<field
+			name="plans_url"
+			type="url"
+			default="http://www.example.de"
+			label="COM_JOOMMARK_PLAN_URL_ASSIGNMENT"
+			description="COM_JOOMMARK_PLAN_URL_ASSIGNMENT_DESC"
 		/>
 
 		<field name="published"
@@ -92,17 +130,17 @@
 			label="COM_JOOMMARK_TYP_OPTION_TARGET_EXPECTATIOM_LBL"
 			description="COM_JOOMMARK_TYP_OPTION_TARGET_EXPECTATIOM_DESC"
 		/>
-	<fieldset name="accesscontrol">
-        <field name="asset_id" type="hidden" filter="unset" />
-        <field name="rules"
-                type="rules"
-				description="JCONFIG_PERMISSIONS_DESC"
-                label="JCONFIG_PERMISSIONS_LABEL"
-                filter="rules"
-                validate="rules"
-                component="com_joommark"
-                section="plan"
-        />
-	</fieldset>
+		<fieldset name="accesscontrol">
+			<field name="asset_id" type="hidden" filter="unset" />
+			<field name="rules"
+			   type="rules"
+			   description="JCONFIG_PERMISSIONS_DESC"
+			   label="JCONFIG_PERMISSIONS_LABEL"
+			   filter="rules"
+			   validate="rules"
+			   component="com_joommark"
+			   section="plan"
+			/>
+		</fieldset>
 	</fieldset>
 </form>
