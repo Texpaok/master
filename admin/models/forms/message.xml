@@ -33,7 +33,7 @@
 			description="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT_DESC"
 		/>
 
-		<field name="published"
+		<field name="state"
 			   type="list"
 			   label="JSTATUS"
 			   description="JFIELD_PUBLISHED_DESC"

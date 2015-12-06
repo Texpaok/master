@@ -35,7 +35,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 <div class="clearfix"> </div>
 
 <div>
-	<span class="badge" style="background-color: #A9BCF5; padding: 10px 10px 10px 10px; float:right;"><?php echo JText::_('COM_JOOMMARK_MESSAGES');?></span>
+	<span class="badge" style="background-color: #A9BCF5; padding: 10px 10px 10px 10px; float:right;"><?php echo JText::_('COM_JOOMMARK_PLANS');?></span>
 </div>
 
 	<table class="table table-striped">
@@ -73,7 +73,7 @@ foreach ($this->items as &$row) {
 	</td>
 	<td class="center">
 			<?php
-			echo JHtml::_('jgrid.published', $row->published, $k, 'plans.', true);
+			echo JHtml::_('jgrid.published', $row->state, $k, 'plans.', true);
 			?>
 	</td>
 	<td class="center">
@@ -84,7 +84,7 @@ foreach ($this->items as &$row) {
 		<?php echo $row->description; ?>
 	</td>
 	<td class="center">
-		<?php echo $row->published; ?>
+		<?php echo $row->state; ?>
 	</td>
 	<td class="center">
 			<?php echo JHtml::_('grid.id', $k, $row->id); ?>

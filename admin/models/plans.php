@@ -26,7 +26,7 @@ class JoommarkModelPlans extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'published', 'title', 'accesslevel'
+				'id', 'published', 'title'
 			);
 		}
 
@@ -72,12 +72,6 @@ class JoommarkModelPlans extends JModelList
 
 		$query->select('*');
 		$query->from('#__joommark_plansstats AS a');
-
-		// $query->where('(a.title LIKE ' . $search . ' OR a.accesslevel LIKE ' . $search . ')');
-		// $query->join('LEFT', $db->quoteName('#__viewlevels', 'vl') . ' ON (' . $db->quoteName('a.accesslevel') . ' = ' . $db->quoteName('vl.id') . ')');
-
-		// Add the list ordering clause.
-		// $query->order($db->escape($this->getState('list.ordering', 'title')) . ' ' . $db->escape($this->getState('list.direction', 'desc')));
 
 		return $query;
 	}

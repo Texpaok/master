@@ -37,10 +37,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		<span class="badge" style="background-color: #A9BCF5; padding: 10px 10px 10px 10px; float:right;"><?php echo JText::_('COM_JOOMMARK_MESSAGES'); ?></span>
 	</div>
 
-<div>
-	<span class="badge" style="background-color: #A9BCF5; padding: 10px 10px 10px 10px; float:right;"><?php echo JText::_('COM_JOOMMARK_MESSAGES');?></span>
-</div>
-
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -78,7 +74,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					</td>
 					<td class="center">
 		<?php
-			echo JHtml::_('jgrid.published', $row->published, $k, 'messages.', true);
+			echo JHtml::_('jgrid.published', $row->state, $k, 'messages.', true);
 			?>
 					</td>
 					<td class="center">
