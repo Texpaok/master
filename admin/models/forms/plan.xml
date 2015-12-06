@@ -12,14 +12,25 @@
 		<field
 			name="name"
 			type="text"
+			size="40"
+			class="input-xlarge"
+			required="true"
 			label="COM_JOOMMARK_JOOMMARK_NAME_LABEL"
 			description="COM_JOOMMARK_JOOMMARK_NAME_DESC"
-			default=""
+			default="" />
+
+		<field
+			type="spacer"
+			name="typespacer1"
+			class="text"
+			hr="true"
 		/>
 		<field
 			name="type"
 			type="list"
-			default=""
+			default="0"
+			class="span10"
+			filter="intval"
 			label="COM_JOOMMARK_TYP_LABEL"
 			description="COM_JOOMMARK_TYP_DESC">
 			<option value="0">COM_JOOMMARK_TYP_OPTION0_MIN_VISITED_PAGES_PER_USER_SAME_SESSION</option>
@@ -34,18 +45,19 @@
 			name="plans_min_visited_pages"
 			type="text"
 			size="10"
+			class="input-mini"
 			default="100"
-			filter="integer"
+			filter="intval"
 			label="COM_JOOMMARK_PLAN_MIN_VISITET_PAGES_LBL"
 			description="COM_JOOMMARK_PLAN_MIN_VISITET_PAGES_DESC"
 		/>
-
 		<field
 			name="plans_min_visited_time_sec"
 			type="text"
 			size="10"
-			default="100"
-			filter="integer"
+			class="input-mini"
+			default="60"
+			filter="intval"
 			label="COM_JOOMMARK_PLAN_MIN_VISITET_TIME_SEC_LBL"
 			description="COM_JOOMMARK_PLAN_MIN_VISITET_TIME_SEC_DESC"
 		/>
@@ -57,7 +69,7 @@
 			label="COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_LBL"
 			description="COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_DESC">
 			<option value="url">COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_URL</option>
-			<option value="menu">COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_LBL_MENU</option>
+			<option value="menu">COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_MENU</option>
 		</field>
 
 		<field
@@ -71,16 +83,23 @@
 		<field
 			name="plans_url"
 			type="url"
+			class="input-xlarge"
 			default="http://www.example.de"
 			label="COM_JOOMMARK_PLAN_URL_ASSIGNMENT"
 			description="COM_JOOMMARK_PLAN_URL_ASSIGNMENT_DESC"
+		/>
+		<field
+			type="spacer"
+			name="typespacer2"
+			class="text"
+			hr="true"
 		/>
 
 		<field name="published"
 			   type="list"
 			   label="JSTATUS"
 			   description="JFIELD_PUBLISHED_DESC"
-			   class="inputbox small"
+			   filter="intval"
 			   size="1"
 			   default="1" >
 			<option value="1">JPUBLISHED</option>
@@ -116,6 +135,7 @@
 			type="list"
 			label="COM_JOOMMARK_TYP_OPTION_HASTARGET_LBL"
 			description="COM_JOOMMARK_TYP_OPTION_HASTARGET_DESC"
+			default="0"
 		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -133,13 +153,13 @@
 		<fieldset name="accesscontrol">
 			<field name="asset_id" type="hidden" filter="unset" />
 			<field name="rules"
-			   type="rules"
-			   description="JCONFIG_PERMISSIONS_DESC"
-			   label="JCONFIG_PERMISSIONS_LABEL"
-			   filter="rules"
-			   validate="rules"
-			   component="com_joommark"
-			   section="plan"
+				   type="rules"
+				   description="JCONFIG_PERMISSIONS_DESC"
+				   label="JCONFIG_PERMISSIONS_LABEL"
+				   filter="rules"
+				   validate="rules"
+				   component="com_joommark"
+				   section="plan"
 			/>
 		</fieldset>
 	</fieldset>
