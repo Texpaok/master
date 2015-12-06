@@ -269,7 +269,8 @@
 			if ($('#jform_allmenus').find("option:selected").attr('value') == '1') {
 				document.getElementById('jform_menuitems_message').parentElement.parentElement.style.display = 'none';
 				$('#jform_menuitems_message').attr('required', false);
-				$('#jform_menuitems_message').val([]);
+				//To do: empty chozen
+
 			} else {
 				document.getElementById('jform_menuitems_message').parentElement.parentElement.style.display = 'block';
 				$('#jform_menuitems_message').attr('required', true);
