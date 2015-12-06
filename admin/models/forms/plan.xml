@@ -7,8 +7,7 @@
 			label="COM_JOOMMARK_ID_LABEL"
 			description="COM_JOOMMARK_ID_DESC"
 			size="40"
-			class="inputbox"
-		/>
+			class="inputbox" />
 		<field
 			name="name"
 			type="text"
@@ -23,8 +22,8 @@
 			type="spacer"
 			name="typespacer1"
 			class="text"
-			hr="true"
-		/>
+			hr="true" />
+
 		<field
 			name="type"
 			type="list"
@@ -49,8 +48,7 @@
 			default="0"
 			filter="intval"
 			label="COM_JOOMMARK_PLAN_MIN_VISITET_PAGES_LBL"
-			description="COM_JOOMMARK_PLAN_MIN_VISITET_PAGES_DESC"
-		/>
+			description="COM_JOOMMARK_PLAN_MIN_VISITET_PAGES_DESC" />
 		<field
 			name="plans_min_visited_time_sec"
 			type="text"
@@ -59,8 +57,7 @@
 			default="0"
 			filter="intval"
 			label="COM_JOOMMARK_PLAN_MIN_VISITET_TIME_SEC_LBL"
-			description="COM_JOOMMARK_PLAN_MIN_VISITET_TIME_SEC_DESC"
-		/>
+			description="COM_JOOMMARK_PLAN_MIN_VISITET_TIME_SEC_DESC" />
 
 		<field
 			name="plans_mode_menu_or_url"
@@ -87,8 +84,7 @@
 			class="input-xlarge"
 			default="http://www.example.de"
 			label="COM_JOOMMARK_PLAN_URL_ASSIGNMENT"
-			description="COM_JOOMMARK_PLAN_URL_ASSIGNMENT_DESC"
-		/>
+			description="COM_JOOMMARK_PLAN_URL_ASSIGNMENT_DESC" />
 		<field
 			type="spacer"
 			name="typespacer2"
@@ -133,8 +129,7 @@
 			class="inputbox"
 			default=""
 			label="COM_JOOMMARK_FIELD_CATID_LABEL"
-			description="COM_JOOMMARK_FIELD_CATID_DESC"
-		>
+			description="COM_JOOMMARK_FIELD_CATID_DESC" >
 			<option value="0">JOPTION_SELECT_CATEGORY</option>
 		</field>
 
@@ -146,15 +141,13 @@
 			default=""
 			buttons="true"
 			filter="JComponentHelper::filterText"
-			height="100"
-		/>
+			height="100" />
 		<field
 			name="hastarget"
 			type="list"
 			label="COM_JOOMMARK_TYP_OPTION_HASTARGET_LBL"
 			description="COM_JOOMMARK_TYP_OPTION_HASTARGET_DESC"
-			default="0"
-		>
+			default="0" >
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -166,8 +159,7 @@
 			default="0"
 			filter="integer"
 			label="COM_JOOMMARK_TYP_OPTION_TARGET_EXPECTATIOM_LBL"
-			description="COM_JOOMMARK_TYP_OPTION_TARGET_EXPECTATIOM_DESC"
-		/>
+			description="COM_JOOMMARK_TYP_OPTION_TARGET_EXPECTATIOM_DESC" />
 		<fieldset name="accesscontrol">
 			<field name="asset_id" type="hidden" filter="unset" />
 			<field name="rules"
@@ -177,8 +169,7 @@
 				   filter="rules"
 				   validate="rules"
 				   component="com_joommark"
-				   section="plan"
-			/>
+				   section="plan" />
 		</fieldset>
 	</fieldset>
 </form>

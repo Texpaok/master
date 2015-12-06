@@ -12,34 +12,45 @@
 			label="COM_JOOMMARK_TITLE"
 			description="COM_JOOMMARK_TITLE_DESC"
 			required="true"
-			size="40"
-		/>
+			size="40" />
+
+		<field
+			type="spacer"
+			name="typespacer1"
+			class="text"
+			hr="true" />
 
 		<field
 			name="allmenus"
-			type="checkbox"
+			type="list"
 			label="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_LBL"
 			description="COM_JOOMMARK_ASSIGN_TO_ALL_PAGES_DESC"
-			value="1"
-			default="0"
-		/>
+			default="1" >
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 		<field
-			name="menuitems"
+			name="menuitems_message"
 			type="menuitem"
 			size="10"
 			multiple="multiple"
 			label="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT"
-			description="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT_DESC"
-		/>
+			description="COM_JOOMMARK_MESSAGE_MENU_ASSIGNMENT_DESC" />
+
+		<field
+			type="spacer"
+			name="typespacer2"
+			class="text"
+			hr="true" />
 
 		<field name="state"
-			   type="list"
-			   label="JSTATUS"
-			   description="JFIELD_PUBLISHED_DESC"
-			   class="inputbox small"
-			   size="1"
-			   default="1" >
+				   type="list"
+				   label="JSTATUS"
+				   description="JFIELD_PUBLISHED_DESC"
+				   class="inputbox small"
+				   size="1"
+				   default="1" >
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
@@ -53,8 +64,7 @@
 			class="inputbox"
 			default=""
 			label="COM_JOOMMARK_FIELD_CATID_LABEL"
-			description="COM_JOOMMARK_FIELD_CATID_DESC"
-		>
+			description="COM_JOOMMARK_FIELD_CATID_DESC" >
 			<option value="0">JOPTION_SELECT_CATEGORY</option>
 		</field>
 
@@ -64,16 +74,19 @@
 			class="input-mini"
 			label="COM_JOOMMARK_ITEM_PERCENTAGE"
 			default="80"
+			filter="intval"
 			description="COM_JOOMMARK_ITEM_PERCENTAGE_DESC"
-			size="6"
-		/>
+			size="6" />
 
-		<field name="cookie" default="30" type="text"
-			   class="input-mini"
-			   label="COM_JOOMMARK_ITEM_COOKIE"
-			   description="COM_JOOMMARK_ITEM_COOKIE_DESC"
-			   size="6"
-		/>
+		<field
+			name="cookie"
+			default="30"
+			type="text"
+			filter="intval"
+			class="input-mini"
+			label="COM_JOOMMARK_ITEM_COOKIE"
+			description="COM_JOOMMARK_ITEM_COOKIE_DESC"
+			size="6" />
 
 		<field
 			name="message"
@@ -82,20 +95,18 @@
 			cols="40"
 			filter="raw"
 			label="COM_JOOMMARK_MESSAGE"
-			description="COM_JOOMMARK_MESSAGE_DESC"
-		/>
+			description="COM_JOOMMARK_MESSAGE_DESC" />
 
 		<fieldset name="accesscontrol">
 			<field name="asset_id" type="hidden" filter="unset" />
 			<field name="rules"
-			   type="rules"
-			   description="JCONFIG_PERMISSIONS_DESC"
-			   label="JCONFIG_PERMISSIONS_LABEL"
-			   filter="rules"
-			   validate="rules"
-			   component="com_joommark"
-			   section="message"
-			/>
+				   type="rules"
+				   description="JCONFIG_PERMISSIONS_DESC"
+				   label="JCONFIG_PERMISSIONS_LABEL"
+				   filter="rules"
+				   validate="rules"
+				   component="com_joommark"
+				   section="message" />
 		</fieldset>
 
 	</fieldset>

@@ -21,10 +21,10 @@ abstract class MessagesHelper {
 
 		// Select messages published, with an accesslevel egual or higher than the user and/or asigned to all pages
         $query = "select a.* from #__joommark_messages a ";
-        $query .= "where a.published = 1 ";
+        $query .= "where a.state = 1 ";
         // Todo, access and categories
 		//$query .= "AND ((a.accesslevel IN ($accesslevel)) OR (a.accesslevel IS NULL))";
-		$query .= "AND ( (a.menuitems LIKE '%$menuitemid%') OR (a.menuitems LIKE '%-1%') )";
+		$query .= "AND ( (a.menuitems_message LIKE '%$menuitemid%') OR (a.menuitems_message LIKE '%-1%') )";
 
 		$db = JFactory::getDBO();
         $db->setQuery($query);

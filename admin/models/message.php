@@ -83,9 +83,9 @@ class JoommarkModelMessage extends JModelAdmin
 					// Extract the array of menuitems, previously json_encoded
 					$menus = array();
 
-					if (!empty($data->menuitems))
+					if (!empty($data->menuitems_message))
 					{
-						$menus = json_decode($data->menuitems);
+						$menus = json_decode($data->menuitems_message);
 					}
 
 					/* Check if box is assigned to all pages */
@@ -99,7 +99,7 @@ class JoommarkModelMessage extends JModelAdmin
 					}
 
 					// Assign menuitems
-					$data->menuitems = $menus;
+					$data->menuitems_message = $menus;
 				}
 			}
 		}
@@ -123,12 +123,12 @@ class JoommarkModelMessage extends JModelAdmin
 
 		if ($AllMenus)
 		{
-			$data["menuitems"] = array();
-			array_push($data["menuitems"], "-1");
+			$data["menuitems_message"] = array();
+			array_push($data["menuitems_message"], "-1");
 		}
 
 		// Json_encode menuitems
-		$data["menuitems"] = json_encode($data["menuitems"]);
+		$data["menuitems_message"] = json_encode($data["menuitems_message"]);
 
 		if (parent::save($data))
 		{

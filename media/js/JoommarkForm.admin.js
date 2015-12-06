@@ -253,6 +253,32 @@
 		 *
 		 */
 		/* All menus assignment */
+		// Hide fields on load
+		if ($('#jform_allmenus').length) {
+			if ($('#jform_allmenus').find("option:selected").attr('value') == '1') {
+				document.getElementById('jform_menuitems_message').parentElement.parentElement.style.display = 'none';
+				$('#jform_menuitems_message').attr('required', false);
+				$('#jform_menuitems_message').val('');
+			} else {
+				document.getElementById('jform_menuitems_message').parentElement.parentElement.style.display = 'block';
+				$('#jform_menuitems_message').attr('required', true);
+			}
+		}
+		// On Change
+		$('#jform_allmenus').change(function () {
+			if ($('#jform_allmenus').find("option:selected").attr('value') == '1') {
+				document.getElementById('jform_menuitems_message').parentElement.parentElement.style.display = 'none';
+				$('#jform_menuitems_message').attr('required', false);
+				$('#jform_menuitems_message').val([]);
+			} else {
+				document.getElementById('jform_menuitems_message').parentElement.parentElement.style.display = 'block';
+				$('#jform_menuitems_message').attr('required', true);
+			}
+			;
+		});
+
+
+		/*
 		$("#jform_allmenus").click(function () {
 			checked = $(this).is(':checked');
 
@@ -264,6 +290,7 @@
 				disableElement($("#jform_menuitems_chzn"), false);
 			}
 		});
+
 
 		function disableElement(element, state) {
 			if (state) {
@@ -277,7 +304,7 @@
 			allMenusIsChecked = $("#jform_allmenus").is(':checked');
 			disableElement($("#jform_menuitems_chzn"), allMenusIsChecked);
 		});
-
+		*/
 
 	});
 })(jQuery);
