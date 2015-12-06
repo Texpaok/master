@@ -46,7 +46,7 @@
 			type="text"
 			size="10"
 			class="input-mini"
-			default="100"
+			default="0"
 			filter="intval"
 			label="COM_JOOMMARK_PLAN_MIN_VISITET_PAGES_LBL"
 			description="COM_JOOMMARK_PLAN_MIN_VISITET_PAGES_DESC"
@@ -56,7 +56,7 @@
 			type="text"
 			size="10"
 			class="input-mini"
-			default="60"
+			default="0"
 			filter="intval"
 			label="COM_JOOMMARK_PLAN_MIN_VISITET_TIME_SEC_LBL"
 			description="COM_JOOMMARK_PLAN_MIN_VISITET_TIME_SEC_DESC"
@@ -65,7 +65,7 @@
 		<field
 			name="plans_mode_menu_or_url"
 			type="list"
-			default=""
+			default="url"
 			label="COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_LBL"
 			description="COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_DESC">
 			<option value="url">COM_JOOMMARK_PLANS_MODE_URL_OR_MENU_URL</option>
@@ -77,8 +77,9 @@
 			type="menuitem"
 			size="10"
 			label="COM_JOOMMARK_PLAN_MENU_ASSIGNMENT"
-			description="COM_JOOMMARK_PLAN_MENU_ASSIGNMENT_DESC"
-		/>
+			description="COM_JOOMMARK_PLAN_MENU_ASSIGNMENT_DESC" >
+			<option	value="">JSELECT</option>
+		</field>
 		<!-- Todo default value and validation -->
 		<field
 			name="plans_url"
@@ -145,7 +146,7 @@
 			name="target_expectation"
 			type="text"
 			size="10"
-			default="100"
+			default="0"
 			filter="integer"
 			label="COM_JOOMMARK_TYP_OPTION_TARGET_EXPECTATIOM_LBL"
 			description="COM_JOOMMARK_TYP_OPTION_TARGET_EXPECTATIOM_DESC"
