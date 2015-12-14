@@ -17,6 +17,9 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 
+// Add style declaration
+$css = "media/com_joommark/css/JoommarkStyles.css";
+JHTML::stylesheet($css);
 ?>
 
 
@@ -41,19 +44,19 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 	<table class="table table-bordered table-hover">
 	<thead>
 		<tr>
-			<th class="logs" align="center">
+			<th class="logs" >
 				<?php echo JHtml::_('grid.sort', 'Session', 'session_id_person', $listDirn, $listOrder); ?>
 			</th>
-			<th class="logs" align="center">
+			<th class="logs" >
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_LAST_PAGE_VISITED', 'nowpage', $listDirn, $listOrder); ?>
 			</th>
-			<th class="logs" align="center">
+			<th class="logs" >
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_TIME', 'lastupdate_time', $listDirn, $listOrder); ?>
 			</th>
-			<th class="logs" align="center">
+			<th class="logs" >
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_USER', 'current_name', $listDirn, $listOrder); ?>
 			</th>
-			<th class="logs" align="center">
+			<th class="logs" >
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
 		</tr>
@@ -64,7 +67,7 @@ if (!empty($this->items)) {
 foreach ($this->items as &$row) {
 ?>
 <tr>
-	<td align="center">
+	<td >
 			<?php echo $row->session_id_person; ?>
 			<span title="<?php echo JText::_('COM_JOOMMARK_VISITOR_INFO'); ?>">
                 <a href="<?php echo JRoute::_( 'index.php?option=com_joommark&controller=visitorsinfo&view=visitorsinfo&filter=' . $row->session_id_person . '&'. JSession::getFormToken() .'=1' );?>" ">
@@ -72,18 +75,20 @@ foreach ($this->items as &$row) {
                 </a>
             </span>
 	</td>
-	<td align="center">
+	<td >
 			<?php echo $row->nowpage; ?>
 	</td>
-	<td align="center">
+	<td >
 			<?php //echo gmdate("Y-m-d\T H:i:s\Z",$row->lastupdate_time); ?>
 			<?php echo JHtml::_('date', $row->lastupdate_time, JText::_('DATE_FORMAT_LC2'));?>
 	</td>
-	<td align="center">
+	<td >
 			<?php
 				if ( empty($row->current_name) ) {
 					$span = "<span class=\"label \">";
 					$row->current_name = JText::_('COM_JOOMMARK_NONE');
+				} else if ( strstr($row->current_name,"Guest") ) {
+					$span = "<span class=\"label \">";
 				} else {
 					$span = "<span class=\"label label-success\">";
 				}
@@ -91,7 +96,7 @@ foreach ($this->items as &$row) {
 			<?php echo $span . $row->current_name; ?>
 			</span>
 	</td>
-	<td align="center">
+	<td >
 			<?php echo JHtml::_('grid.id', $k, $row->session_id_person, '', 'session_id_person_array'); ?>
 	</td>
 </tr>

@@ -30,10 +30,13 @@
     </update>
 
     <media destination="com_joommark" folder="media">
-        <folder>images</folder>
-        <folder>stylesheets</folder>
+        <folder>css</folder>
+        <folder>flags</folder>
         <folder>fonts</folder>
-        <folder>javascript</folder>
+        <folder>images</folder>
+		<folder>javascript</folder>
+		<folder>js</folder>
+		<folder>stylesheets</folder>
     </media>
     <files folder="site">
         <filename>joommark.php</filename>

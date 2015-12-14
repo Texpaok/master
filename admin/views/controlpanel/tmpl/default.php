@@ -14,22 +14,17 @@ $lang->load('com_joommark.sys');
 
 $review = sprintf($lang->_('COM_SECURITYCHECKPRO_REVIEW'), '<a href="http://extensions.joomla.org/extensions/extension/access-a-security/site-security/securitycheck-pro" target="_blank">', '</a>');
 $translator_name = $lang->_('COM_SECURITYCHECKPRO_TRANSLATOR_NAME');
-$firewall_plugin_status = $lang->_('COM_SECURITYCHECKPRO_FIREWALL_PLUGIN_STATUS');
-$cron_plugin_status = $lang->_('COM_SECURITYCHECKPRO_CRON_PLUGIN_STATUS');
-$update_database_plugin_status = $lang->_('COM_SECURITYCHECKPRO_UPDATE_DATABASE_PLUGIN_STATUS');
-$logs_status = $lang->_('COM_SECURITYCHECKPRO_LOGS_STATUS');
-$autoupdate_status = $lang->_('COM_SECURITYCHECKPRO_AUTOUPDATE_STATUS');
 $translator_url = $lang->_('COM_SECURITYCHECKPRO_TRANSLATOR_URL');
 
 if (!file_exists(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . "language" . DIRECTORY_SEPARATOR . $lang->get("tag") . DIRECTORY_SEPARATOR . $lang->get("tag") . ".com_joommark.ini"))
 {
-	// No existe traducci�n
+	// No existe traduccion
 	$translator_name = "<blink>" . $lang->get("name") . " translation is missing.</blink> Please contribute writing this translation. It's easy. Click to see how.";
 	$translator_url = "http://securitycheck.protegetuordenador.com/index.php/forum/13-news-and-announcement/4-contribute-send-us-your-translation";
 }
 
-JHTML::_('behavior.framework');
-JHtml::_('behavior.modal');
+/*JHTML::_('behavior.framework');
+JHtml::_('behavior.modal');*/
 
 // Add style declaration
 $media_url = "media/com_joommark/stylesheets/cpanelui.css";
@@ -136,7 +131,52 @@ JHTML::stylesheet($opa_icons);
 
 			</div>
 		</div>
+		
+		<div class="row-fluid" id="cpanel">
+		
+			<div class="span6">
+			
+			</div>
+			
+			<div class="box span6">
+				<div class="box-header well" data-original-title>
+					<i class="icon-home"></i><?php echo ' ' . JText::_('Visits per country'); ?>
+				</div>
+				<div id="vmap" style="width: 600px; height: 400px;" >
+				
+					<link href="/administrator/components/com_joommark/helpers/map/dist/jqvmap.css" media="screen" rel="stylesheet" type="text/css"/>
 
+					<script type="text/javascript" src="/administrator/components/com_joommark/helpers/map/dist/jquery-1.11.3.min.js"></script>
+					<script type="text/javascript" src="/administrator/components/com_joommark/helpers/map/dist/jquery.vmap.js"></script>
+					<script type="text/javascript" src="/administrator/components/com_joommark/helpers/map/dist/maps/jquery.vmap.world.js" charset="utf-8"></script>
+					<script type="text/javascript" src="/administrator/components/com_joommark/helpers/map/dist/jquery.vmap.sampledata.js"></script>
+
+					<script>
+					  jQuery(document).ready(function () {
+						jQuery('#vmap').vectorMap({
+						  map: 'world_en',
+						  backgroundColor: '#333333',
+						  color: '#ffffff',
+						  hoverOpacity: 0.7,
+						  selectedColor: '#666666',
+						  enableZoom: true,
+						  showTooltip: true,
+						  scaleColors: ['#C8EEFF', '#006491'],
+						  values: sample_data,
+						  normalizeFunction: 'polynomial',
+						  onLabelShow: function (event,label,code) {
+							if (sample_data[code]>0) {
+								label.append(': ' + sample_data[code]);
+							}			
+						  }						 
+						});
+					  });
+					</script>
+					
+
+				</div>
+			</div>
+		</div>
 
 
 	</div>

@@ -16,6 +16,10 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 
+// Add style declaration
+$css = "media/com_joommark/css/JoommarkStyles.css";
+JHTML::stylesheet($css);
+
 ?>
 
 
@@ -40,28 +44,28 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 	<table class="table table-bordered table-hover">
 	<thead>
 		<tr>
-			<th class="logs" align="center">				
+			<th class="logs">				
 				<?php echo JHtml::_('grid.sort', 'Ip', 'ip', $listDirn, $listOrder); ?>
 			</th>
-			<th class="logs" align="center">
+			<th class="logs">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_CUSTOMER_NAME', 'customer_name', $listDirn, $listOrder); ?>				
 			</th>
-			<th class="logs" align="center">
+			<th class="logs">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_VISITDATE', 'visitdate', $listDirn, $listOrder); ?>
 			</th>
-			<th class="logs" align="center">
+			<th class="logs">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_VISITEDPAGES', 'visitedpage', $listDirn, $listOrder); ?>
 			</th>
-			<th class="logs" align="center">
+			<th class="logs">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_GEOLOCATION', 'geolocation', $listDirn, $listOrder); ?>
 			</th>
-			<th class="logs" align="center">
+			<th class="logs">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_BROWSER', 'browser', $listDirn, $listOrder); ?>
 			</th>
-			<th class="logs" align="center">
+			<th class="logs">
 				<?php echo JHtml::_('grid.sort', 'COM_JOOMMARK_OS', 'os', $listDirn, $listOrder); ?>
 			</th>			
-			<th class="logs" align="center">
+			<th class="logs">
 				<input type="checkbox" name="toggle" value="" onclick="Joomla.checkAll(this)" />
 			</th>
 		</tr>
@@ -72,28 +76,45 @@ if (!empty($this->items)) {
 foreach ($this->items as &$row) {	
 ?>
 <tr>
-	<td align="center">
+	<td>
 			<?php echo $row->ip; ?>			
 	</td>
-	<td align="center">
-			<?php echo $row->customer_name; ?>	
+	<td>
+			<?php
+				if ( empty($row->customer_name) ) {
+					$span = "<span class=\"label \">";
+					$row->customer_name = JText::_('COM_JOOMMARK_NONE');
+				} else if ( strstr($row->customer_name,"Guest") ) {
+					$span = "<span class=\"label \">";
+				} else {
+					$span = "<span class=\"label label-success\">";
+				}
+			?>
+			<?php echo $span . $row->customer_name; ?>
+			</span>			
 	</td>
-	<td align="center">
+	<td>
 			<?php echo $row->visit_timestamp; ?>
 	</td>
-	<td align="center">
+	<td>
 			<?php echo $row->visitedpage; ?>
 	</td>
-	<td align="center">
-			<?php echo $row->geolocation; ?>	
+	<td>
+			<?php 
+			$geolocation_json_decode = json_decode($row->geolocation,true);
+			$country_code = strtolower($geolocation_json_decode['country_code']);
+			$country_name = $geolocation_json_decode['country_name'];
+			$flag = "/media/com_joommark/flags/" . $country_code . ".png";			
+			?>
+			<img src=<?php echo $flag; ?> alt="<?php echo $country_name; ?>" title="<?php echo $country_name; ?>">			
 	</td>
-	<td align="center">
+	<td>
 			<?php echo $row->browser; ?>	
 	</td>
-	<td align="center">
+	<td>
 			<?php echo $row->os; ?>	
 	</td>
-	<td align="center">			
+	<td>			
 			<?php echo JHtml::_('grid.id', $k, $row->visit_timestamp, '', 'visit_timestamp_array'); ?>
 	</td>	
 </tr>

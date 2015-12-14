@@ -47,3 +47,10 @@ div#joommark_msgtitle {
 /*
  * Styles for Plans form
  */
+table.table th{
+text-align: center; 
+}
+
+table.table td{
+text-align: center; 
+}
