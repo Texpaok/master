@@ -96,4 +96,19 @@ CREATE TABLE IF NOT EXISTS `#__joommark_feedbacksstats` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARACTER SET `utf8`;
 
-
+CREATE TABLE IF NOT EXISTS `#__joommark_countries_map` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `num_code` smallint(6) NOT NULL,
+  `iso1_code` char(2) NOT NULL,
+  `name` varchar(80)  NOT NULL,
+  `name_caps` varchar(80) NOT NULL,
+  `iso3_code` char(3) DEFAULT NULL,
+  `visits` smallint(6) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB CHARACTER SET `utf8`;
+ 
+INSERT IGNORE INTO `#__joommark_countries_map` (`id`, `num_code`, `iso1_code`, `name`, `name_caps`, `iso3_code`) VALUES
+(1, 4, 'AF', 'Afghanistan', 'AFGHANISTAN', 'AFG'),
+(2, 248, 'AX', 'Aland Islands', 'ALAND ISLANDS', 'ALA'),
+(32, 76, 'BR', 'Brazil', 'BRAZIL', 'BRA');

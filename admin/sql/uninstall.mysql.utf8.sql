@@ -6,3 +6,4 @@ DROP TABLE IF EXISTS `#__joommark_searches`;
 DROP TABLE IF EXISTS `#__joommark_plansstats`;
 DROP TABLE IF EXISTS `#__joommark_plansstats_track`;
 DROP TABLE IF EXISTS `#__joommark_feedbacksstats`;
+DROP TABLE IF EXISTS `#__joommark_countries_map`;

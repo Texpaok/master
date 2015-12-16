@@ -24,10 +24,12 @@ class JoommarkViewControlPanel extends JViewLegacy
 		// Get the data
 		$visited_pages = $model->total_visited_pages();
 		$total_visitors = $model->total_visitors();
-
+		$total_visitors_per_country = $model->total_visitors_per_country();
+		
 		// Put them available
 		$this->assignRef('visited_pages', $visited_pages);
 		$this->assignRef('total_visitors', $total_visitors);
+		$this->assignRef('total_visitors_per_country', $total_visitors_per_country);
 
 		parent::display();
 	}

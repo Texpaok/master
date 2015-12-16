@@ -109,7 +109,7 @@ class PlgSystemTracker extends JPlugin
 			$this->is_mobile = $browser_data->isMobile();
 			$this->is_robot = $browser_data->isRobot();
 			$this->uri = JRequest::getVar('REQUEST_URI', ' ', 'server', 'STRING');
-			$this->ip = JRequest::getVar('REMOTE_ADDR', ' ', 'server', 'STRING');
+			$this->ip = JRequest::getVar('REMOTE_ADDR', ' ', 'server', 'STRING');					
 		}
 		else
 		{
@@ -250,7 +250,7 @@ class PlgSystemTracker extends JPlugin
 		{
 			// Do we have to do something special here?
 		}
-
+				
 		// Create and populate an object.
 		$ServerstatsObject = new stdClass;
 		$ServerstatsObject->session_id = $this->session->getId();
@@ -259,7 +259,7 @@ class PlgSystemTracker extends JPlugin
 		$ServerstatsObject->visitdate = date("Y-m-d");
 		$ServerstatsObject->visit_timestamp = date("Y-m-d H:i:s");
 		$ServerstatsObject->visitedpage = str_replace(JUri::getInstance()->base(), '', urldecode($this->app->input->post->getString('nowpage', null)));
-		$ServerstatsObject->geolocation = 'todo';
+		$ServerstatsObject->geolocation = $this->geolocation($this->ip);
 		$ServerstatsObject->ip = $this->ip;
 		$ServerstatsObject->browser = $this->browser . ' ' . $this->browser_version;
 		$ServerstatsObject->os = $this->platform;
@@ -705,5 +705,86 @@ class PlgSystemTracker extends JPlugin
 			// Todo special exeption handling
 		}
 		return true;
+	}
+	
+	
+	/**
+	 * Get geolocation for an IP address
+	 *
+	 * @param   string  $ip  The IP address to geolocate
+	 *
+	 * @access   protected
+	 * @return   json_encode string  The Country name|Continent name|country code of the IP address
+	 */
+	protected function geolocation($ip)
+	{
+		
+		// Initialize variables
+		$country_name = "";
+		$continent_name = "";
+				
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+					
+		if(@file_exists(JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_joommark' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'geolocation' . DIRECTORY_SEPARATOR . 'GeoLite2-Country.mmdb')) {
+			/* Chequeamos si existen las funciones necesarias para manejar el fichero de geolocalización. Si cargamos nuestro fichero y estas funciones ya están definidas, obtendremos un error fatal */
+			if ( !function_exists('getCountryCode') ) {
+				require_once JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_joommark' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'geolocation' . DIRECTORY_SEPARATOR . 'geoipv2.php';
+			}
+							
+			// Check if the Akeeba geopip plugin is enabled; if so, we don't need to load the autoload file
+			$query = "SELECT enabled from `#__extensions` WHERE element='akgeoip'" ;
+			$db->setQuery( $query );
+			$akgeoip_enabled = $db->loadResult();
+				
+			if ( is_null($akgeoip_enabled) ) {
+				require_once JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_joommark' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'geolocation' . DIRECTORY_SEPARATOR . 'autoload.php';				
+			}
+						
+			// Instantiate a new object
+			$info = new JoommarkGeoipProvider();			
+				
+			// Get country and continent codes
+			$country = $info->getCountryCode($ip);
+			$continent = $info->getContinent($ip);									
+		} else {
+			$country = '(unknown country)';
+			$continent = '(unknown continent)';
+		}
+						
+		// Get country and continent names
+		$continent_name = $info->getContinentName($ip);
+		$country_name = $info->getCountryName($ip);		
+		
+		// Encode data
+		$geolocation_json_data = json_encode(array(
+			'country_name'		=> $country_name,
+			'continent_name'	=> $continent_name,
+			'country_code'	=> $country,
+			'continent_code'		=> $continent
+		));
+		
+		// Is the IP already stored in the database?
+		$query = "SELECT COUNT(*) from `#__joommark_serverstats` WHERE (ip = {$db->Quote($ip)})";			
+		$db->setQuery( $query );
+		$result = $db->loadResult();
+		
+		// To be removed
+		$country="BR";
+				
+		if ( ($result == 0) && ($country) ) {
+			// Add a new visit to the country counter
+			$query = $db->getQuery(true);
+			$query->update('#__joommark_countries_map');
+			$query->set('visits = visits + 1');
+			$query->where('iso1_code=' . $db->Quote($country));
+
+			$db->setQuery( $query );
+			$db->execute();
+		}
+		
+		
+		// Return the data
+		return($geolocation_json_data);
 	}
 }

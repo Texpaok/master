@@ -158,7 +158,7 @@ class JoommarkModelMessage extends JModelAdmin
 	}
 
 	/**
-	 * unction to get total visitors by day.
+	 * Function to get total visitors by day.
 	 *
 	 * @return   Array  Visited pages
 	 *
@@ -176,5 +176,35 @@ class JoommarkModelMessage extends JModelAdmin
 		$res = $db->loadResult();
 
 		return $res;
+	}
+	
+	/**
+	 * Function to get total visitors by day and country.
+	 *
+	 * @return   Json string  All countries visited
+	 *
+	 * @since   1.0
+	 */
+	public function total_visitors_per_country()
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query = "SELECT * from `#__joommark_countries_map`" ;
+		$db->setQuery( $query );
+		$result = $db->loadRowList();
+		
+		$array_with_countries_data = array();
+		
+		foreach ( $result as $country ) {
+			if ( $country[6]>0 ) {
+				// The country code needs to be transformed to lowercase
+				$country_to_lower = strtolower($country[2]);
+				$array_with_countries_data[$country_to_lower] = $country[6];
+			}
+		}
+	
+		$countries_data_json = json_encode($array_with_countries_data);
+		
+		return $countries_data_json;
 	}
 }

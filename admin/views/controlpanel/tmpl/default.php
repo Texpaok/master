@@ -98,7 +98,7 @@ JHTML::stylesheet($opa_icons);
 
 			<div class="box span6">
 				<div class="box-header well" data-original-title>
-					<i class="icon-home"></i><?php echo ' ' . JText::_('COM_JOOMMARK_STATS') . ' (' . DATE('Y-m-d') . ')'; ?>
+					<i class="icon-list"></i><?php echo ' ' . JText::_('COM_JOOMMARK_STATS') . ' (' . DATE('Y-m-d') . ')'; ?>
 				</div>
 				<div class="box-content">
 
@@ -140,7 +140,7 @@ JHTML::stylesheet($opa_icons);
 			
 			<div class="box span6">
 				<div class="box-header well" data-original-title>
-					<i class="icon-home"></i><?php echo ' ' . JText::_('Visits per country'); ?>
+					<i class="icon-flag"></i><?php echo ' ' . JText::_('COM_JOOMMARK_VISITED_PAGES_PER_COUNTRY'); ?>
 				</div>
 				<div id="vmap" style="width: 600px; height: 400px;" >
 				
@@ -148,10 +148,10 @@ JHTML::stylesheet($opa_icons);
 
 					<script type="text/javascript" src="/administrator/components/com_joommark/helpers/map/dist/jquery-1.11.3.min.js"></script>
 					<script type="text/javascript" src="/administrator/components/com_joommark/helpers/map/dist/jquery.vmap.js"></script>
-					<script type="text/javascript" src="/administrator/components/com_joommark/helpers/map/dist/maps/jquery.vmap.world.js" charset="utf-8"></script>
-					<script type="text/javascript" src="/administrator/components/com_joommark/helpers/map/dist/jquery.vmap.sampledata.js"></script>
-
-					<script>
+					<script type="text/javascript" src="/administrator/components/com_joommark/helpers/map/dist/maps/jquery.vmap.world.js" charset="utf-8"></script>									
+					
+					<script>						
+					var countries_data = <?php echo $this->total_visitors_per_country; ?>;
 					  jQuery(document).ready(function () {
 						jQuery('#vmap').vectorMap({
 						  map: 'world_en',
@@ -162,17 +162,16 @@ JHTML::stylesheet($opa_icons);
 						  enableZoom: true,
 						  showTooltip: true,
 						  scaleColors: ['#C8EEFF', '#006491'],
-						  values: sample_data,
+						  values: countries_data,
 						  normalizeFunction: 'polynomial',
 						  onLabelShow: function (event,label,code) {
-							if (sample_data[code]>0) {
-								label.append(': ' + sample_data[code]);
+							if (countries_data[code]>0) {
+								label.append(': ' + countries_data[code]);
 							}			
 						  }						 
 						});
 					  });
-					</script>
-					
+					</script>					
 
 				</div>
 			</div>
